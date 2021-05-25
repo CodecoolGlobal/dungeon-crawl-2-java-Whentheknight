@@ -20,8 +20,9 @@ public class Ghost extends Actor{
 
     @Override
     public void move() {
-        Cell nextCell;
-        int x = ThreadLocalRandom.current().nextInt(-1, 1 + 1);
+        try{
+            Cell nextCell;
+            int x = ThreadLocalRandom.current().nextInt(-1, 1 + 1);
         int randomNum = ThreadLocalRandom.current().nextInt(0, 1+1);
         if (x == 0) {
             if (randomNum == 0){
@@ -38,6 +39,9 @@ public class Ghost extends Actor{
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
+        }}
+        catch (Exception  e){
+            move();
         }
     }
 }
