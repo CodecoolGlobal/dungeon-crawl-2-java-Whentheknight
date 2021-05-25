@@ -55,7 +55,7 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        ui.add(new Label("Inventory: "), 0, 5);
+        ui.add(new Label("Inventory: "), 0, 10);
         ui.add(inventory, 1, 2);
         ui.setPrefWidth(250);
         ui.setPadding(new Insets(10));
