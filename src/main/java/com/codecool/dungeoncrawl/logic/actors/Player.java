@@ -1,17 +1,19 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.Weapon;
 import com.codecool.dungeoncrawl.logic.CellType;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Player extends Actor {
     private Actor currentEnemy;
-    private List<Item> inventory;
+    private final List<Item> inventory;
     public Player(Cell cell) {
         super(cell);
         setStrength(5);
@@ -51,6 +53,11 @@ public class Player extends Actor {
 
     public Actor getCurrentEnemy() {
         return currentEnemy;
+    }
+
+
+    public void addToInventory(Item item) {
+        this.inventory.add(item);
     }
 
 }

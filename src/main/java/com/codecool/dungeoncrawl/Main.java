@@ -3,12 +3,12 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
-import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
-import com.codecool.dungeoncrawl.logic.actors.Bat;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -20,25 +20,21 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.Locale;
 
-import java.util.List;
+import java.util.Locale;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
-    List<Item> playerInventory = map.getPlayer().getInventory();
 
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
-//    Label healthLabel = new Label();
-    Label inventory = new Label();
-    GridPane ui = new GridPane();;
-//    Button pickUpButton = new Button("Pick up");
 
-    Label healthLabel = new Label(), strengthLabel = new Label(), dodgeLabel = new Label();
+    GridPane ui = new GridPane();;
+    Button pickUpButton = new Button("Pick up");
+
+    Label healthLabel = new Label(), strengthLabel = new Label(), dodgeLabel = new Label(), inventory = new Label();
     Label enemyLabel = new Label(), enemyHealthTextLabel = new Label("Health: "), enemyHealthNumLabel = new Label();
     Label enemyStrengthTextLabel = new Label("Strength: "), enemyStrengthNumLabel = new Label();
     Label enemyDodgeTextLabel = new Label("Dodge Chance: "), enemyDodgeNumLabel = new Label();
@@ -56,7 +52,7 @@ public class Main extends Application {
         ui.setPadding(new Insets(10));
 
         ui.add(new Label("Inventory: "), 0, 10);
-        ui.add(inventory, 1, 2);
+        ui.add(inventory, 1, 11);
         ui.setPrefWidth(250);
         ui.setPadding(new Insets(10));
 
@@ -77,6 +73,8 @@ public class Main extends Application {
         ui.add(enemyStrengthNumLabel, 1, 7);
         ui.add(enemyDodgeTextLabel, 0, 8);
         ui.add(enemyDodgeNumLabel, 1, 8);
+        ui.add(pickUpButton, 0, 15);
+        pickUpButton.setDisable(true);
 
 
         BorderPane borderPane = new BorderPane();
@@ -122,6 +120,7 @@ public class Main extends Application {
                 refresh();
                 break;
         }
+        activatePickUpButton();
     }
 
     private void refresh() {
@@ -143,7 +142,7 @@ public class Main extends Application {
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
         StringBuilder sb = new StringBuilder("");
-        for (Item item : playerInventory) {
+        for (Item item : map.getPlayer().getInventory()) {
             sb.append(item.getTileName()).append("\n");
         }
         inventory.setText("" + sb);
@@ -174,5 +173,22 @@ public class Main extends Application {
         enemyStrengthNumLabel.setVisible(b);
         enemyDodgeTextLabel.setVisible(b);
         enemyDodgeNumLabel.setVisible(b);
+    }
+
+
+    private void activatePickUpButton() {
+        if (map.getPlayer().getCell().getItem() != null) {
+            pickUpButton.setDisable(false);
+            pickUpItem();
+        }
+    }
+
+    private void pickUpItem() {
+        pickUpButton.setOnAction((EventHandler<ActionEvent>) actionEvent -> {
+            map.getPlayer().addToInventory(map.getPlayer().getCell().getItem());
+            map.getPlayer().getCell().setItem(null);
+            pickUpButton.setDisable(true);
+            refresh();
+        });
     }
 }
