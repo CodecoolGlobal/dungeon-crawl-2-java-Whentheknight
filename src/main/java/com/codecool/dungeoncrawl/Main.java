@@ -3,11 +3,13 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.actors.Actor;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -15,13 +17,18 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
-    Label healthLabel = new Label();
+    Label healthLabel = new Label(), strengthLabel = new Label();
+    Label enemyLabel = new Label(), enemyHealthTextLabel = new Label("Health: "), enemyHealthNumLabel = new Label(), enemyStrengthTextLabel = new Label("Strength: "), enemyStrengthNumLabel = new Label();
+    Label playerDamageLabel = new Label();
+    Label enemyDamageLabel = new Label();
 
     public static void main(String[] args) {
         launch(args);
@@ -35,6 +42,16 @@ public class Main extends Application {
 
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
+        ui.add(playerDamageLabel, 2, 0);
+        ui.add(new Label("Strength: "), 0, 1);
+        ui.add(strengthLabel, 1, 1);
+        ui.add(new Label(""), 0, 2);
+        ui.add(enemyLabel, 0, 3);
+        ui.add(enemyHealthTextLabel, 0, 4);
+        ui.add(enemyHealthNumLabel, 1, 4);
+        ui.add(enemyDamageLabel, 2, 4);
+        ui.add(enemyStrengthTextLabel, 0, 5);
+        ui.add(enemyStrengthNumLabel, 1, 5);
 
         BorderPane borderPane = new BorderPane();
 
@@ -85,5 +102,28 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
+        playerDamageLabel.setText(map.getPlayer().getCurrentDamage() > 0 ? " -" + map.getPlayer().getCurrentDamage() : "");
+        playerDamageLabel.setTextFill(Color.RED);
+        strengthLabel.setText("" + map.getPlayer().getStrength());
+        if(map.getPlayer().getCurrentEnemy() == null) {
+            setEnemyVisible(false);
+        } else {
+            setEnemyVisible(true);
+            Actor enemy = map.getPlayer().getCurrentEnemy();
+            enemyLabel.setText("Enemy " + enemy.getTileName().substring(0, 1).toUpperCase(Locale.ROOT) + enemy.getTileName().substring(1));
+            enemyHealthNumLabel.setText("" + enemy.getHealth());
+            enemyDamageLabel.setText(enemy.getCurrentDamage() > 0 ? " -" + enemy.getCurrentDamage() : "");
+            enemyDamageLabel.setTextFill(Color.RED);
+            enemyStrengthNumLabel.setText("" + enemy.getStrength());
+        }
+    }
+
+    private void setEnemyVisible(boolean b) {
+        enemyLabel.setVisible(b);
+        enemyHealthTextLabel.setVisible(b);
+        enemyHealthNumLabel.setVisible(b);
+        enemyDamageLabel.setVisible(b);
+        enemyStrengthTextLabel.setVisible(b);
+        enemyStrengthNumLabel.setVisible(b);
     }
 }
