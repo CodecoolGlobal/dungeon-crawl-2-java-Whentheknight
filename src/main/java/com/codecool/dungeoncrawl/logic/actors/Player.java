@@ -53,4 +53,9 @@ public class Player extends Actor {
         return currentEnemy;
     }
 
+
+    public void addToInventory(Item item) {
+        this.inventory.add(item);
+    }
+
 }
