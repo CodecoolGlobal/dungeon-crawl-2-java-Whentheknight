@@ -8,6 +8,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Ghost extends Actor{
     public Ghost(Cell cell) {
         super(cell);
+        setHealth(10);
+        setStrength(3);
+        setDodgeChance(0.25f);
     }
 
     @Override

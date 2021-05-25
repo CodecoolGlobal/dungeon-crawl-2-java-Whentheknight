@@ -4,9 +4,14 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
+import java.util.Random;
+
 public abstract class Actor implements Drawable {
-    public Cell cell;
+    protected Cell cell;
     private int health = 10;
+    private int strength;
+    private float dodgeChance;
+    protected int currentDamage;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -28,6 +33,26 @@ public abstract class Actor implements Drawable {
         return health;
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public float getDodgeChance() {
+        return dodgeChance;
+    }
+
+    public void setDodgeChance(float dodgeChance) {
+        this.dodgeChance = dodgeChance;
+    }
+
     public Cell getCell() {
         return cell;
     }
@@ -38,5 +63,24 @@ public abstract class Actor implements Drawable {
 
     public int getY() {
         return cell.getY();
+    }
+
+    public void attack(Actor enemy){
+        Random rand = new Random();
+        float dodge = rand.nextFloat();
+        if (dodge < enemy.dodgeChance) {
+            enemy.setCurrentDamage(-1);
+        } else {
+            enemy.setHealth(enemy.getHealth() - strength);
+            enemy.setCurrentDamage(strength);
+        }
+    }
+
+    public int getCurrentDamage() {
+        return currentDamage;
+    }
+
+    public void setCurrentDamage(int damage) {
+        currentDamage = damage;
     }
 }
