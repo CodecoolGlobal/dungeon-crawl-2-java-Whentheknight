@@ -120,8 +120,8 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
-        playerDamageLabel.setText(map.getPlayer().getCurrentDamage() > 0 ? " -" + map.getPlayer().getCurrentDamage() : map.getPlayer().getCurrentDamage() == -1 ? " Dodged" : "");
-        playerDamageLabel.setTextFill(map.getPlayer().getCurrentDamage() == -1 ? Color.GREEN : Color.RED);
+        playerDamageLabel.setText(map.getPlayer().getTakenDamage() > 0 ? " -" + map.getPlayer().getTakenDamage() : map.getPlayer().getTakenDamage() == -1 ? " Dodged" : "");
+        playerDamageLabel.setTextFill(map.getPlayer().getTakenDamage() == -1 ? Color.GREEN : Color.RED);
         strengthLabel.setText("" + map.getPlayer().getStrength());
         dodgeLabel.setText("" + (int) (map.getPlayer().getDodgeChance() * 100) + "%");
         if(map.getPlayer().getCurrentEnemy() == null) {
@@ -131,8 +131,8 @@ public class Main extends Application {
             Actor enemy = map.getPlayer().getCurrentEnemy();
             enemyLabel.setText("Enemy " + enemy.getTileName().substring(0, 1).toUpperCase(Locale.ROOT) + enemy.getTileName().substring(1));
             enemyHealthNumLabel.setText("" + enemy.getHealth());
-            enemyDamageLabel.setText(enemy.getCurrentDamage() > 0 ? " -" + enemy.getCurrentDamage() : enemy.getCurrentDamage() == -1 ? " Dodged" : "");
-            enemyDamageLabel.setTextFill(enemy.getCurrentDamage() == -1 ? Color.GREEN : Color.RED);
+            enemyDamageLabel.setText(enemy.getTakenDamage() > 0 ? " -" + enemy.getTakenDamage() : enemy.getTakenDamage() == -1 ? " Dodged" : "");
+            enemyDamageLabel.setTextFill(enemy.getTakenDamage() == -1 ? Color.GREEN : Color.RED);
             enemyStrengthNumLabel.setText("" + enemy.getStrength());
             enemyDodgeNumLabel.setText("" + (int) (enemy.getDodgeChance() * 100) + "%");
         }
