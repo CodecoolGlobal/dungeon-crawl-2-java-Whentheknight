@@ -4,10 +4,9 @@ public enum CellType {
     EMPTY("empty"),
     FLOOR("floor"),
     WALL("wall"),
-    SWORD("sword"),
-    KEY1("key1", 1),
-    KEY2("key2", 1),
-    HEALTH_POTION("health potion");
+    ODOOR("open door"),
+    CDOOR("closed door");
+
 
     private final String tileName;
     private int stat = 0;
