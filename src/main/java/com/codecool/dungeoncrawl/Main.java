@@ -23,11 +23,8 @@ import javafx.stage.Stage;
 
 import java.util.Locale;
 
-import java.util.List;
-
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
-    List<Item> playerInventory = map.getPlayer().getInventory();
 
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
@@ -145,7 +142,7 @@ public class Main extends Application {
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
         StringBuilder sb = new StringBuilder("");
-        for (Item item : playerInventory) {
+        for (Item item : map.getPlayer().getInventory()) {
             sb.append(item.getTileName()).append("\n");
         }
         inventory.setText("" + sb);
@@ -182,6 +179,16 @@ public class Main extends Application {
     private void activatePickUpButton() {
         if (map.getPlayer().getCell().getItem() != null) {
             pickUpButton.setDisable(false);
+            pickUpItem();
         }
+    }
+
+    private void pickUpItem() {
+        pickUpButton.setOnAction((EventHandler<ActionEvent>) actionEvent -> {
+            map.getPlayer().addToInventory(map.getPlayer().getCell().getItem());
+            map.getPlayer().getCell().setItem(null);
+            pickUpButton.setDisable(true);
+            refresh();
+        });
     }
 }
