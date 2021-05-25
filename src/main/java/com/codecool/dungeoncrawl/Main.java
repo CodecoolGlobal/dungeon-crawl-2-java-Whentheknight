@@ -3,8 +3,11 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Bat;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -20,12 +23,21 @@ import javafx.stage.Stage;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.Locale;
 
+import java.util.List;
+
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
+    List<Item> playerInventory = map.getPlayer().getInventory();
+
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
+    Label healthLabel = new Label();
+    Label inventory = new Label();
+    GridPane ui = new GridPane();;
+//    Button pickUpButton = new Button("Pick up");
+
     Label healthLabel = new Label(), strengthLabel = new Label(), dodgeLabel = new Label();
     Label enemyLabel = new Label(), enemyHealthTextLabel = new Label("Health: "), enemyHealthNumLabel = new Label();
     Label enemyStrengthTextLabel = new Label("Strength: "), enemyStrengthNumLabel = new Label();
@@ -33,13 +45,21 @@ public class Main extends Application {
     Label playerDamageLabel = new Label();
     Label enemyDamageLabel = new Label();
 
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        GridPane ui = new GridPane();
+        ui.setPrefWidth(200);
+        ui.setPadding(new Insets(10));
+
+        ui.add(new Label("Health: "), 0, 0);
+        ui.add(healthLabel, 1, 0);
+        ui.add(new Label("Inventory: "), 0, 2);
+        ui.add(inventory, 1, 2);
+//        ui.add(pickUpButton, 0,2);
         ui.setPrefWidth(250);
         ui.setPadding(new Insets(10));
 
@@ -60,6 +80,7 @@ public class Main extends Application {
         ui.add(enemyStrengthNumLabel, 1, 7);
         ui.add(enemyDodgeTextLabel, 0, 8);
         ui.add(enemyDodgeNumLabel, 1, 8);
+
 
         BorderPane borderPane = new BorderPane();
 
@@ -114,12 +135,21 @@ public class Main extends Application {
                 Cell cell = map.getCell(x, y);
                 if (cell.getActor() != null) {
                     Tiles.drawTile(context, cell.getActor(), x, y);
-                } else {
+                }
+                else if (cell.getItem() != null) {
+                    Tiles.drawTile(context, cell.getItem(), x, y);
+                }
+                else {
                     Tiles.drawTile(context, cell, x, y);
                 }
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
+        StringBuilder sb = new StringBuilder("");
+        for (Item item : playerInventory) {
+            sb.append(item.getTileName()).append("\n");
+        }
+        inventory.setText("" + sb);
         playerDamageLabel.setText(map.getPlayer().getTakenDamage() > 0 ? " -" + map.getPlayer().getTakenDamage() : map.getPlayer().getTakenDamage() == -1 ? " Dodged" : "");
         playerDamageLabel.setTextFill(map.getPlayer().getTakenDamage() == -1 ? Color.GREEN : Color.RED);
         strengthLabel.setText("" + map.getPlayer().getStrength());
