@@ -12,6 +12,6 @@ public class Weapon extends Item {
     }
 
     public String getTileName() {
-        return name;
+        return "weapon";
     }
 }
