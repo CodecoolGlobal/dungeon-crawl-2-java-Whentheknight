@@ -74,6 +74,9 @@ public abstract class Actor implements Drawable {
             enemy.setHealth(enemy.getHealth() - strength);
             enemy.setTakenDamage(strength);
         }
+        if(enemy.getHealth() <= 0) {
+            enemy.getCell().removeActor();
+        }
     }
 
     public int getTakenDamage() {

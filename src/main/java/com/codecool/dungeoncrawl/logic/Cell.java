@@ -47,4 +47,8 @@ public class Cell implements Drawable {
     public int getY() {
         return y;
     }
+
+    public void removeActor() {
+        gameMap.getEnemies().remove(actor);
+    }
 }
