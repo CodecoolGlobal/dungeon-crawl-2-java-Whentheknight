@@ -3,12 +3,12 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
-import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
-import com.codecool.dungeoncrawl.logic.actors.Bat;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -20,7 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import java.util.concurrent.ThreadLocalRandom;
+
 import java.util.Locale;
 
 import java.util.List;
@@ -123,6 +123,7 @@ public class Main extends Application {
                 refresh();
                 break;
         }
+        activatePickUpButton();
     }
 
     private void refresh() {
@@ -175,5 +176,12 @@ public class Main extends Application {
         enemyStrengthNumLabel.setVisible(b);
         enemyDodgeTextLabel.setVisible(b);
         enemyDodgeNumLabel.setVisible(b);
+    }
+
+
+    private void activatePickUpButton() {
+        if (map.getPlayer().getCell().getItem() != null) {
+            pickUpButton.setDisable(false);
+        }
     }
 }
