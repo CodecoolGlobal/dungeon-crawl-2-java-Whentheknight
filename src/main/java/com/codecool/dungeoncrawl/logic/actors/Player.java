@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 
 import com.codecool.dungeoncrawl.logic.items.Item;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class Player extends Actor {
     private Actor currentEnemy;
-    private List<Item> inventory;
+    private final List<Item> inventory;
     public Player(Cell cell) {
         super(cell);
         setStrength(5);
@@ -33,6 +34,12 @@ public class Player extends Actor {
         Cell nextCell = cell.getNeighbor(dx, dy);
         currentEnemy = nextCell.getActor();
         setTakenDamage(0);
+        if (nextCell.getItem() != null) {
+            inventory.add(nextCell.getItem());
+//            pickUpButton.setDisable(false);
+            nextCell.setItem(null);
+        }
+
         if (!nextCell.getType().equals(CellType.WALL) && currentEnemy == null) {
             cell.setActor(null);
             nextCell.setActor(this);

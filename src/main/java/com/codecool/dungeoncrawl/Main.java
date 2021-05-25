@@ -33,12 +33,11 @@ public class Main extends Application {
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
-//    Label healthLabel = new Label();
-    Label inventory = new Label();
-    GridPane ui = new GridPane();;
-//    Button pickUpButton = new Button("Pick up");
 
-    Label healthLabel = new Label(), strengthLabel = new Label(), dodgeLabel = new Label();
+    GridPane ui = new GridPane();;
+    Button pickUpButton = new Button("Pick up");
+
+    Label healthLabel = new Label(), strengthLabel = new Label(), dodgeLabel = new Label(), inventory = new Label();
     Label enemyLabel = new Label(), enemyHealthTextLabel = new Label("Health: "), enemyHealthNumLabel = new Label();
     Label enemyStrengthTextLabel = new Label("Strength: "), enemyStrengthNumLabel = new Label();
     Label enemyDodgeTextLabel = new Label("Dodge Chance: "), enemyDodgeNumLabel = new Label();
@@ -56,7 +55,7 @@ public class Main extends Application {
         ui.setPadding(new Insets(10));
 
         ui.add(new Label("Inventory: "), 0, 10);
-        ui.add(inventory, 1, 2);
+        ui.add(inventory, 1, 11);
         ui.setPrefWidth(250);
         ui.setPadding(new Insets(10));
 
@@ -77,6 +76,8 @@ public class Main extends Application {
         ui.add(enemyStrengthNumLabel, 1, 7);
         ui.add(enemyDodgeTextLabel, 0, 8);
         ui.add(enemyDodgeNumLabel, 1, 8);
+        ui.add(pickUpButton, 0, 15);
+        pickUpButton.setDisable(true);
 
 
         BorderPane borderPane = new BorderPane();
