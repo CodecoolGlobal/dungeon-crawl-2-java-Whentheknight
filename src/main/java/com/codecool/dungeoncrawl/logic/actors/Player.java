@@ -4,28 +4,19 @@ import com.codecool.dungeoncrawl.logic.Cell;
 
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.Weapon;
-
+import com.codecool.dungeoncrawl.logic.CellType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player extends Actor {
-
-    private List<Item> inventory;
-
-    public Player(Cell cell) {
-        super(cell);
-        inventory = new ArrayList<>();
-
-import com.codecool.dungeoncrawl.logic.CellType;
 
 public class Player extends Actor {
     private Actor currentEnemy;
-
+    private List<Item> inventory;
     public Player(Cell cell) {
         super(cell);
         setStrength(5);
         setDodgeChance(0.4f);
-
+        inventory = new ArrayList<>();
     }
 
     public String getTileName() {

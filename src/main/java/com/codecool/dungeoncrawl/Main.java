@@ -33,7 +33,7 @@ public class Main extends Application {
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
-    Label healthLabel = new Label();
+//    Label healthLabel = new Label();
     Label inventory = new Label();
     GridPane ui = new GridPane();;
 //    Button pickUpButton = new Button("Pick up");
@@ -55,11 +55,8 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        ui.add(new Label("Health: "), 0, 0);
-        ui.add(healthLabel, 1, 0);
-        ui.add(new Label("Inventory: "), 0, 2);
+        ui.add(new Label("Inventory: "), 0, 5);
         ui.add(inventory, 1, 2);
-//        ui.add(pickUpButton, 0,2);
         ui.setPrefWidth(250);
         ui.setPadding(new Insets(10));
 
