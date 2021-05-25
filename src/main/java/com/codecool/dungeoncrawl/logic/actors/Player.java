@@ -8,7 +8,8 @@ public class Player extends Actor {
 
     public Player(Cell cell) {
         super(cell);
-        strength = 5;
+        setStrength(5);
+        setDodgeChance(0.4f);
     }
 
     public String getTileName() {
