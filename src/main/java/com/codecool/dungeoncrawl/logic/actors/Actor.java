@@ -11,7 +11,7 @@ public abstract class Actor implements Drawable {
     private int health = 10;
     private int strength;
     private float dodgeChance;
-    protected int currentDamage;
+    protected int takenDamage;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -67,18 +67,18 @@ public abstract class Actor implements Drawable {
         Random rand = new Random();
         float dodge = rand.nextFloat();
         if (dodge < enemy.dodgeChance) {
-            enemy.setCurrentDamage(-1);
+            enemy.setTakenDamage(-1);
         } else {
             enemy.setHealth(enemy.getHealth() - strength);
-            enemy.setCurrentDamage(strength);
+            enemy.setTakenDamage(strength);
         }
     }
 
-    public int getCurrentDamage() {
-        return currentDamage;
+    public int getTakenDamage() {
+        return takenDamage;
     }
 
-    public void setCurrentDamage(int damage) {
-        currentDamage = damage;
+    public void setTakenDamage(int damage) {
+        takenDamage = damage;
     }
 }

@@ -20,7 +20,7 @@ public class Player extends Actor {
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
         currentEnemy = nextCell.getActor();
-        setCurrentDamage(0);
+        setTakenDamage(0);
         if (!nextCell.getType().equals(CellType.WALL) && currentEnemy == null) {
             cell.setActor(null);
             nextCell.setActor(this);
