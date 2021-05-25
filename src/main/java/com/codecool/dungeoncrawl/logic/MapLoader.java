@@ -41,12 +41,12 @@ public class MapLoader {
 
                         case 'b':
                             cell.setType(CellType.FLOOR);
-                            new Bat(cell);
+                            map.addEnemy(new Bat(cell));
                             break;
 
                         case 'g':
                             cell.setType(CellType.FLOOR);
-                            new Ghost(cell);
+                            map.addEnemy(new Ghost(cell));
                             break;
 
                         case '@':
