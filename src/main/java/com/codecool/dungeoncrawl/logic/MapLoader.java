@@ -10,7 +10,6 @@ import java.util.Scanner;
 
 public class MapLoader {
 
-//    String[] mapList = {"/map.txt", "/map2.txt"};
     public static GameMap loadMap(String currentMap) {
         InputStream is = MapLoader.class.getResourceAsStream(currentMap);
         Scanner scanner = new Scanner(is);

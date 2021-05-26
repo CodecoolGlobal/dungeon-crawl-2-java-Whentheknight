@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 
@@ -313,7 +314,12 @@ public class Main extends Application {
 
     private void changeMap(int mapNumber) {
         map.getPlayer().setCurrentMap(mapNumber);
+        Player player = map.getPlayer();
+
         map = MapLoader.loadMap(mapList[mapNumber]);
+        player.setCell(map.getCell(2,2));
+        map.setPlayer(player);
+
         refresh();
     }
 }
