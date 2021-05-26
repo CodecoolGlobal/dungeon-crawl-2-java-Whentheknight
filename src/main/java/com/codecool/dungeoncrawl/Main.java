@@ -1,11 +1,13 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 
+import com.codecool.dungeoncrawl.logic.items.Key;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -136,6 +138,14 @@ public class Main extends Application {
                 }
                 else if (cell.getItem() != null) {
                     Tiles.drawTile(context, cell.getItem(), x, y);
+
+                } else if(cell.getType() == CellType.CDOOR){
+                    if(map.getPlayer().hasKey()){
+                            Tiles.drawTile(context, new Cell(map,x,y, CellType.ODOOR), x,y);
+                    }
+                    else{
+                        Tiles.drawTile(context, cell,x,y);
+                    }
                 }
                 else {
                     Tiles.drawTile(context, cell, x, y);
