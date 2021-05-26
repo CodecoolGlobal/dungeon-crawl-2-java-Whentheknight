@@ -18,6 +18,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -26,6 +27,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -50,6 +52,8 @@ public class Main extends Application {
     Label playerStrengthChangeLabel = new Label(), enemyStrengthChangeLabel = new Label();
     Label playerDodgeChanceChangeLabel = new Label(), enemyDodgeChanceChangeLabel = new Label();
     Label inventoryLabel = new Label("Inventory: ");
+    Label nameLabel = new Label("Name: ");
+    TextField nameInput = new TextField();
 
 
     public static void main(String[] args) {
@@ -92,6 +96,37 @@ public class Main extends Application {
         ui.add(new Label("-----------"), 1, 10);
         ui.add(inventory, 1, 11);
 
+        ui.add(new Label(""), 0, 12);
+        ui.add(nameLabel, 0, 13);
+        nameLabel.setStyle("-fx-font-weight: bold;");
+        Button submit = new Button("Enter");
+        Button close = new Button("Close");
+        nameInput.setPrefWidth(100);
+        ui.add(nameInput, 1, 13);
+        ui.add(submit, 1, 14);
+        ui.add(close, 2, 14);
+
+        submit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                map.getPlayer().setName(nameInput.getText());
+                playerLabel.setText(nameInput.getText());
+                ui.getChildren().remove(nameLabel);
+                ui.getChildren().remove(nameInput);
+                ui.getChildren().remove(submit);
+                ui.getChildren().remove(close);
+            }
+        });
+
+        close.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                ui.getChildren().remove(nameLabel);
+                ui.getChildren().remove(nameInput);
+                ui.getChildren().remove(submit);
+                ui.getChildren().remove(close);
+            }
+        });
 
         BorderPane borderPane = new BorderPane();
 
@@ -216,6 +251,7 @@ public class Main extends Application {
             enemyDodgeChanceChangeLabel.setText(enemy.getDodgeChanceChange() > 0 ? " +" + (int)(enemy.getDodgeChanceChange() * 100) + "%" : enemy.getDodgeChanceChange() < 0 ? " " + (int) (enemy.getDodgeChanceChange() * 100) : "");
             enemyDodgeChanceChangeLabel.setTextFill(enemy.getDodgeChanceChange() >= 0 ? Color.GREEN : Color.RED);
         }
+        String name = nameLabel.getText();
     }
 
     private void setEnemyVisible(boolean b) {
