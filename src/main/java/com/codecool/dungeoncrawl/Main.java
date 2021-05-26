@@ -366,7 +366,7 @@ public class Main extends Application {
     private void changeMap(int mapNumber) {
         map.getPlayer().setCurrentMap(mapNumber);
         Player player = map.getPlayer();
-
+        player.removeKey();
         map = MapLoader.loadMap(mapList[mapNumber]);
         player.setCell(map.getCell(2,2));
         map.setPlayer(player);
