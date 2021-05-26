@@ -30,6 +30,8 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class Main extends Application {
@@ -37,6 +39,8 @@ public class Main extends Application {
     private final int mapHeight = 20;
 
     String[] mapList = {"/map.txt", "/map2.txt"};
+    List<GameMap> earlierMaps = new ArrayList<>();
+
     GameMap map = MapLoader.loadMap(mapList[0]);
 
     Canvas canvas = new Canvas(
@@ -182,7 +186,10 @@ public class Main extends Application {
         }
         openPopUpWindow();
         if (map.getPlayer().getCell().getType().equals(CellType.ODOOR)) {
-            changeMap(map.getPlayer().getCurrentMap()+1);
+            changeMap(map.getPlayer().getCurrentMap()+1, 2 ,2, true);
+        }
+        if (map.getPlayer().getCell().getType().equals(CellType.STAIRS)) {
+            changeMap(map.getPlayer().getCurrentMap()-1, 21, 19, false);
         }
     }
 
@@ -294,7 +301,7 @@ public class Main extends Application {
             popUpWindow.initModality(Modality.APPLICATION_MODAL);
             popUpWindow.setTitle("Pick Up Item");
             Item item = map.getPlayer().getCell().getItem();
-            Label label1= new Label("Do you want to pick up (a) " + item.getTileName().substring(0, 1).toUpperCase(Locale.ROOT) + item.getTileName().substring(1) + "?");
+            Label label1= new Label("Do you want to pick up (a(n)) " + item.getTileName().substring(0, 1).toUpperCase(Locale.ROOT) + item.getTileName().substring(1) + "?");
             StringBuilder sb = new StringBuilder("");
             if(item.hasStats()) {
                 if(item.getStrength() > 0) {
@@ -363,14 +370,20 @@ public class Main extends Application {
         gameOverPopUp.showAndWait();
     }
 
-    private void changeMap(int mapNumber) {
+    private void changeMap(int mapNumber, int positionX, int positionY, boolean forward) {
         map.getPlayer().setCurrentMap(mapNumber);
         Player player = map.getPlayer();
         player.removeKey();
-        map = MapLoader.loadMap(mapList[mapNumber]);
-        player.setCell(map.getCell(2,2));
+        if (forward) {
+            earlierMaps.add(map);
+            map = MapLoader.loadMap(mapList[mapNumber]);
+        }
+        else {
+            map = earlierMaps.get(earlierMaps.size()-1);
+            earlierMaps.remove(earlierMaps.size()-1);
+        }
+        player.setCell(map.getCell(positionX, positionY));
         map.setPlayer(player);
-
         refresh();
     }
 }

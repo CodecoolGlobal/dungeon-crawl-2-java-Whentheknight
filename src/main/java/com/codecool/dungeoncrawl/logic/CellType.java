@@ -8,7 +8,8 @@ public enum CellType {
     CDOOR("closed door"),
     TREE("tree"),
     LAVA("lava"),
-    TOXIC("toxic");
+    TOXIC("toxic"),
+    STAIRS("stairs");
 
 
     private final String tileName;
@@ -19,10 +20,6 @@ public enum CellType {
         this.tileName = tileName;
     }
 
-    CellType(String tileName, int stat) {
-        this.tileName = tileName;
-        this.stat = stat;
-    }
 
     public String getTileName() {
         return tileName;
