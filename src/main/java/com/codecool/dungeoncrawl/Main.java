@@ -1,11 +1,13 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 
+import com.codecool.dungeoncrawl.logic.items.Key;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -51,11 +53,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        ui.setPrefWidth(200);
-        ui.setPadding(new Insets(10));
+//        ui.setPrefWidth(200);
+//        ui.setPadding(new Insets(10));
 
-        ui.add(new Label("Inventory: "), 0, 10);
-        ui.add(inventory, 1, 11);
         ui.setPrefWidth(250);
         ui.setPadding(new Insets(10));
 
@@ -76,6 +76,10 @@ public class Main extends Application {
         ui.add(enemyStrengthNumLabel, 1, 7);
         ui.add(enemyDodgeTextLabel, 0, 8);
         ui.add(enemyDodgeNumLabel, 1, 8);
+        ui.add(new Label(""), 0, 9);
+
+        ui.add(new Label("Inventory: "), 0, 10);
+        ui.add(inventory, 1, 11);
         ui.add(pickUpButton, 0, 15);
         pickUpButton.setDisable(true);
 
@@ -137,6 +141,14 @@ public class Main extends Application {
                 }
                 else if (cell.getItem() != null) {
                     Tiles.drawTile(context, cell.getItem(), x, y);
+
+                } else if(cell.getType() == CellType.CDOOR){
+                    if(map.getPlayer().hasKey()){
+                            Tiles.drawTile(context, new Cell(map,x,y, CellType.ODOOR), x,y);
+                    }
+                    else{
+                        Tiles.drawTile(context, cell,x,y);
+                    }
                 }
                 else {
                     Tiles.drawTile(context, cell, x, y);
