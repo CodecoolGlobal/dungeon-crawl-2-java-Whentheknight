@@ -70,6 +70,7 @@ public class MapLoader {
                         case 'h':
                             cell.setType(CellType.FLOOR);
                             new HealthPotion(cell);
+                            break;
                         case 'd':
                             cell.setType(CellType.CDOOR);
                             break;
