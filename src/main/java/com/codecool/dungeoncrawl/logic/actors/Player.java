@@ -16,6 +16,7 @@ public class Player extends Actor {
     private Actor currentEnemy;
     private final List<Item> inventory;
     private boolean isHaunted;
+    private String name;
     public Player(Cell cell) {
         super(cell);
         setStrength(5);
@@ -67,6 +68,11 @@ public class Player extends Actor {
                 cell = nextCell;
             }
         }
+        if (this.name.equalsIgnoreCase("admin") && currentEnemy == null) {
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
+        }
     }
 
     public Actor getCurrentEnemy() {
@@ -87,6 +93,7 @@ public class Player extends Actor {
         setDodgeChance(getDodgeChance() + (1-getDodgeChance()) * item.getDodgeChance());
     }
 
+  
     public boolean hasGhostNeighbor() {
         return cell.getNeighbor(1,0).getActor() instanceof Ghost
         || cell.getNeighbor(0, 1).getActor() instanceof Ghost
@@ -100,6 +107,13 @@ public class Player extends Actor {
 
     public boolean getIsHaunted() {
         return isHaunted;
+      
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
 }
