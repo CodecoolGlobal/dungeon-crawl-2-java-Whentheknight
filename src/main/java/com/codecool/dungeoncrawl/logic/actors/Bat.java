@@ -9,7 +9,7 @@ public class Bat extends Actor {
     private int teleport = 5;
     public Bat(Cell cell) {
         super(cell);
-        setHealth(5);
+        setHealth(3);
         setStrength(1);
         setDodgeChance(0.5f);
     }
