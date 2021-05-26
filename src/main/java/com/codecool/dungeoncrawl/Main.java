@@ -29,11 +29,13 @@ import javafx.stage.Stage;
 import java.util.Locale;
 
 public class Main extends Application {
+    private final int mapWidth = 25;
+    private final int mapHeight = 20;
     GameMap map = MapLoader.loadMap();
 
     Canvas canvas = new Canvas(
-            map.getWidth() * Tiles.TILE_WIDTH,
-            map.getHeight() * Tiles.TILE_WIDTH);
+            mapWidth * Tiles.TILE_WIDTH,
+            mapHeight * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
 
     GridPane ui = new GridPane();;
@@ -52,9 +54,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        ui.setPrefWidth(200);
-//        ui.setPadding(new Insets(10));
-
         ui.setPrefWidth(250);
         ui.setPadding(new Insets(10));
 
