@@ -189,7 +189,7 @@ public class Main extends Application {
             changeMap(map.getPlayer().getCurrentMap()+1, 2 ,2, true);
         }
         if (map.getPlayer().getCell().getType().equals(CellType.STAIRS)) {
-            changeMap(map.getPlayer().getCurrentMap()-1, 19, 18, false);
+            changeMap(map.getPlayer().getCurrentMap()-1, 21, 19, false);
         }
     }
 
@@ -384,7 +384,6 @@ public class Main extends Application {
         }
         player.setCell(map.getCell(positionX, positionY));
         map.setPlayer(player);
-
         refresh();
     }
 }

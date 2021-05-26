@@ -144,10 +144,13 @@ public class Player extends Actor {
 
   
     public boolean hasGhostNeighbor() {
-        return cell.getNeighbor(1,0).getActor() instanceof Ghost
-        || cell.getNeighbor(0, 1).getActor() instanceof Ghost
-        || cell.getNeighbor(-1, 0).getActor() instanceof Ghost
-        || cell.getNeighbor(0, -1).getActor() instanceof Ghost;
+        try {
+            return cell.getNeighbor(1,0).getActor() instanceof Ghost
+                    || cell.getNeighbor(0, 1).getActor() instanceof Ghost
+                    || cell.getNeighbor(-1, 0).getActor() instanceof Ghost
+                    || cell.getNeighbor(0, -1).getActor() instanceof Ghost;
+        }
+        catch (Exception e) {return false;}
     }
 
     public void setIsHaunted(boolean b) {
