@@ -94,6 +94,10 @@ public class Player extends Actor {
         this.inventory.add(item);
     }
 
+    public void removeKey() {
+        this.inventory.removeIf(item -> item.getTileName().equals("key"));
+    }
+
     public void addStats(Item item) {
         setStrength(getStrength() + item.getStrength());
         setStrengthChange(item.getStrength());
