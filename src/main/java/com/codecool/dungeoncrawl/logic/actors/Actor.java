@@ -11,7 +11,10 @@ public abstract class Actor implements Drawable {
     private int health = 10;
     private int strength;
     private float dodgeChance;
-    protected int takenDamage;
+    protected int healthChange;
+    protected int strengthChange;
+    protected float dodgeChanceChange;
+    private boolean hasDodged;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -69,21 +72,47 @@ public abstract class Actor implements Drawable {
         Random rand = new Random();
         float dodge = rand.nextFloat();
         if (dodge < enemy.dodgeChance) {
-            enemy.setTakenDamage(-1);
+            enemy.hasDodged = true;
+            enemy.setHealthChange(0);
         } else {
+            enemy.hasDodged = false;
             enemy.setHealth(enemy.getHealth() - strength);
-            enemy.setTakenDamage(strength);
+            enemy.setHealthChange(strength*-1);
         }
         if(enemy.getHealth() <= 0) {
             enemy.getCell().removeActor();
         }
     }
 
-    public int getTakenDamage() {
-        return takenDamage;
+    public int getHealthChange() {
+        return healthChange;
     }
 
-    public void setTakenDamage(int damage) {
-        takenDamage = damage;
+    public void setHealthChange(int healthChange) {
+        this.healthChange = healthChange;
+    }
+
+    public boolean getHasDodged() {
+        return hasDodged;
+    }
+
+    public void setHasDodged(boolean b) {
+        hasDodged = b;
+    }
+
+    public int getStrengthChange() {
+        return strengthChange;
+    }
+
+    public void setStrengthChange(int strengthChange) {
+        this.strengthChange = strengthChange;
+    }
+
+    public float getDodgeChanceChange() {
+        return dodgeChanceChange;
+    }
+
+    public void setDodgeChanceChange(float dodgeChanceChange) {
+        this.dodgeChanceChange = dodgeChanceChange;
     }
 }

@@ -50,4 +50,8 @@ public abstract class Item implements Drawable {
         this.dodgeChance = dodgeChance;
     }
 
+    public boolean hasStats() {
+        return strength != 0 || health != 0 || dodgeChance != 0;
+    }
+
 }
