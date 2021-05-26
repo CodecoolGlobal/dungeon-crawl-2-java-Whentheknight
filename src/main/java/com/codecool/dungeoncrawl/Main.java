@@ -238,17 +238,20 @@ public class Main extends Application {
         closeButton.setOnAction(e -> System.exit(0));
 
         restartButton.setOnAction((EventHandler<ActionEvent>) actionEvent -> {
-
-
+            try {
+                Runtime.getRuntime().exec("java App");
+                System.exit(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             gameOverPopUp.close();
         });
 
         VBox layout= new VBox(10);
         layout.getChildren().addAll(label1, restartButton, closeButton);
         layout.setAlignment(Pos.CENTER);
-        Scene scene1= new Scene(layout, 300, 250);
+        Scene scene1= new Scene(layout, 250, 150);
         gameOverPopUp.setScene(scene1);
         gameOverPopUp.showAndWait();
     }
-
 }
