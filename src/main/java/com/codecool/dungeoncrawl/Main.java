@@ -206,7 +206,9 @@ public class Main extends Application {
 
             pickUpButton.setOnAction((EventHandler<ActionEvent>) actionEvent -> {
                 map.getPlayer().addToInventory(map.getPlayer().getCell().getItem());
+                map.getPlayer().addStats(map.getPlayer().getCell().getItem());
                 map.getPlayer().getCell().setItem(null);
+
                 popUpWindow.close();
                 refresh();
             });
