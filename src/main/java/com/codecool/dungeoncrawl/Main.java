@@ -37,7 +37,6 @@ public class Main extends Application {
     GraphicsContext context = canvas.getGraphicsContext2D();
 
     GridPane ui = new GridPane();;
-    Button pickUpButton = new Button("Pick up");
 
     Label healthLabel = new Label(), strengthLabel = new Label(), dodgeLabel = new Label(), inventory = new Label();
     Label enemyLabel = new Label(), enemyHealthTextLabel = new Label("Health: "), enemyHealthNumLabel = new Label();
@@ -80,8 +79,6 @@ public class Main extends Application {
 
         ui.add(new Label("Inventory: "), 0, 10);
         ui.add(inventory, 1, 11);
-        ui.add(pickUpButton, 0, 15);
-        pickUpButton.setDisable(true);
 
 
         BorderPane borderPane = new BorderPane();
