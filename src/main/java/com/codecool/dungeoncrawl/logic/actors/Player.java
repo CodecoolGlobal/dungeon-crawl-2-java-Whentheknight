@@ -1,9 +1,11 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.Main;
+import com.codecool.dungeoncrawl.Tiles;
 import com.codecool.dungeoncrawl.logic.Cell;
 
 import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.logic.items.Weapon;
 import com.codecool.dungeoncrawl.logic.CellType;
 
@@ -28,6 +30,14 @@ public class Player extends Actor {
 
     public List<Item> getInventory() {
         return this.inventory;
+    }
+
+    public boolean hasKey(){
+        for(Item item: inventory){
+            if(item instanceof Key){
+               return true;
+            }
+    }return false;
     }
 
     @Override
