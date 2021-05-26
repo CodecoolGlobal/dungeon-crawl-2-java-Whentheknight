@@ -26,6 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Locale;
 
 public class Main extends Application {
@@ -127,6 +128,10 @@ public class Main extends Application {
     }
 
     private void refresh() {
+        if (map.getPlayer().getHealth() <= 0) {
+            openGameOverPopUp();
+        }
+
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (int x = 0; x < map.getWidth(); x++) {
@@ -216,5 +221,36 @@ public class Main extends Application {
             popUpWindow.setScene(scene1);
             popUpWindow.showAndWait();
         }
+    }
+
+    private void openGameOverPopUp() {
+        Stage gameOverPopUp = new Stage();
+
+        gameOverPopUp.initModality(Modality.APPLICATION_MODAL);
+        gameOverPopUp.setTitle("Game Over");
+
+        Label label1= new Label("Do you want to play again?");
+
+        Button restartButton = new Button("Play Again");
+        Button closeButton = new Button("Quit");
+
+        closeButton.setOnAction(e -> System.exit(0));
+
+        restartButton.setOnAction((EventHandler<ActionEvent>) actionEvent -> {
+            try {
+                Runtime.getRuntime().exec("java App");
+                System.exit(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            gameOverPopUp.close();
+        });
+
+        VBox layout= new VBox(10);
+        layout.getChildren().addAll(label1, restartButton, closeButton);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1= new Scene(layout, 250, 150);
+        gameOverPopUp.setScene(scene1);
+        gameOverPopUp.showAndWait();
     }
 }
