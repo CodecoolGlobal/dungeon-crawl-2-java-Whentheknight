@@ -48,6 +48,8 @@ public class Main extends Application {
 
     Label playerLabel = new Label("Player");
     Label hauntedLabel = new Label();
+    Label burningLabel = new Label();
+    Label poisonLabel = new Label();
     Label healthLabel = new Label(), strengthLabel = new Label(), dodgeLabel = new Label(), inventory = new Label();
     Label enemyLabel = new Label(), enemyHealthTextLabel = new Label("Health: "), enemyHealthNumLabel = new Label();
     Label enemyStrengthTextLabel = new Label("Strength: "), enemyStrengthNumLabel = new Label();
@@ -66,12 +68,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        ui.setPrefWidth(300);
+        ui.setPrefWidth(400);
         ui.setPadding(new Insets(10));
 
         ui.add(playerLabel, 0, 0);
         playerLabel.setStyle("-fx-font-weight: bold;");
         ui.add(hauntedLabel, 1, 0);
+        ui.add(poisonLabel, 3, 0);
+        ui.add(burningLabel, 5, 0);
         ui.add(new Label("Health: "), 0, 1);
         ui.add(healthLabel, 1, 1);
         ui.add(playerHealthChangeLabel, 2, 1);
@@ -199,6 +203,10 @@ public class Main extends Application {
             shiftY = map.getPlayer().getY()-10;
         }}
 
+        if(map.getPlayer().getIsBurning()){
+        map.getPlayer().decreaseBurning();}
+        if(map.getPlayer().getIsPoisoned()){
+        map.getPlayer().decreasePoison();}
 
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (int x = 0; x < map.getWidth(); x++) {
@@ -228,6 +236,10 @@ public class Main extends Application {
         }
         hauntedLabel.setText(map.getPlayer().getIsHaunted() ? "HAUNTED!" : "");
         hauntedLabel.setTextFill(Color.GREY);
+        burningLabel.setText(map.getPlayer().getIsBurning() ? "  BURNING!" : "");
+        burningLabel.setTextFill(Color.RED);
+        poisonLabel.setText(map.getPlayer().getIsPoisoned() ? "POISONED!" : "");
+        poisonLabel.setTextFill(Color.GREEN);
         healthLabel.setText("" + map.getPlayer().getHealth());
         StringBuilder sb = new StringBuilder("");
         for (Item item : map.getPlayer().getInventory()) {

@@ -18,7 +18,13 @@ public class Player extends Actor {
 
     private int currentMap = 0;
     private boolean isHaunted;
+    private boolean isBurning;
+    private boolean isPoisoned;
+    private int burningFor = 0;
+    private int poisonedFor = 0;
+
     private String name;
+
     public Player(Cell cell) {
         super(cell);
         setStrength(5);
@@ -51,12 +57,29 @@ public class Player extends Actor {
         setDodgeChanceChange(0);
         setIsHaunted(false);
         setHasDodged(false);
-      
+        if(poisonedFor == 0){
+            setIsPoisoned(false);
+        }
+        if(burningFor == 0){
+            setIsBurning(false);
+        }
+
+        if(isBurning){
+            setHealthChange(-2);
+            setHealth(getHealth()-2);
+        }
+
+        if(isPoisoned){
+            setHealthChange(-1);
+            setHealth(getHealth()-1);
+        }
+
         if(hasGhostNeighbor()) {
             setIsHaunted(true);
             setHealthChange(-1);
             setHealth(getHealth()-1);
         }
+
         if (!nextCell.getType().equals(CellType.WALL) && currentEnemy == null && !nextCell.getType().equals(CellType.CDOOR)) {
             cell.setActor(null);
             nextCell.setActor(this);
@@ -70,7 +93,19 @@ public class Player extends Actor {
                 nextCell.setActor(this);
                 cell = nextCell;
             }
+        } if (nextCell.getType().equals(CellType.LAVA)){
+            setHealthChange(-2);
+            setHealth(getHealth()-2);
+            setIsBurning(true);
+            burningFor = 3;
+
+        }if (nextCell.getType().equals(CellType.TOXIC)){
+            setHealthChange(-1);
+            setHealth(getHealth()-1);
+            setIsPoisoned(true);
+            poisonedFor = 3;
         }
+
         if (this.name.equalsIgnoreCase("admin") && currentEnemy == null) {
             cell.setActor(null);
             nextCell.setActor(this);
@@ -115,6 +150,21 @@ public class Player extends Actor {
         isHaunted = b;
     }
 
+    public void setIsBurning(boolean b){
+        isBurning = b;
+    }
+
+    public void setIsPoisoned(boolean b){
+        isPoisoned = b;
+    }
+    public boolean getIsBurning(){return isBurning;}
+    public boolean getIsPoisoned(){return isPoisoned;}
+    public void decreaseBurning(){
+        burningFor--;
+    }
+    public void decreasePoison(){
+        poisonedFor--;
+    }
     public boolean getIsHaunted() {
         return isHaunted;
     }
