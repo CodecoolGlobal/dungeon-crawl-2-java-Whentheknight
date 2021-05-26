@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,7 +19,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.Locale;
@@ -120,7 +123,7 @@ public class Main extends Application {
                 refresh();
                 break;
         }
-        activatePickUpButton();
+        openPopUpWindow();
     }
 
     private void refresh() {
@@ -175,20 +178,33 @@ public class Main extends Application {
         enemyDodgeNumLabel.setVisible(b);
     }
 
-
-    private void activatePickUpButton() {
+    private void openPopUpWindow() {
         if (map.getPlayer().getCell().getItem() != null) {
-            pickUpButton.setDisable(false);
-            pickUpItem();
-        }
-    }
+            Stage popUpWindow = new Stage();
 
-    private void pickUpItem() {
-        pickUpButton.setOnAction((EventHandler<ActionEvent>) actionEvent -> {
-            map.getPlayer().addToInventory(map.getPlayer().getCell().getItem());
-            map.getPlayer().getCell().setItem(null);
-            pickUpButton.setDisable(true);
-            refresh();
-        });
+            popUpWindow.initModality(Modality.APPLICATION_MODAL);
+            popUpWindow.setTitle("Pick Up Item");
+
+            Label label1= new Label("Do you want to pick up a " + map.getPlayer().getCell().getItem().getTileName() + "?");
+
+            Button pickUpButton = new Button("Pick Up");
+            Button closeButton = new Button("Close");
+
+            closeButton.setOnAction(e -> popUpWindow.close());
+
+            pickUpButton.setOnAction((EventHandler<ActionEvent>) actionEvent -> {
+                map.getPlayer().addToInventory(map.getPlayer().getCell().getItem());
+                map.getPlayer().getCell().setItem(null);
+                popUpWindow.close();
+                refresh();
+            });
+
+            VBox layout= new VBox(10);
+            layout.getChildren().addAll(label1, pickUpButton, closeButton);
+            layout.setAlignment(Pos.CENTER);
+            Scene scene1= new Scene(layout, 300, 250);
+            popUpWindow.setScene(scene1);
+            popUpWindow.showAndWait();
+        }
     }
 }
