@@ -128,26 +128,40 @@ public class Main extends Application {
 
     private void refresh() {
         context.setFill(Color.BLACK);
+        int shiftX = 0;
+        int shiftY = 0;
+        
+        if(map.getWidth() >25){
+        if(map.getPlayer().getX() >= 20){
+            shiftX = map.getPlayer().getX()-12;
+        }
+        if(map.getPlayer().getY() >= 15){
+            shiftY = map.getPlayer().getY()-10;
+        }}
+
+
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (int x = 0; x < map.getWidth(); x++) {
+            int relativeX = x-shiftX;
             for (int y = 0; y < map.getHeight(); y++) {
+                int relativeY = y-shiftY;
                 Cell cell = map.getCell(x, y);
                 if (cell.getActor() != null) {
-                    Tiles.drawTile(context, cell.getActor(), x, y);
+                    Tiles.drawTile(context, cell.getActor(), relativeX, relativeY);
                 }
                 else if (cell.getItem() != null) {
-                    Tiles.drawTile(context, cell.getItem(), x, y);
+                    Tiles.drawTile(context, cell.getItem(), relativeX, relativeY);
 
                 } else if(cell.getType() == CellType.CDOOR){
                     if(map.getPlayer().hasKey()){
-                            Tiles.drawTile(context, new Cell(map,x,y, CellType.ODOOR), x,y);
+                            Tiles.drawTile(context, new Cell(map,relativeX,relativeY, CellType.ODOOR), relativeX,relativeY);
                     }
                     else{
-                        Tiles.drawTile(context, cell,x,y);
+                        Tiles.drawTile(context, cell,relativeX,relativeY);
                     }
                 }
                 else {
-                    Tiles.drawTile(context, cell, x, y);
+                    Tiles.drawTile(context, cell, relativeX, relativeY);
                 }
             }
         }
