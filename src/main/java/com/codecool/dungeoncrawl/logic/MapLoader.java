@@ -90,6 +90,10 @@ public class MapLoader {
                         case 'S':
                             cell.setType(CellType.STAIRS);
                             break;
+                        case 'A':
+                            cell.setType(CellType.FLOOR);
+                            new Axe(cell, "axe");
+                            break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }

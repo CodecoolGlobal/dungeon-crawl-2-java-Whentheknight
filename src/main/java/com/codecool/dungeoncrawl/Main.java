@@ -39,7 +39,7 @@ public class Main extends Application {
     private final int mapHeight = 20;
 
     String[] mapList = {"/map.txt", "/map2.txt"};
-    List<GameMap> earlierMaps = new ArrayList<GameMap>();
+    List<GameMap> earlierMaps = new ArrayList<>();
 
     GameMap map = MapLoader.loadMap(mapList[0]);
 
@@ -301,7 +301,7 @@ public class Main extends Application {
             popUpWindow.initModality(Modality.APPLICATION_MODAL);
             popUpWindow.setTitle("Pick Up Item");
             Item item = map.getPlayer().getCell().getItem();
-            Label label1= new Label("Do you want to pick up (a) " + item.getTileName().substring(0, 1).toUpperCase(Locale.ROOT) + item.getTileName().substring(1) + "?");
+            Label label1= new Label("Do you want to pick up (a(n)) " + item.getTileName().substring(0, 1).toUpperCase(Locale.ROOT) + item.getTileName().substring(1) + "?");
             StringBuilder sb = new StringBuilder("");
             if(item.hasStats()) {
                 if(item.getStrength() > 0) {

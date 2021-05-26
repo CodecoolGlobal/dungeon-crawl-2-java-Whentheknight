@@ -33,7 +33,7 @@
     ttttttt..ttt                 t...........ttt
     t...........tttttttt         t.....B.......tt
     t..................t         t..............tt
-    t.......B.........tt         t...............tttttt
+    t.......B.....A...tt         t...............tttttt
     t.................t          t.....................t
     ttttttttttttttttttt          tttttttttttttttttttttttt
 
