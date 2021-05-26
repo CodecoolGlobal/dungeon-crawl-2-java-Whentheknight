@@ -62,12 +62,9 @@ public class Bat extends Actor {
                 nextCell.setActor(this);
                 cell = nextCell;
                 teleport = 5;
-            }  else{
-                move();
             }
-
         }
     } catch (Exception  e){
-        move();}
+        teleport = 5;}
     }
 }
