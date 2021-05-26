@@ -29,8 +29,10 @@ public class Tiles {
         tileMap.put("player", new Tile(27, 0));
         tileMap.put("skeleton", new Tile(29, 6));
 
-        tileMap.put("weapon", new Tile(0, 30));
+        tileMap.put("sword", new Tile(0, 30));
         tileMap.put("key", new Tile(16, 23));
+        tileMap.put("health potion", new Tile(1, 14));
+        tileMap.put("leather boots", new Tile(7, 23));
 //        tileMap.put("key", new Tile(17, 23));
 
         tileMap.put("closed door", new Tile(7,10));
