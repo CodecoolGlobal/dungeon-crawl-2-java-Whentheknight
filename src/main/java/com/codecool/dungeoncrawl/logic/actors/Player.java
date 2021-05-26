@@ -80,7 +80,8 @@ public class Player extends Actor {
             setHealth(getHealth()-1);
         }
 
-        if (!nextCell.getType().equals(CellType.WALL) && currentEnemy == null && !nextCell.getType().equals(CellType.CDOOR)) {
+        if (!nextCell.getType().equals(CellType.WALL) && currentEnemy == null &&
+                !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE)) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;

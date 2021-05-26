@@ -37,7 +37,8 @@ public class Bat extends Actor {
 
         }
 
-        if(!nextCell.getType().equals(CellType.WALL) && nextCell.getActor() == null && !nextCell.getType().equals(CellType.CDOOR)){
+        if(!nextCell.getType().equals(CellType.WALL) && nextCell.getActor() == null &&
+                !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE)){
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
