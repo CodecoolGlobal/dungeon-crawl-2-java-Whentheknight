@@ -15,6 +15,7 @@ import java.util.List;
 public class Player extends Actor {
     private Actor currentEnemy;
     private final List<Item> inventory;
+    private boolean isHaunted;
     private String name;
     public Player(Cell cell) {
         super(cell);
@@ -40,14 +41,19 @@ public class Player extends Actor {
     }return false;
     }
 
-    @Override
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
         currentEnemy = nextCell.getActor();
         setHealthChange(0);
         setStrengthChange(0);
         setDodgeChanceChange(0);
+        setIsHaunted(false);
         setHasDodged(false);
+        if(hasGhostNeighbor()) {
+            setIsHaunted(true);
+            setHealthChange(-1);
+            setHealth(getHealth()-1);
+        }
         if (!nextCell.getType().equals(CellType.WALL) && currentEnemy == null) {
             cell.setActor(null);
             nextCell.setActor(this);
@@ -87,6 +93,21 @@ public class Player extends Actor {
         setDodgeChance(getDodgeChance() + (1-getDodgeChance()) * item.getDodgeChance());
     }
 
+  
+    public boolean hasGhostNeighbor() {
+        return cell.getNeighbor(1,0).getActor() instanceof Ghost
+        || cell.getNeighbor(0, 1).getActor() instanceof Ghost
+        || cell.getNeighbor(-1, 0).getActor() instanceof Ghost
+        || cell.getNeighbor(0, -1).getActor() instanceof Ghost;
+    }
+
+    public void setIsHaunted(boolean b) {
+        isHaunted = b;
+    }
+
+    public boolean getIsHaunted() {
+        return isHaunted;
+      
     public void setName(String name) {
         this.name = name;
     }

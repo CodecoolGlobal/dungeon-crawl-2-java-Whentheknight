@@ -41,9 +41,10 @@ public class Main extends Application {
             mapHeight * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
 
-    GridPane ui = new GridPane();;
+    GridPane ui = new GridPane();
 
     Label playerLabel = new Label("Player");
+    Label hauntedLabel = new Label();
     Label healthLabel = new Label(), strengthLabel = new Label(), dodgeLabel = new Label(), inventory = new Label();
     Label enemyLabel = new Label(), enemyHealthTextLabel = new Label("Health: "), enemyHealthNumLabel = new Label();
     Label enemyStrengthTextLabel = new Label("Strength: "), enemyStrengthNumLabel = new Label();
@@ -67,6 +68,7 @@ public class Main extends Application {
 
         ui.add(playerLabel, 0, 0);
         playerLabel.setStyle("-fx-font-weight: bold;");
+        ui.add(hauntedLabel, 1, 0);
         ui.add(new Label("Health: "), 0, 1);
         ui.add(healthLabel, 1, 1);
         ui.add(playerHealthChangeLabel, 2, 1);
@@ -217,6 +219,8 @@ public class Main extends Application {
                 }
             }
         }
+        hauntedLabel.setText(map.getPlayer().getIsHaunted() ? "HAUNTED!" : "");
+        hauntedLabel.setTextFill(Color.GREY);
         healthLabel.setText("" + map.getPlayer().getHealth());
         StringBuilder sb = new StringBuilder("");
         for (Item item : map.getPlayer().getInventory()) {
@@ -241,7 +245,6 @@ public class Main extends Application {
             enemyLabel.setText("Enemy " + enemy.getTileName().substring(0, 1).toUpperCase(Locale.ROOT) + enemy.getTileName().substring(1));
             enemyHealthNumLabel.setText("" + enemy.getHealth());
             enemyHealthChangeLabel.setText(enemy.getHasDodged() ? " Dodged" : enemy.getHealthChange() > 0 ? " +" + enemy.getHealthChange() : enemy.getHealthChange() < 0 ? " " + enemy.getHealthChange() : "");
-//                enemy.getTakenDamage() > 0 ? " -" + enemy.getTakenDamage() : enemy.getTakenDamage() == -1 ? " Dodged" : "");
             enemyHealthChangeLabel.setTextFill(enemy.getHealthChange() >= 0 ? Color.GREEN : Color.RED);
             enemyStrengthNumLabel.setText("" + enemy.getStrength());
             enemyStrengthChangeLabel.setText(enemy.getStrengthChange() > 0 ? " +" + enemy.getStrengthChange() : enemy.getStrengthChange() < 0 ? " " + enemy.getStrengthChange() : "");
