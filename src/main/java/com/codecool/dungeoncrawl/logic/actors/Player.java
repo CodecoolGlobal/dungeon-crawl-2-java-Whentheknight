@@ -117,7 +117,7 @@ public class Player extends Actor {
 
     public boolean getIsHaunted() {
         return isHaunted;
-      
+    }
     public void setName(String name) {
         this.name = name;
     }
