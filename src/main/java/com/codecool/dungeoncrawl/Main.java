@@ -26,14 +26,17 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Locale;
 
 public class Main extends Application {
+    private final int mapWidth = 25;
+    private final int mapHeight = 20;
     GameMap map = MapLoader.loadMap();
 
     Canvas canvas = new Canvas(
-            map.getWidth() * Tiles.TILE_WIDTH,
-            map.getHeight() * Tiles.TILE_WIDTH);
+            mapWidth * Tiles.TILE_WIDTH,
+            mapHeight * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
 
     GridPane ui = new GridPane();;
@@ -55,9 +58,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        ui.setPrefWidth(200);
-//        ui.setPadding(new Insets(10));
-
         ui.setPrefWidth(300);
         ui.setPadding(new Insets(10));
 
@@ -140,6 +140,10 @@ public class Main extends Application {
     }
 
     private void refresh() {
+        if (map.getPlayer().getHealth() <= 0) {
+            openGameOverPopUp();
+        }
+
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (int x = 0; x < map.getWidth(); x++) {
@@ -254,5 +258,36 @@ public class Main extends Application {
             popUpWindow.setScene(scene1);
             popUpWindow.showAndWait();
         }
+    }
+
+    private void openGameOverPopUp() {
+        Stage gameOverPopUp = new Stage();
+
+        gameOverPopUp.initModality(Modality.APPLICATION_MODAL);
+        gameOverPopUp.setTitle("Game Over");
+
+        Label label1= new Label("Do you want to play again?");
+
+        Button restartButton = new Button("Play Again");
+        Button closeButton = new Button("Quit");
+
+        closeButton.setOnAction(e -> System.exit(0));
+
+        restartButton.setOnAction((EventHandler<ActionEvent>) actionEvent -> {
+            try {
+                Runtime.getRuntime().exec("java App");
+                System.exit(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            gameOverPopUp.close();
+        });
+
+        VBox layout= new VBox(10);
+        layout.getChildren().addAll(label1, restartButton, closeButton);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1= new Scene(layout, 250, 150);
+        gameOverPopUp.setScene(scene1);
+        gameOverPopUp.showAndWait();
     }
 }
