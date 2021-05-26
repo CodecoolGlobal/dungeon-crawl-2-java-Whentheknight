@@ -2,15 +2,14 @@ package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class HealthPotion extends Item{
-
-    public HealthPotion(Cell cell) {
+public class LeatherBoots extends Item{
+    public LeatherBoots(Cell cell) {
         super(cell);
-        setHealth(10);
+        setDodgeChance(0.1f);
+        setHealth(3);
     }
 
-    @Override
     public String getTileName() {
-        return "health potion";
+        return "leather boots";
     }
 }

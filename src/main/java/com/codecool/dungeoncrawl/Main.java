@@ -50,11 +50,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        ui.setPrefWidth(200);
-        ui.setPadding(new Insets(10));
+//        ui.setPrefWidth(200);
+//        ui.setPadding(new Insets(10));
 
-        ui.add(new Label("Inventory: "), 0, 10);
-        ui.add(inventory, 1, 11);
         ui.setPrefWidth(250);
         ui.setPadding(new Insets(10));
 
@@ -75,6 +73,10 @@ public class Main extends Application {
         ui.add(enemyStrengthNumLabel, 1, 7);
         ui.add(enemyDodgeTextLabel, 0, 8);
         ui.add(enemyDodgeNumLabel, 1, 8);
+        ui.add(new Label(""), 0, 9);
+
+        ui.add(new Label("Inventory: "), 0, 10);
+        ui.add(inventory, 1, 11);
         ui.add(pickUpButton, 0, 15);
         pickUpButton.setDisable(true);
 
@@ -196,6 +198,7 @@ public class Main extends Application {
     private void pickUpItem() {
         pickUpButton.setOnAction((EventHandler<ActionEvent>) actionEvent -> {
             map.getPlayer().addToInventory(map.getPlayer().getCell().getItem());
+            map.getPlayer().addStats(map.getPlayer().getCell().getItem());
             map.getPlayer().getCell().setItem(null);
             pickUpButton.setDisable(true);
             refresh();

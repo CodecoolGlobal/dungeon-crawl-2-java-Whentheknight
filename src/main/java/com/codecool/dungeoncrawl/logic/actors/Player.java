@@ -5,8 +5,6 @@ import com.codecool.dungeoncrawl.Tiles;
 import com.codecool.dungeoncrawl.logic.Cell;
 
 import com.codecool.dungeoncrawl.logic.items.Item;
-import com.codecool.dungeoncrawl.logic.items.Key;
-import com.codecool.dungeoncrawl.logic.items.Weapon;
 import com.codecool.dungeoncrawl.logic.CellType;
 
 import java.util.ArrayList;
@@ -49,7 +47,7 @@ public class Player extends Actor {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
-        } else if (currentEnemy != null) {
+        } else if (!nextCell.getType().equals(CellType.WALL) && currentEnemy != null) {
             this.attack(currentEnemy);
             if(currentEnemy.getHealth() > 0) {
                 currentEnemy.attack(this);
@@ -68,6 +66,12 @@ public class Player extends Actor {
 
     public void addToInventory(Item item) {
         this.inventory.add(item);
+    }
+
+    public void addStats(Item item) {
+        setStrength(getStrength() + item.getStrength());
+        setHealth(getHealth() + item.getHealth());
+        setDodgeChance(getDodgeChance() + (1-getDodgeChance()) * item.getDodgeChance());
     }
 
 }
