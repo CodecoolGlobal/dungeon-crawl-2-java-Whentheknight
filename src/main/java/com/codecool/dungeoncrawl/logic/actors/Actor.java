@@ -24,9 +24,9 @@ public abstract class Actor implements Drawable {
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
         if(!nextCell.getType().equals(CellType.WALL) && nextCell.getActor() == null && !nextCell.getType().equals(CellType.CDOOR)){
-        cell.setActor(null);
-        nextCell.setActor(this);
-        cell = nextCell;
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
         }
     }
 
@@ -77,7 +77,7 @@ public abstract class Actor implements Drawable {
         } else {
             enemy.hasDodged = false;
             enemy.setHealth(enemy.getHealth() - strength);
-            enemy.setHealthChange(strength*-1);
+            enemy.setHealthChange(enemy.getHealthChange() + strength*-1);
         }
         if(enemy.getHealth() <= 0) {
             enemy.getCell().removeActor();
