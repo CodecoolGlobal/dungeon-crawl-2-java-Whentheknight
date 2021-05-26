@@ -30,6 +30,8 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class Main extends Application {
@@ -37,6 +39,8 @@ public class Main extends Application {
     private final int mapHeight = 20;
 
     String[] mapList = {"/map.txt", "/map2.txt"};
+    List<GameMap> earlierMaps = new ArrayList<GameMap>();
+
     GameMap map = MapLoader.loadMap(mapList[0]);
 
     Canvas canvas = new Canvas(
@@ -182,7 +186,10 @@ public class Main extends Application {
         }
         openPopUpWindow();
         if (map.getPlayer().getCell().getType().equals(CellType.ODOOR)) {
-            changeMap(map.getPlayer().getCurrentMap()+1);
+            changeMap(map.getPlayer().getCurrentMap()+1, 2 ,2, true);
+        }
+        if (map.getPlayer().getCell().getType().equals(CellType.STAIRS)) {
+            changeMap(map.getPlayer().getCurrentMap()-1, 19, 18, false);
         }
     }
 
@@ -363,12 +370,19 @@ public class Main extends Application {
         gameOverPopUp.showAndWait();
     }
 
-    private void changeMap(int mapNumber) {
+    private void changeMap(int mapNumber, int positionX, int positionY, boolean forward) {
         map.getPlayer().setCurrentMap(mapNumber);
         Player player = map.getPlayer();
         player.removeKey();
-        map = MapLoader.loadMap(mapList[mapNumber]);
-        player.setCell(map.getCell(2,2));
+        if (forward) {
+            earlierMaps.add(map);
+            map = MapLoader.loadMap(mapList[mapNumber]);
+        }
+        else {
+            map = earlierMaps.get(earlierMaps.size()-1);
+            earlierMaps.remove(earlierMaps.size()-1);
+        }
+        player.setCell(map.getCell(positionX, positionY));
         map.setPlayer(player);
 
         refresh();
