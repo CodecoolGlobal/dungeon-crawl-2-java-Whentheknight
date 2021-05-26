@@ -43,7 +43,10 @@ public class Player extends Actor {
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
         currentEnemy = nextCell.getActor();
-        setTakenDamage(0);
+        setHealthChange(0);
+        setStrengthChange(0);
+        setDodgeChanceChange(0);
+        setHasDodged(false);
         if (!nextCell.getType().equals(CellType.WALL) && currentEnemy == null) {
             cell.setActor(null);
             nextCell.setActor(this);
@@ -71,7 +74,10 @@ public class Player extends Actor {
 
     public void addStats(Item item) {
         setStrength(getStrength() + item.getStrength());
+        setStrengthChange(item.getStrength());
         setHealth(getHealth() + item.getHealth());
+        setHealthChange(item.getHealth());
+        setDodgeChanceChange((1-getDodgeChance()) * item.getDodgeChance());
         setDodgeChance(getDodgeChance() + (1-getDodgeChance()) * item.getDodgeChance());
     }
 
