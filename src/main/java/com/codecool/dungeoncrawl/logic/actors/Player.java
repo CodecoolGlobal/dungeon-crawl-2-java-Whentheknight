@@ -15,6 +15,7 @@ import java.util.List;
 public class Player extends Actor {
     private Actor currentEnemy;
     private final List<Item> inventory;
+    private int currentMap = 0;
     public Player(Cell cell) {
         super(cell);
         setStrength(5);
@@ -47,7 +48,7 @@ public class Player extends Actor {
         setStrengthChange(0);
         setDodgeChanceChange(0);
         setHasDodged(false);
-        if (!nextCell.getType().equals(CellType.WALL) && currentEnemy == null) {
+        if (!nextCell.getType().equals(CellType.WALL) && currentEnemy == null && !nextCell.getType().equals(CellType.CDOOR)) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
@@ -67,6 +68,13 @@ public class Player extends Actor {
         return currentEnemy;
     }
 
+    public int getCurrentMap() {
+        return currentMap;
+    }
+
+    public void setCurrentMap(int currentMap) {
+        this.currentMap = currentMap;
+    }
 
     public void addToInventory(Item item) {
         this.inventory.add(item);

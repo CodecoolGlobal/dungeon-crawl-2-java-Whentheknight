@@ -32,7 +32,9 @@ import java.util.Locale;
 public class Main extends Application {
     private final int mapWidth = 25;
     private final int mapHeight = 20;
-    GameMap map = MapLoader.loadMap();
+
+    String[] mapList = {"/map.txt", "/map2.txt"};
+    GameMap map = MapLoader.loadMap(mapList[0]);
 
     Canvas canvas = new Canvas(
             mapWidth * Tiles.TILE_WIDTH,
@@ -137,6 +139,9 @@ public class Main extends Application {
                 break;
         }
         openPopUpWindow();
+        if (map.getPlayer().getCell().getType().equals(CellType.ODOOR)) {
+            changeMap(map.getPlayer().getCurrentMap()+1);
+        }
     }
 
     private void refresh() {
@@ -171,6 +176,7 @@ public class Main extends Application {
 
                 } else if(cell.getType() == CellType.CDOOR){
                     if(map.getPlayer().hasKey()){
+                            cell.setType(CellType.ODOOR);
                             Tiles.drawTile(context, new Cell(map,relativeX,relativeY, CellType.ODOOR), relativeX,relativeY);
                     }
                     else{
@@ -303,5 +309,11 @@ public class Main extends Application {
         Scene scene1= new Scene(layout, 250, 150);
         gameOverPopUp.setScene(scene1);
         gameOverPopUp.showAndWait();
+    }
+
+    private void changeMap(int mapNumber) {
+        map.getPlayer().setCurrentMap(mapNumber);
+        map = MapLoader.loadMap(mapList[mapNumber]);
+        refresh();
     }
 }
