@@ -59,4 +59,8 @@ public class Cell implements Drawable {
     public void removeActor() {
         gameMap.getEnemies().remove(actor);
     }
+
+    public GameMap getMap() {
+        return gameMap;
+    }
 }

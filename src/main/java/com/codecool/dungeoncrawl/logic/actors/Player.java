@@ -15,7 +15,10 @@ import java.util.List;
 public class Player extends Actor {
     private Actor currentEnemy;
     private final List<Item> inventory;
+
     private int currentMap = 0;
+    private boolean isHaunted;
+    private String name;
     public Player(Cell cell) {
         super(cell);
         setStrength(5);
@@ -40,14 +43,20 @@ public class Player extends Actor {
     }return false;
     }
 
-    @Override
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
         currentEnemy = nextCell.getActor();
         setHealthChange(0);
         setStrengthChange(0);
         setDodgeChanceChange(0);
+        setIsHaunted(false);
         setHasDodged(false);
+      
+        if(hasGhostNeighbor()) {
+            setIsHaunted(true);
+            setHealthChange(-1);
+            setHealth(getHealth()-1);
+        }
         if (!nextCell.getType().equals(CellType.WALL) && currentEnemy == null && !nextCell.getType().equals(CellType.CDOOR)) {
             cell.setActor(null);
             nextCell.setActor(this);
@@ -61,6 +70,11 @@ public class Player extends Actor {
                 nextCell.setActor(this);
                 cell = nextCell;
             }
+        }
+        if (this.name.equalsIgnoreCase("admin") && currentEnemy == null) {
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
         }
     }
 
@@ -87,6 +101,29 @@ public class Player extends Actor {
         setHealthChange(item.getHealth());
         setDodgeChanceChange((1-getDodgeChance()) * item.getDodgeChance());
         setDodgeChance(getDodgeChance() + (1-getDodgeChance()) * item.getDodgeChance());
+    }
+
+  
+    public boolean hasGhostNeighbor() {
+        return cell.getNeighbor(1,0).getActor() instanceof Ghost
+        || cell.getNeighbor(0, 1).getActor() instanceof Ghost
+        || cell.getNeighbor(-1, 0).getActor() instanceof Ghost
+        || cell.getNeighbor(0, -1).getActor() instanceof Ghost;
+    }
+
+    public void setIsHaunted(boolean b) {
+        isHaunted = b;
+    }
+
+    public boolean getIsHaunted() {
+        return isHaunted;
+      
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
 }
