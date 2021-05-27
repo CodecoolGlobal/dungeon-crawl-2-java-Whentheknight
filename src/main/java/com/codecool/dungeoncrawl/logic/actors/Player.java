@@ -1,6 +1,6 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
-import com.codecool.dungeoncrawl.Main;
+//import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.Tiles;
 import com.codecool.dungeoncrawl.logic.Cell;
 
@@ -14,7 +14,6 @@ import java.util.List;
 
 public class Player extends Actor {
     private Actor currentEnemy;
-    private final List<Item> inventory;
 
     private int currentMap = 0;
     private boolean isHaunted;
@@ -22,6 +21,8 @@ public class Player extends Actor {
     private boolean isPoisoned;
     private int burningFor = 0;
     private int poisonedFor = 0;
+    private List<Item> inventory;
+
 
     private String name;
 
@@ -37,9 +38,6 @@ public class Player extends Actor {
     }
 
 
-    public List<Item> getInventory() {
-        return this.inventory;
-    }
 
     public boolean hasKey(){
         for(Item item: inventory){
@@ -84,7 +82,7 @@ public class Player extends Actor {
         }
 
         if (!nextCell.getType().equals(CellType.WALL) && currentEnemy == null &&
-                !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE)) {
+                !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE) && !nextCell.getType().equals(CellType.RIVER) && !nextCell.getType().equals(CellType.WALL2)) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
@@ -98,9 +96,7 @@ public class Player extends Actor {
                         part.setActor(null);
                     }
                 } else{
-                cell.setActor(null);
-                nextCell.setActor(this);
-                cell = nextCell;}
+                nextCell.setActor(null);
             }
         } if (nextCell.getType().equals(CellType.LAVA)){
             setHealthChange(-2);
@@ -122,6 +118,15 @@ public class Player extends Actor {
         }
     }
 
+    public List<Item> getInventory() {
+        return this.inventory;
+    }
+
+    public void addToInventory(Item item) {
+        this.inventory.add(item);
+    }
+
+
     public Actor getCurrentEnemy() {
         return currentEnemy;
     }
@@ -132,10 +137,6 @@ public class Player extends Actor {
 
     public void setCurrentMap(int currentMap) {
         this.currentMap = currentMap;
-    }
-
-    public void addToInventory(Item item) {
-        this.inventory.add(item);
     }
 
     public void removeKey() {

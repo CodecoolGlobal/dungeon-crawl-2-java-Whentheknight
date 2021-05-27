@@ -128,6 +128,10 @@ public class Main extends Application {
                 ui.getChildren().remove(nameInput);
                 ui.getChildren().remove(submit);
                 ui.getChildren().remove(close);
+                if (nameInput.getText().equalsIgnoreCase("admin")) {
+                    map.getPlayer().setHealth(9000);
+                    map.getPlayer().setStrength(1000);
+                }
             }
         });
 
@@ -194,21 +198,26 @@ public class Main extends Application {
     }
 
     private void refresh() {
-        if (map.getPlayer().getHealth() <= 0) {
-            openGameOverPopUp();
-        }
+
 
         context.setFill(Color.BLACK);
         int shiftX = 0;
         int shiftY = 0;
         
         if(map.getWidth() >25){
-        if(map.getPlayer().getX() >= 20){
-            shiftX = map.getPlayer().getX()-12;
+            if(map.getPlayer().getX() >= 14){
+                shiftX = map.getPlayer().getX()-14;
+            }
+            if(map.getPlayer().getY() >= 12){
+                shiftY = map.getPlayer().getY()-12;
+            }
+            if(map.getPlayer().getX() >= map.getWidth() - 10){
+                shiftX = map.getWidth() - 25;
+            }
+            if(map.getPlayer().getY() >= map.getHeight() - 7){
+                shiftY = map.getHeight() - 20;
+            }
         }
-        if(map.getPlayer().getY() >= 15){
-            shiftY = map.getPlayer().getY()-10;
-        }}
 
         if(map.getPlayer().getIsBurning()){
         map.getPlayer().decreaseBurning();}
@@ -281,6 +290,9 @@ public class Main extends Application {
             enemyDodgeChanceChangeLabel.setTextFill(enemy.getDodgeChanceChange() >= 0 ? Color.GREEN : Color.RED);
         }
         String name = nameLabel.getText();
+        if (map.getPlayer().getHealth() <= 0) {
+            openGameOverPopUp();
+        }
     }
 
     private void setEnemyVisible(boolean b) {

@@ -28,6 +28,9 @@ public class MapLoader {
                         case '#':
                             cell.setType(CellType.WALL);
                             break;
+                        case '%':
+                            cell.setType(CellType.WALL2);
+                            break;
                         case '.':
                             cell.setType(CellType.FLOOR);
                             break;
@@ -95,6 +98,7 @@ public class MapLoader {
                             new Axe(cell, "axe");
                             break;
 
+
                         case '0':
                             cell.setType(CellType.FLOOR);
                             map.setBoss(new Boss(cell));
@@ -150,6 +154,22 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             new BossPart(cell, map.getBoss(), 10);
                             map.getBoss().addCells(cell);
+                            break;
+
+
+                        case 'R':
+                            cell.setType(CellType.RIVER);
+                            break;
+                        case 'r':
+                            cell.setType(CellType.BRIDGE);
+                            break;
+                        case 'D':
+                            cell.setType(CellType.FLOOR);
+                            new DodgePotion(cell);
+                            break;
+                        case 'P':
+                            cell.setType(CellType.FLOOR);
+                            new StrengthPotion(cell);
                             break;
 
                         default:

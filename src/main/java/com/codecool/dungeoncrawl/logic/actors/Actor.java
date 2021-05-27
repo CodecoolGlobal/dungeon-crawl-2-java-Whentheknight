@@ -3,7 +3,10 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.logic.items.Item;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public abstract class Actor implements Drawable {
@@ -15,6 +18,8 @@ public abstract class Actor implements Drawable {
     protected int strengthChange;
     protected float dodgeChanceChange;
     private boolean hasDodged;
+    private Item drop;
+    private double dropChance;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -57,6 +62,7 @@ public abstract class Actor implements Drawable {
         this.dodgeChance = dodgeChance;
     }
 
+
     public Cell getCell() {
         return cell;
     }
@@ -64,6 +70,7 @@ public abstract class Actor implements Drawable {
     public void setCell(Cell cell) {
         this.cell = cell;
     }
+
 
     public int getX() {
         return cell.getX();
@@ -74,9 +81,10 @@ public abstract class Actor implements Drawable {
     }
 
     public void attack(Actor enemy){
+        enemy.setHealthChange(0);
         Random rand = new Random();
         float dodge = rand.nextFloat();
-        if (dodge < enemy.dodgeChance) {
+        if (dodge < enemy.getDodgeChance()) {
             enemy.hasDodged = true;
             enemy.setHealthChange(0);
         } else {
@@ -86,6 +94,9 @@ public abstract class Actor implements Drawable {
         }
         if(enemy.getHealth() <= 0) {
             enemy.getCell().removeActor();
+            if (enemy.getDropChance() > rand.nextFloat()) {
+                enemy.getCell().setItem(enemy.getDrop());
+            }
         }
     }
 
@@ -119,5 +130,22 @@ public abstract class Actor implements Drawable {
 
     public void setDodgeChanceChange(float dodgeChanceChange) {
         this.dodgeChanceChange = dodgeChanceChange;
+    }
+
+
+    public Item getDrop() {
+        return drop;
+    }
+
+    public void setDrop(Item drop) {
+        this.drop = drop;
+    }
+
+    public double getDropChance() {
+        return dropChance;
+    }
+
+    public void setDropChance(double dropChance) {
+        this.dropChance = dropChance;
     }
 }
