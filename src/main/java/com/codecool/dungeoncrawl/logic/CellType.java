@@ -12,6 +12,7 @@ public enum CellType {
     STAIRS("stairs");
 
 
+
     private final String tileName;
     private int stat = 0;
 
