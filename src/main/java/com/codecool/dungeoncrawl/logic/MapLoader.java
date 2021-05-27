@@ -94,6 +94,12 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             new Axe(cell, "axe");
                             break;
+                        case 'R':
+                            cell.setType(CellType.RIVER);
+                            break;
+                        case 'r':
+                            cell.setType(CellType.BRIDGE);
+                            break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }
