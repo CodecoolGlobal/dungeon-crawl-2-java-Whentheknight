@@ -1,41 +1,41 @@
 94 37
-#############
-#...........#####################
-#..S@.......#.........a......s...################
-#..........##..#################................#
-#..............#######........D.####............##
-#.....b.................#######.#####............#
-#................########P..........#...aaaa.....#
-#.........###......####....s..b.....#...aaaa.....###########
-#...........#####.....#.............#...aaaa...............#
-#...........####.....g#........######......................###################################
-#.....#################################.......h............#.................................#
-###...#           t.............t.....t################aa..................##....b..........sd
-  ##..#           t..tttttttt......t..t               #ha..........b........##..............g#
-   ##.##          tt..tt.......t......ttt             #Da....................#####..##########
-  ttt.tttttttttt    t.b....tt.....t......ttt          #Pa....................#.......#
-  t............tttttttt...k..t....t...t....t          ###################............#
-  t..t...t...ttt......t......ttttttttttttttt                            #xxxxxxxxxxxx#
-  t..........tt......t....b.t                                           #.h...A......#
-  t....W....tt....ttttt.tttttt                                          ##############
-  tt...t....t.....t......t
-  t..t...t......t......tt
-  ttttttttttt.t.ttttttttttttt
-    t...t.......t..t...t....ttttttttttttttttttttt
-    tt....t.....g........t......................t
-    tRRRRRRRrRRRRRRRRRRRRRRRRRRRrRRRRRRRRRRRRRRRt
-    t................tt.........................t
-    t..t....t..tttttttttttttt....t.tttttttttttttt
-    t..t..B......t         t..t........t
-    t.......t..ttt         tttttttt....ttttt
-    t.t..t....tt                 t......t..tt
-    t...h....tttt                t.t..t.....tt
-    ttttttt..ttt                 t........t..ttt
-    t....t...t..tttttttt         t..t..B......ltt
-    t..t.....t...t.....t         t..t.....t.....tt
-    t...b...B.....A...tt         t....b..t...t...tttttt
-    t.t...t..D..t.....t          t..t......P..........gt
-    ttttttttttttttttttt          tttttttttttttttttttttttt
+%%%%%%%%%%%%%ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
+%...........%%%%%%%%%%%%%%%%%%%%%ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
+%..S@.......%.........a......s...%%%%%%%%%%%%%%%%ttttttttttttttttttttttttttttttttttttttttttttt
+%..........%%..%%%%%%%%%%%%%%%%%................%ttttttttttttttttttttttttttttttttttttttttttttt
+%..............%%%%%%%........D.%%%%............%%tttttttttttttttttttttttttttttttttttttttttttt
+%.....b.................%%%%%%%.%%%%%............%tttttttttttttttttttttttttttttttttttttttttttt
+%................%%%%%%%%P..........%...aaaa.....%tttttttttttttttttttttttttttttttttttttttttttt
+%.........%%%......%%%%....s..b.....%...aaaa.....%%%%%%%%%%%tttttttttttttttttttttttttttttttttt
+%...........%%%%%.....%.............%...aaaa...............%tttttttttttttttttttttttttttttttttt
+%...........%%%%.....g%........%%%%%%......................%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%.....%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.......h............%.................................%
+%%%...%tttttttttttt.............t.....t%%%%%%%%%%%%%%%%aa..................%%....b..........sd
+tt%%..%tttttttttttt..tttttttt......t..tttttttttttttttt%ha..........b........%%..............g%
+ttt%%.%%tttttttttttt..tt.......t......tttttttttttttttt%Da....................%%%%%..%%%%%%%%%%
+ttttt.ttttttttttttttt.b....tt.....t......ttttttttttttt%Pa....................%.......%tttttttt
+ttt............tttttttt...k..t....t...t....ttttttttttt%%%%%%%%%%%%%%%%%%%............%tttttttt
+ttt..t...t...ttt......t......ttttttttttttttttttttttttttttttttttttttttttt%xxxxxxxxxxxx%tttttttt
+ttt..........tt......t....b.tttttttttttttttttttttttttttttttttttttttttttt%.h...A......%tttttttt
+ttt....W....tt....ttttt.tttttttttttttttttttttttttttttttttttttttttttttttt%%%%%%%%%%%%%%tttttttt
+tttt...t....t.....t......ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
+ttt..t...t......t......ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
+ttttttttttttt.t.tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
+ttttt...t.......t..t...t....tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
+tttttt....t.....g........t......................tttttttttttttttttttttttttttttttttttttttttttttt
+tttttRRRRRRRrRRRRRRRRRRRRRRRRRRRrRRRRRRRRRRRRRRRtttttttttttttttttttttttttttttttttttttttttttttt
+ttttt................tt.........................tttttttttttttttttttttttttttttttttttttttttttttt
+ttttt..t....t..tttttttttttttt....t.ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
+ttttt..t..B......ttttttttttt..t........ttttttttttttttttttttttttttttttttttttttttttttttttttttttt
+ttttt.......t..tttttttttttttttttttt....ttttttttttttttttttttttttttttttttttttttttttttttttttttttt
+ttttt.t..t....tttttttttttttttttttt......t..ttttttttttttttttttttttttttttttttttttttttttttttttttt
+ttttt...h....ttttttttttttttttttttt.t..t.....tttttttttttttttttttttttttttttttttttttttttttttttttt
+ttttttttttt..ttttttttttttttttttttt........t..ttttttttttttttttttttttttttttttttttttttttttttttttt
+ttttt....t...t..tttttttttttttttttt..t..B......lttttttttttttttttttttttttttttttttttttttttttttttt
+ttttt..t.....t...t.....ttttttttttt..t.....t.....tttttttttttttttttttttttttttttttttttttttttttttt
+ttttt...b...B.....A...tttttttttttt....b..t...t...ttttttttttttttttttttttttttttttttttttttttttttt
+ttttt.t...t..D..t.....tttttttttttt..t......P..........gttttttttttttttttttttttttttttttttttttttt
+tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
 
 
 
