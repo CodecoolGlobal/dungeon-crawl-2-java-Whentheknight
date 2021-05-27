@@ -128,6 +128,10 @@ public class Main extends Application {
                 ui.getChildren().remove(nameInput);
                 ui.getChildren().remove(submit);
                 ui.getChildren().remove(close);
+                if (nameInput.getText().equalsIgnoreCase("admin")) {
+                    map.getPlayer().setHealth(9000);
+                    map.getPlayer().setStrength(1000);
+                }
             }
         });
 
