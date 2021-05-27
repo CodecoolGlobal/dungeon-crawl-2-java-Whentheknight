@@ -83,7 +83,9 @@ public class Player extends Actor {
         }
 
         if (!nextCell.getType().equals(CellType.WALL) && currentEnemy == null &&
-            !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE) && !nextCell.getType().equals(CellType.RIVER) && !nextCell.getType().equals(CellType.WALL2)) {
+            !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE)
+                && !nextCell.getType().equals(CellType.RIVER) && !nextCell.getType().equals(CellType.WALL2)
+        && !nextCell.getType().equals(CellType.EMPTY)) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
