@@ -38,7 +38,7 @@ public class Main extends Application {
     private final int mapWidth = 25;
     private final int mapHeight = 20;
 
-    String[] mapList = {"/map.txt", "/map2.txt"};
+    String[] mapList = {"/map.txt", "/map2.txt", "/bossmap.txt"};
     List<GameMap> earlierMaps = new ArrayList<>();
 
     GameMap map = MapLoader.loadMap(mapList[0]);

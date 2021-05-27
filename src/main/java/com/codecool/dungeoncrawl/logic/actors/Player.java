@@ -49,7 +49,10 @@ public class Player extends Actor {
 
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-        currentEnemy = nextCell.getActor();
+        if(nextCell.getActor() instanceof BossPart){
+            currentEnemy = nextCell.getMap().getBoss();
+        }else{
+        currentEnemy = nextCell.getActor();}
         setHealthChange(0);
         setStrengthChange(0);
         setDodgeChanceChange(0);
@@ -88,9 +91,12 @@ public class Player extends Actor {
             if(currentEnemy.getHealth() > 0) {
                 currentEnemy.attack(this);
             } else {
-//                cell.setActor(null);
+                if(currentEnemy instanceof Boss){
+                    for(Cell part : ((Boss) currentEnemy).getBossParts()){
+                        part.setActor(null);
+                    }
+                } else{
                 nextCell.setActor(null);
-//                cell = nextCell;
             }
         } if (nextCell.getType().equals(CellType.LAVA)){
             setHealthChange(-2);

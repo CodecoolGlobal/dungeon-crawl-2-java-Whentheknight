@@ -15,6 +15,7 @@ public enum CellType {
     BRIDGE("bridge");
 
 
+
     private final String tileName;
     private int stat = 0;
 

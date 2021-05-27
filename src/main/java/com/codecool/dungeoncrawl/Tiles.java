@@ -50,8 +50,22 @@ public class Tiles {
         tileMap.put("lava", new Tile(6,0));
         tileMap.put("toxic", new Tile(19,11));
         tileMap.put("bear", new Tile(30, 8));
+
+        tileMap.put("boss1", new Tile(2,7));
+        tileMap.put("boss2", new Tile(1,8));
+        tileMap.put("boss3", new Tile(2,8));
+        tileMap.put("boss4", new Tile(3,8));
+        tileMap.put("boss5", new Tile(1,9));
+        tileMap.put("boss6", new Tile(2,9));
+        tileMap.put("boss7", new Tile(3,9));
+        tileMap.put("boss8", new Tile(1,10));
+        tileMap.put("boss9", new Tile(2,10));
+        tileMap.put("boss10", new Tile(3,10));
+        tileMap.put("boss11", new Tile(2,11));
+
         tileMap.put("river", new Tile(8, 4));
         tileMap.put("bridge", new Tile(4, 6));
+
 
     }
 
