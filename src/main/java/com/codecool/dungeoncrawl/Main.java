@@ -204,7 +204,7 @@ public class Main extends Application {
         int shiftX = 0;
         int shiftY = 0;
         
-        if(map.getWidth() >25){
+        if(map.getWidth() >28){
             if(map.getPlayer().getX() >= 14){
                 shiftX = map.getPlayer().getX()-14;
             }
