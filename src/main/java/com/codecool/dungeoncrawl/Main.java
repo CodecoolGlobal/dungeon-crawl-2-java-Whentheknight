@@ -293,6 +293,11 @@ public class Main extends Application {
         if (map.getPlayer().getHealth() <= 0) {
             openGameOverPopUp();
         }
+        if (map.getPlayer().getCurrentMap() == 2) {
+            if (map.getBoss().getHealth() <= 0) {
+                openWinPopup();
+            }
+        }
     }
 
     private void setEnemyVisible(boolean b) {
@@ -380,6 +385,26 @@ public class Main extends Application {
         Scene scene1= new Scene(layout, 250, 150);
         gameOverPopUp.setScene(scene1);
         gameOverPopUp.showAndWait();
+    }
+
+    private void openWinPopup() {
+        Stage winPopUp = new Stage();
+
+        winPopUp.initModality(Modality.APPLICATION_MODAL);
+
+        Label label1= new Label("You won!");
+        label1.setStyle("-fx-font-weight: bold;");
+
+        Button closeButton = new Button("Quit");
+
+        closeButton.setOnAction(e -> System.exit(0));
+
+        VBox layout= new VBox(10);
+        layout.getChildren().addAll(label1, closeButton);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1= new Scene(layout, 250, 150);
+        winPopUp.setScene(scene1);
+        winPopUp.showAndWait();
     }
 
     private void changeMap(int mapNumber, int positionX, int positionY, boolean forward) {
