@@ -100,6 +100,14 @@ public class MapLoader {
                         case 'r':
                             cell.setType(CellType.BRIDGE);
                             break;
+                        case 'D':
+                            cell.setType(CellType.FLOOR);
+                            new DodgePotion(cell);
+                            break;
+                        case 'P':
+                            cell.setType(CellType.FLOOR);
+                            new StrengthPotion(cell);
+                            break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }
