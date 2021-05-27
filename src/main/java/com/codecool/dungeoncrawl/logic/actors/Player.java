@@ -49,74 +49,79 @@ public class Player extends Actor {
 
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-        if(nextCell.getActor() instanceof BossPart){
+        if (nextCell.getActor() instanceof BossPart) {
             currentEnemy = nextCell.getMap().getBoss();
-        }else{
-        currentEnemy = nextCell.getActor();}
+        } else {
+            currentEnemy = nextCell.getActor();
+        }
         setHealthChange(0);
         setStrengthChange(0);
         setDodgeChanceChange(0);
         setIsHaunted(false);
         setHasDodged(false);
-        if(poisonedFor == 0){
+        if (poisonedFor == 0) {
             setIsPoisoned(false);
         }
-        if(burningFor == 0){
+        if (burningFor == 0) {
             setIsBurning(false);
         }
 
-        if(isBurning){
+        if (isBurning) {
             setHealthChange(-2);
-            setHealth(getHealth()-2);
+            setHealth(getHealth() - 2);
         }
 
-        if(isPoisoned){
+        if (isPoisoned) {
             setHealthChange(-1);
-            setHealth(getHealth()-1);
+            setHealth(getHealth() - 1);
         }
 
-        if(hasGhostNeighbor()) {
+        if (hasGhostNeighbor()) {
             setIsHaunted(true);
             setHealthChange(-1);
-            setHealth(getHealth()-1);
+            setHealth(getHealth() - 1);
         }
 
         if (!nextCell.getType().equals(CellType.WALL) && currentEnemy == null &&
-                !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE) && !nextCell.getType().equals(CellType.RIVER) && !nextCell.getType().equals(CellType.WALL2)) {
+            !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE) && !nextCell.getType().equals(CellType.RIVER) && !nextCell.getType().equals(CellType.WALL2)) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
         } else if (!nextCell.getType().equals(CellType.WALL) && currentEnemy != null) {
             this.attack(currentEnemy);
-            if(currentEnemy.getHealth() > 0) {
+            if (currentEnemy.getHealth() > 0) {
                 currentEnemy.attack(this);
             } else {
-                if(currentEnemy instanceof Boss){
-                    for(Cell part : ((Boss) currentEnemy).getBossParts()){
+                if (currentEnemy instanceof Boss) {
+                    for (Cell part : ((Boss) currentEnemy).getBossParts()) {
                         part.setActor(null);
                     }
-                } else{
-                nextCell.setActor(null);
+                } else {
+                    nextCell.setActor(null);
+                }
             }
-        } if (nextCell.getType().equals(CellType.LAVA)){
-            setHealthChange(-2);
-            setHealth(getHealth()-2);
-            setIsBurning(true);
-            burningFor = 3;
+        }
+            if (nextCell.getType().equals(CellType.LAVA)) {
+                setHealthChange(-2);
+                setHealth(getHealth() - 2);
+                setIsBurning(true);
+                burningFor = 3;
 
-        }if (nextCell.getType().equals(CellType.TOXIC)){
-            setHealthChange(-1);
-            setHealth(getHealth()-1);
-            setIsPoisoned(true);
-            poisonedFor = 3;
+            }
+            if (nextCell.getType().equals(CellType.TOXIC)) {
+                setHealthChange(-1);
+                setHealth(getHealth() - 1);
+                setIsPoisoned(true);
+                poisonedFor = 3;
+            }
+
+            if (this.name.equalsIgnoreCase("admin") && currentEnemy == null) {
+                cell.setActor(null);
+                nextCell.setActor(this);
+                cell = nextCell;
+            }
         }
 
-        if (this.name.equalsIgnoreCase("admin") && currentEnemy == null) {
-            cell.setActor(null);
-            nextCell.setActor(this);
-            cell = nextCell;
-        }
-    }
 
     public List<Item> getInventory() {
         return this.inventory;
