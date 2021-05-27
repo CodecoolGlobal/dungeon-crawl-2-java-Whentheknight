@@ -3,7 +3,6 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Drawable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +50,7 @@ public class Tiles {
         tileMap.put("toxic", new Tile(19,11));
         tileMap.put("bear", new Tile(30, 8));
 
-        tileMap.put("boss1", new Tile(2,7));
+        tileMap.put("boss", new Tile(2,7));
         tileMap.put("boss2", new Tile(1,8));
         tileMap.put("boss3", new Tile(2,8));
         tileMap.put("boss4", new Tile(3,8));

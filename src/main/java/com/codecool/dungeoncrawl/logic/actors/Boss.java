@@ -14,7 +14,7 @@ public class Boss extends Actor{
 
     @Override
     public String getTileName() {
-        return "boss1";
+        return "boss";
     }
 
     public void addCells(Cell cell){

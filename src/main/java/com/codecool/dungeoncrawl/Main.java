@@ -398,4 +398,5 @@ public class Main extends Application {
         map.setPlayer(player);
         refresh();
     }
+
 }
