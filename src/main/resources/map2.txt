@@ -23,10 +23,10 @@
   ttttttttttt...ttttttttttttt
     t.......................ttttttttttttttt
     tttttt.................tttt...........ttttttt
-    ttttttttttt......................B..........t
-    t..............tttttttttt...................t
+    ttttttttttt..............B..................t
+    t.........B....tttttttttt...................t
     t..........ttttt       t.......tttttttttttttt
-    t.....B......t         t...........t
+    t............t         t...........t
     t..........ttt         tttttttt....ttttt
     t.........tt                 t......t..tt
     t........tttt                t..........tt

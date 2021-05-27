@@ -34,6 +34,9 @@ public class Tiles {
         tileMap.put("key", new Tile(16, 23));
         tileMap.put("health potion", new Tile(1, 14));
         tileMap.put("leather boots", new Tile(7, 23));
+        tileMap.put("bat soup", new Tile(4, 14));
+        tileMap.put("bone", new Tile(16, 24));
+        tileMap.put("bear steak", new Tile(16, 28));
 
         tileMap.put("stairs", new Tile(3, 6));
         tileMap.put("closed door", new Tile(7,10));
