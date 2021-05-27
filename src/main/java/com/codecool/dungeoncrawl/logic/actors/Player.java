@@ -48,6 +48,7 @@ public class Player extends Actor {
     }
 
     public void move(int dx, int dy) {
+        try{
         Cell nextCell = cell.getNeighbor(dx, dy);
         if (nextCell.getActor() instanceof BossPart) {
             currentEnemy = nextCell.getMap().getBoss();
@@ -122,6 +123,8 @@ public class Player extends Actor {
                 nextCell.setActor(this);
                 cell = nextCell;
             }
+        }
+        catch (Exception ignored){}
         }
 
 
