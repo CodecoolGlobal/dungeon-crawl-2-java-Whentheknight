@@ -198,9 +198,7 @@ public class Main extends Application {
     }
 
     private void refresh() {
-        if (map.getPlayer().getHealth() <= 0) {
-            openGameOverPopUp();
-        }
+
 
         context.setFill(Color.BLACK);
         int shiftX = 0;
@@ -292,6 +290,9 @@ public class Main extends Application {
             enemyDodgeChanceChangeLabel.setTextFill(enemy.getDodgeChanceChange() >= 0 ? Color.GREEN : Color.RED);
         }
         String name = nameLabel.getText();
+        if (map.getPlayer().getHealth() <= 0) {
+            openGameOverPopUp();
+        }
     }
 
     private void setEnemyVisible(boolean b) {

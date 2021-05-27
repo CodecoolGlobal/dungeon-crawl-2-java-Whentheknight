@@ -2,16 +2,20 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.items.BatSoup;
+import com.codecool.dungeoncrawl.logic.items.Item;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Bat extends Actor {
     private int teleport = 5;
+
     public Bat(Cell cell) {
         super(cell);
         setHealth(3);
         setStrength(1);
         setDodgeChance(0.5f);
+        initDrop();
     }
 
     @Override
@@ -39,7 +43,7 @@ public class Bat extends Actor {
 
         if(!nextCell.getType().equals(CellType.WALL) && nextCell.getActor() == null &&
                 !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE)
-                && !nextCell.getType().equals(CellType.EMPTY)){
+                && !nextCell.getType().equals(CellType.EMPTY) && !nextCell.getType().equals(CellType.WALL2)){
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
@@ -59,7 +63,7 @@ public class Bat extends Actor {
                 nextCell = cell.getNeighbor(-3, 0);
 
             }
-            if(!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.EMPTY) && nextCell.getActor() == null && !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE)){
+            if(!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.EMPTY) && nextCell.getActor() == null && !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE) && !nextCell.getType().equals(CellType.WALL2)){
                 cell.setActor(null);
                 nextCell.setActor(this);
                 cell = nextCell;
@@ -71,5 +75,11 @@ public class Bat extends Actor {
         }
     } catch (Exception  e){
         teleport = 5;}
+    }
+
+    private void initDrop() {
+        Item batSoup = new BatSoup();
+        setDrop(batSoup);
+        setDropChance(0.5);
     }
 }

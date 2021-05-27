@@ -25,6 +25,7 @@ public class Tiles {
     static {
         tileMap.put("empty", new Tile(0, 0));
         tileMap.put("wall", new Tile(7, 0));
+        tileMap.put("wall2", new Tile(8, 0));
         tileMap.put("floor", new Tile(2, 0));
         tileMap.put("player", new Tile(27, 0));
         tileMap.put("skeleton", new Tile(29, 6));
@@ -36,6 +37,9 @@ public class Tiles {
         tileMap.put("dodge potion", new Tile(16, 25));
         tileMap.put("strength potion", new Tile(18, 25));
         tileMap.put("leather boots", new Tile(7, 23));
+        tileMap.put("bat soup", new Tile(4, 14));
+        tileMap.put("bone", new Tile(16, 24));
+        tileMap.put("bear steak", new Tile(16, 28));
 
         tileMap.put("stairs", new Tile(3, 6));
         tileMap.put("closed door", new Tile(7,10));
