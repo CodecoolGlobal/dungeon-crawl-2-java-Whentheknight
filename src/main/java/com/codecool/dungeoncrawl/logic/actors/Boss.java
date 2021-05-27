@@ -11,7 +11,7 @@ public class Boss extends Actor{
     public Boss(Cell cell) {
         super(cell);
         setHealth(250);
-        setStrength(30);
+        setStrength(10);
         setDodgeChance(0.50f);
     }
 
