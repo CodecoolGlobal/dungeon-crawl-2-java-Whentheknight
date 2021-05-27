@@ -84,7 +84,7 @@ public abstract class Actor implements Drawable {
         enemy.setHealthChange(0);
         Random rand = new Random();
         float dodge = rand.nextFloat();
-        if (dodge < enemy.dodgeChance) {
+        if (dodge < enemy.getDodgeChance()) {
             enemy.hasDodged = true;
             enemy.setHealthChange(0);
         } else {

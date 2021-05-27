@@ -42,7 +42,7 @@ public class Bat extends Actor {
         }
 
         if(!nextCell.getType().equals(CellType.WALL) && nextCell.getActor() == null &&
-                !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE)){
+                !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE) && !nextCell.getType().equals(CellType.WALL2)){
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
@@ -62,7 +62,7 @@ public class Bat extends Actor {
                 nextCell = cell.getNeighbor(-3, 0);
 
             }
-            if(!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.EMPTY) && nextCell.getActor() == null && !nextCell.getType().equals(CellType.CDOOR)){
+            if(!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.EMPTY) && nextCell.getActor() == null && !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.WALL2)){
                 cell.setActor(null);
                 nextCell.setActor(this);
                 cell = nextCell;
