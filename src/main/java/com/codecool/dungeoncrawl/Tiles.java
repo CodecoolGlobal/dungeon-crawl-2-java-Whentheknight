@@ -34,6 +34,8 @@ public class Tiles {
         tileMap.put("axe", new Tile(10, 30));
         tileMap.put("key", new Tile(16, 23));
         tileMap.put("health potion", new Tile(1, 14));
+        tileMap.put("dodge potion", new Tile(16, 25));
+        tileMap.put("strength potion", new Tile(18, 25));
         tileMap.put("leather boots", new Tile(7, 23));
         tileMap.put("bat soup", new Tile(4, 14));
         tileMap.put("bone", new Tile(16, 24));
@@ -48,6 +50,9 @@ public class Tiles {
         tileMap.put("lava", new Tile(6,0));
         tileMap.put("toxic", new Tile(19,11));
         tileMap.put("bear", new Tile(30, 8));
+        tileMap.put("river", new Tile(8, 4));
+        tileMap.put("bridge", new Tile(4, 6));
+
     }
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {

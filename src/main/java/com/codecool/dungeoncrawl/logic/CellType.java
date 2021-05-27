@@ -10,7 +10,9 @@ public enum CellType {
     TREE("tree"),
     LAVA("lava"),
     TOXIC("toxic"),
-    STAIRS("stairs");
+    STAIRS("stairs"),
+    RIVER("river"),
+    BRIDGE("bridge");
 
 
     private final String tileName;
