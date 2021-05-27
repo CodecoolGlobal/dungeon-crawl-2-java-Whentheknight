@@ -1,7 +1,7 @@
 25 20
  #######################
  #aaaaaaaaaaaaaaaaaaaaa#
- #a@.aaaaaaaaaaaaaaaaaa#
+ #aa@aaaaaaaaaaaaaaaaaa#
  #aa..aaaaaaaaaaaaaaaaa#
  #aaa..aaaaaaaaaaaaaaaa#
  #aaaa..aaa.....aaaaaaa#
