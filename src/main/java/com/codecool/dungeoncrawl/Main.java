@@ -190,7 +190,7 @@ public class Main extends Application {
         }
         openPopUpWindow();
         if (map.getPlayer().getCell().getType().equals(CellType.ODOOR)) {
-            changeMap(map.getPlayer().getCurrentMap()+1, 2 ,2, true);
+            changeMap(map.getPlayer().getCurrentMap()+1, 4 ,2, true);
         }
         if (map.getPlayer().getCell().getType().equals(CellType.STAIRS)) {
             changeMap(map.getPlayer().getCurrentMap()-1, 21, 19, false);
