@@ -1,6 +1,9 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
+import com.codecool.dungeoncrawl.dao.GameStateDao;
+import com.codecool.dungeoncrawl.dao.GameStateDaoJdbc;
+import com.codecool.dungeoncrawl.dao.PlayerDao;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
@@ -12,6 +15,7 @@ import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.model.GameState;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -30,9 +34,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.postgresql.ds.PGSimpleDataSource;
 
+import javax.sql.DataSource;
 import javax.swing.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -41,7 +48,11 @@ public class Main extends Application {
     private final int mapWidth = 25;
     private final int mapHeight = 20;
     private boolean s1 = false;
+    private boolean isLoad = false;
+    private GameState loadGameState;
     GameDatabaseManager databaseM = new GameDatabaseManager();
+    GameStateDao gameStateDao;
+    PlayerDao playerDao;
 
 
     String[] mapList = {"/map.txt", "/map2.txt", "/bossmap.txt"};
@@ -115,41 +126,45 @@ public class Main extends Application {
         ui.add(new Label("-----------"), 1, 10);
         ui.add(inventory, 1, 11);
 
-        ui.add(new Label(""), 0, 12);
-        ui.add(nameLabel, 0, 13);
-        nameLabel.setStyle("-fx-font-weight: bold;");
-        Button submit = new Button("Enter");
-        Button close = new Button("Close");
-        nameInput.setPrefWidth(100);
-        ui.add(nameInput, 1, 13);
-        ui.add(submit, 1, 14);
-        ui.add(close, 2, 14);
+        openLoadPopUp();
 
-        submit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                map.getPlayer().setName(nameInput.getText());
-                playerLabel.setText(nameInput.getText());
-                ui.getChildren().remove(nameLabel);
-                ui.getChildren().remove(nameInput);
-                ui.getChildren().remove(submit);
-                ui.getChildren().remove(close);
-                if (nameInput.getText().equalsIgnoreCase("admin")) {
-                    map.getPlayer().setHealth(9000);
-                    map.getPlayer().setStrength(1000);
+        if (!isLoad) {
+            ui.add(new Label(""), 0, 12);
+            ui.add(nameLabel, 0, 13);
+            nameLabel.setStyle("-fx-font-weight: bold;");
+            Button submit = new Button("Enter");
+            Button close = new Button("Close");
+            nameInput.setPrefWidth(100);
+            ui.add(nameInput, 1, 13);
+            ui.add(submit, 1, 14);
+            ui.add(close, 2, 14);
+
+            submit.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    map.getPlayer().setName(nameInput.getText());
+                    playerLabel.setText(nameInput.getText());
+                    ui.getChildren().remove(nameLabel);
+                    ui.getChildren().remove(nameInput);
+                    ui.getChildren().remove(submit);
+                    ui.getChildren().remove(close);
+                    if (nameInput.getText().equalsIgnoreCase("admin")) {
+                        map.getPlayer().setHealth(9000);
+                        map.getPlayer().setStrength(1000);
+                    }
                 }
-            }
-        });
+            });
 
-        close.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                ui.getChildren().remove(nameLabel);
-                ui.getChildren().remove(nameInput);
-                ui.getChildren().remove(submit);
-                ui.getChildren().remove(close);
-            }
-        });
+            close.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    ui.getChildren().remove(nameLabel);
+                    ui.getChildren().remove(nameInput);
+                    ui.getChildren().remove(submit);
+                    ui.getChildren().remove(close);
+                }
+            });
+        }
 
         BorderPane borderPane = new BorderPane();
 
@@ -416,7 +431,7 @@ public class Main extends Application {
         gameOverPopUp.showAndWait();
     }
 
-    private void openLoadPopUp() {
+    private void openLoadPopUp() throws SQLException {
         Stage loadPopUp = new Stage();
 
         loadPopUp.initModality(Modality.APPLICATION_MODAL);
@@ -426,32 +441,45 @@ public class Main extends Application {
 
         ListView listView = new ListView();
 
-        List<GameState> saveList =
-        listView.getItems().add("Item 1");
-        listView.getItems().add("Item 2");
-        listView.getItems().add("Item 3");
+        DataSource dataSource = connect();
+        gameStateDao = new GameStateDaoJdbc(dataSource, playerDao);
+        List<GameState> saveList = gameStateDao.getAll();
+        for (GameState save : saveList) {
+            listView.getItems().add(save.getName());
+        }
 
-        Button restartButton = new Button("Play Again");
-        Button closeButton = new Button("Quit");
+        Button loadGameButton = new Button("Load Game");
+        Button newGameButton = new Button("New Game");
 
-        closeButton.setOnAction(e -> System.exit(0));
-
-        restartButton.setOnAction((EventHandler<ActionEvent>) actionEvent -> {
-            try {
-                Runtime.getRuntime().exec("java App");
-                System.exit(0);
-            } catch (IOException e) {
-                e.printStackTrace();
+        loadGameButton.setOnAction(event -> {
+            this.isLoad = true;
+            int selectedIndex = listView.getSelectionModel().getSelectedIndex();
+            int stateIndex = 0;
+            for (GameState save : saveList) {
+                if (stateIndex == selectedIndex) {
+                    loadGame(save);
+                    loadPopUp.close();
+                }
+                else {
+                    stateIndex++;
+                }
             }
+        });
+
+        newGameButton.setOnAction((EventHandler<ActionEvent>) actionEvent -> {
             loadPopUp.close();
         });
 
         VBox layout= new VBox(10);
-        layout.getChildren().addAll(label1, restartButton, closeButton);
+        layout.getChildren().addAll(label1, listView, newGameButton);
         layout.setAlignment(Pos.CENTER);
         Scene scene1= new Scene(layout, 250, 150);
         loadPopUp.setScene(scene1);
         loadPopUp.showAndWait();
+    }
+
+    private void loadGame(GameState gameStateToLoad) {
+
     }
 
     private void openWinPopup() {
@@ -489,6 +517,19 @@ public class Main extends Application {
         player.setCell(map.getCell(positionX, positionY));
         map.setPlayer(player);
         refresh();
+    }
+
+    private DataSource connect() throws SQLException {
+        PGSimpleDataSource dataSource = new PGSimpleDataSource();
+        dataSource.setDatabaseName("books");
+        dataSource.setUser("popesz");
+        dataSource.setPassword("qweewq");
+
+        System.out.println("Trying to connect...");
+        dataSource.getConnection().close();
+        System.out.println("Connection OK");
+
+        return dataSource;
     }
 
 }

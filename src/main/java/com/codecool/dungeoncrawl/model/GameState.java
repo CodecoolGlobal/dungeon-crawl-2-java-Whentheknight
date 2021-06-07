@@ -26,6 +26,14 @@ public class GameState extends BaseModel {
         this.savedAt = savedAt;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getCurrentMap() {
         return currentMap;
     }

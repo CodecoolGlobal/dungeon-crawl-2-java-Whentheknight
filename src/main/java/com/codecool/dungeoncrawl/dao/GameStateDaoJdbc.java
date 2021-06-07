@@ -35,18 +35,17 @@ public class GameStateDaoJdbc implements GameStateDao {
     @Override
     public List<GameState> getAll() throws SQLException {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT id, name, current_map, saved_at, player_id";
+            String sql = "SELECT name, current_map, saved_at, player_id FROM game_state";
             ResultSet rs = conn.createStatement().executeQuery(sql);
 
             List<GameState> result = new ArrayList<>();
             while (rs.next()) {
-                int id = rs.getInt(1);
                 String name = rs.getString(2);
                 String currentMap = rs.getString(3);
                 Date savedAt = rs.getDate(4);
                 int playerId = rs.getInt(5);
 
-                PlayerModel player = playerDao.get(id);
+                PlayerModel player = playerDao.get(playerId);
                 GameState gameState = new GameState(currentMap, name, savedAt, player);
                 result.add(gameState);
             }
