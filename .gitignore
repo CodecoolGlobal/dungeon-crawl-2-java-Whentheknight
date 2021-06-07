@@ -226,4 +226,3 @@ fabric.properties
 # *.iml
 # modules.xml
 
-src/main/java/com/codecool/dungeoncrawl/dao/GameDatabaseManager.java
