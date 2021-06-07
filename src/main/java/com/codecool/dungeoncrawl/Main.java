@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl;
 
+import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
@@ -37,6 +38,9 @@ import java.util.Locale;
 public class Main extends Application {
     private final int mapWidth = 25;
     private final int mapHeight = 20;
+    private boolean s1 = false;
+    GameDatabaseManager databaseM = new GameDatabaseManager();
+
 
     String[] mapList = {"/map.txt", "/map2.txt", "/bossmap.txt"};
     List<GameMap> earlierMaps = new ArrayList<>();
@@ -72,9 +76,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        databaseM.setup();
         ui.setPrefWidth(400);
         ui.setPadding(new Insets(10));
-
         ui.add(playerLabel, 0, 0);
         playerLabel.setStyle("-fx-font-weight: bold;");
         ui.add(hauntedLabel, 1, 0);
@@ -154,7 +158,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
-
+        scene.setOnKeyReleased(this::keyReleased);
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
     }
@@ -187,6 +191,17 @@ public class Main extends Application {
                 enemyMove();
                 refresh();
                 break;
+            case CONTROL:
+                s1 = true;
+                break;
+
+            case S:
+                if(s1){
+                    openSaveWindow();
+                }
+                break;
+
+
         }
         openPopUpWindow();
         if (map.getPlayer().getCell().getType().equals(CellType.ODOOR)) {
@@ -194,6 +209,18 @@ public class Main extends Application {
         }
         if (map.getPlayer().getCell().getType().equals(CellType.STAIRS)) {
             changeMap(map.getPlayer().getCurrentMap()-1, 21, 19, false);
+        }
+    }
+    public void openSaveWindow(){
+
+        databaseM.savePlayer(map.getPlayer());
+
+    }
+    public void keyReleased(KeyEvent e) {
+        switch (e.getCode()) {
+            case CONTROL:
+                s1 = false;
+                break;
         }
     }
 
