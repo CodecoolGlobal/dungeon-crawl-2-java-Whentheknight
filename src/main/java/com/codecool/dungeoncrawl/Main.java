@@ -10,6 +10,7 @@ import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 
 import com.codecool.dungeoncrawl.logic.items.Key;
+import com.codecool.dungeoncrawl.model.GameState;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,6 +21,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -412,6 +414,44 @@ public class Main extends Application {
         Scene scene1= new Scene(layout, 250, 150);
         gameOverPopUp.setScene(scene1);
         gameOverPopUp.showAndWait();
+    }
+
+    private void openLoadPopUp() {
+        Stage loadPopUp = new Stage();
+
+        loadPopUp.initModality(Modality.APPLICATION_MODAL);
+        loadPopUp.setTitle("Load Game");
+
+        Label label1= new Label("Choose a saved game or start a new one");
+
+        ListView listView = new ListView();
+
+        List<GameState> saveList =
+        listView.getItems().add("Item 1");
+        listView.getItems().add("Item 2");
+        listView.getItems().add("Item 3");
+
+        Button restartButton = new Button("Play Again");
+        Button closeButton = new Button("Quit");
+
+        closeButton.setOnAction(e -> System.exit(0));
+
+        restartButton.setOnAction((EventHandler<ActionEvent>) actionEvent -> {
+            try {
+                Runtime.getRuntime().exec("java App");
+                System.exit(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            loadPopUp.close();
+        });
+
+        VBox layout= new VBox(10);
+        layout.getChildren().addAll(label1, restartButton, closeButton);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene1= new Scene(layout, 250, 150);
+        loadPopUp.setScene(scene1);
+        loadPopUp.showAndWait();
     }
 
     private void openWinPopup() {
