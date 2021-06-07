@@ -1,17 +1,27 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.GameMap;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.model.InventoryState;
+import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class InventoryDaoJdbc implements InventoryDao{
     private DataSource dataSource;
+    private PlayerDao playerDao;
 
-    public InventoryDaoJdbc(DataSource dataSource) {
+    public InventoryDaoJdbc(DataSource dataSource,PlayerDao playerDao) {
         this.dataSource = dataSource;
+        this.playerDao = playerDao;
     }
 
     @Override
@@ -43,7 +53,25 @@ public class InventoryDaoJdbc implements InventoryDao{
 
     @Override
     public InventoryState get(int id) {
-        return null;
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT player_id, item_name, strength_mod, health_mod, dodge_mod FROM inventory WHERE inventory.player_id = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+
+            if (!rs.next()) {
+                return null;
+            }
+
+            int playerId = rs.getInt(1);
+            PlayerModel player = playerDao.get(playerId);
+            InventoryState inventory = new InventoryState(player.getInventory(),playerId);
+            inventory.setId(id);
+            return inventory;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

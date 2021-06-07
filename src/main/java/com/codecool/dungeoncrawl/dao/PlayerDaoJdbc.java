@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import javax.sql.DataSource;
@@ -34,11 +35,25 @@ public class PlayerDaoJdbc implements PlayerDao {
     @Override
     public void update(PlayerModel player) {
 
+
     }
 
     @Override
     public PlayerModel get(int id) {
-        return null;
+        try(Connection conn = dataSource.getConnection()){
+            String sql = "SELECT player_name, hp, x, y FROM player WHERE id = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1,id);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            PlayerModel player = new PlayerModel(rs.getString(1), rs.getInt(2), rs.getInt(3),rs.getInt(4));
+            player.setId(id);
+            return player;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
