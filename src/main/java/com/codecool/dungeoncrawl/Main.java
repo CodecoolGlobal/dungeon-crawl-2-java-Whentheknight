@@ -15,12 +15,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -34,6 +36,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 public class Main extends Application {
     private final int mapWidth = 25;
@@ -213,7 +216,15 @@ public class Main extends Application {
     }
     public void openSaveWindow(){
 
-        databaseM.savePlayer(map.getPlayer());
+        TextInputDialog saveDialog = new TextInputDialog("New Save");
+        saveDialog.setHeaderText("");
+        saveDialog.setTitle("Save Game");
+        saveDialog.setContentText("Name:");
+
+        Optional<String> result = saveDialog.showAndWait();
+        if (result.isPresent()){
+            databaseM.savePlayer(map.getPlayer());
+        }
 
     }
     public void keyReleased(KeyEvent e) {
