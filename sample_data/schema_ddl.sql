@@ -32,3 +32,6 @@ ALTER TABLE ONLY public.game_state
 
 ALTER TABLE ONLY public.inventory
 ADD CONSTRAINT fk_player_id FOREIGN KEY (player_id) REFERENCES public.player(id);
+
+ALTER TABLE ONLY public.game_state
+ADD COLUMN save_name VARCHAR;
