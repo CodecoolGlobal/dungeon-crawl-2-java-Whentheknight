@@ -3,7 +3,6 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Drawable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,10 +23,49 @@ public class Tiles {
 
     static {
         tileMap.put("empty", new Tile(0, 0));
-        tileMap.put("wall", new Tile(10, 17));
+        tileMap.put("wall", new Tile(7, 0));
+        tileMap.put("wall2", new Tile(8, 0));
         tileMap.put("floor", new Tile(2, 0));
         tileMap.put("player", new Tile(27, 0));
         tileMap.put("skeleton", new Tile(29, 6));
+
+        tileMap.put("sword", new Tile(0, 30));
+        tileMap.put("axe", new Tile(10, 30));
+        tileMap.put("key", new Tile(16, 23));
+        tileMap.put("health potion", new Tile(1, 14));
+        tileMap.put("dodge potion", new Tile(16, 25));
+        tileMap.put("strength potion", new Tile(18, 25));
+        tileMap.put("leather boots", new Tile(7, 23));
+        tileMap.put("bat soup", new Tile(4, 14));
+        tileMap.put("bone", new Tile(16, 24));
+        tileMap.put("bear steak", new Tile(16, 28));
+
+        tileMap.put("stairs", new Tile(3, 6));
+        tileMap.put("closed door", new Tile(7,10));
+        tileMap.put("open door", new Tile(8, 10));
+        tileMap.put("ghost", new Tile(26,6));
+        tileMap.put("bat", new Tile(26,8));
+        tileMap.put("tree", new Tile(4,2));
+        tileMap.put("lava", new Tile(6,0));
+        tileMap.put("toxic", new Tile(19,11));
+        tileMap.put("bear", new Tile(30, 8));
+
+        tileMap.put("boss", new Tile(2,7));
+        tileMap.put("boss2", new Tile(1,8));
+        tileMap.put("boss3", new Tile(2,8));
+        tileMap.put("boss4", new Tile(3,8));
+        tileMap.put("boss5", new Tile(1,9));
+        tileMap.put("boss6", new Tile(2,9));
+        tileMap.put("boss7", new Tile(3,9));
+        tileMap.put("boss8", new Tile(1,10));
+        tileMap.put("boss9", new Tile(2,10));
+        tileMap.put("boss10", new Tile(3,10));
+        tileMap.put("boss11", new Tile(2,11));
+
+        tileMap.put("river", new Tile(8, 4));
+        tileMap.put("bridge", new Tile(4, 6));
+
+
     }
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {

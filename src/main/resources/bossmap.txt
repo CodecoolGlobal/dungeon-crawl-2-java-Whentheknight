@@ -1,0 +1,32 @@
+25 20
+ #######################
+ #aaaaaaaaaaaaaaaaaaaaa#
+ #aa@aaaaaaaaaaaaaaaaaa#
+ #aa..aaaaaaaaaaaaaaaaa#
+ #aaa..aaaaaaaaaaaaaaaa#
+ #aaaa..aaa.....aaaaaaa#
+ #aaaaa..aa..0..aaaaaaa#
+ #aaaaaa..a.123.aaaaaaa#
+ #aaaaaaa...456.aaaaaaa#
+ #aaaaaaaaa.789.aaaaaaa#
+ #aaaaaaaaa..j..aaaaaaa#
+ #aaaaaaaaa.....aaaaaaa#
+ #aaaaaaaaaaaaaaaaaaaaa#
+ #aaaaaaaaaaaaaaaaaaaaa#
+ #aaaaaaaaaaaaaaaaaaaaa#
+ #aaaaaaaaaaaaaaaaaaaaa#
+ #aaaaaaaaaaaaaaaaaaaaa#
+ #aaaaaaaaaaaaaaaaaaaaa#
+ #aaaaaaaaaaaaaaaaaaaaa#
+ #######################
+
+
+
+
+
+
+
+
+
+
+

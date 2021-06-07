@@ -1,0 +1,16 @@
+package com.codecool.dungeoncrawl.logic.items;
+
+import com.codecool.dungeoncrawl.logic.Cell;
+
+public class DodgePotion extends Item{
+
+    public DodgePotion(Cell cell) {
+        super(cell);
+        setDodgeChance(0.1f);
+    }
+
+    @Override
+    public String getTileName() {
+        return "dodge potion";
+    }
+}
