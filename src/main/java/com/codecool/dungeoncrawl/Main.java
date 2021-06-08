@@ -63,7 +63,6 @@ public class Main extends Application {
     private boolean isLoad = false;
     private GameState loadGameState;
     GameDatabaseManager databaseM = new GameDatabaseManager();
-    GameStateDao gameStateDao = new GameStateDaoJdbc();
     String[] mapList = {"/map.txt", "/map2.txt", "/bossmap.txt"};
     List<GameMap> earlierMaps = new ArrayList<>();
 
@@ -137,47 +136,9 @@ public class Main extends Application {
         ui.add(new Label("-----------"), 1, 10);
         ui.add(inventory, 1, 11);
 
-        ui.add(new Label(""), 0, 12);
-        ui.add(nameLabel, 0, 13);
-        nameLabel.setStyle("-fx-font-weight: bold;");
-        Button submit = new Button("Enter");
-        Button close = new Button("Close");
-        nameInput.setPrefWidth(100);
-        ui.add(nameInput, 1, 13);
-        ui.add(submit, 1, 14);
-        ui.add(close, 2, 14);
         ui.add(new Label(""), 0, 15);
         ui.add(exportBtn, 0, 16);
         ui.add(importBtn, 1, 16);
-
-        submit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                map.getPlayer().setName(nameInput.getText());
-                playerLabel.setText(nameInput.getText());
-                ui.getChildren().remove(nameLabel);
-                ui.getChildren().remove(nameInput);
-                ui.getChildren().remove(submit);
-                ui.getChildren().remove(close);
-                if (nameInput.getText().equalsIgnoreCase("admin")) {
-                    map.getPlayer().setHealth(9000);
-                    map.getPlayer().setStrength(1000);
-                }
-                canvas.requestFocus();
-            }
-        });
-
-        close.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                ui.getChildren().remove(nameLabel);
-                ui.getChildren().remove(nameInput);
-                ui.getChildren().remove(submit);
-                ui.getChildren().remove(close);
-                canvas.requestFocus();
-
-            }
-        });
 
         exportBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -218,6 +179,7 @@ public class Main extends Application {
                         map.getPlayer().setHealth(9000);
                         map.getPlayer().setStrength(1000);
                     }
+                    canvas.requestFocus();
                 }
             });
 
@@ -228,6 +190,7 @@ public class Main extends Application {
                     ui.getChildren().remove(nameInput);
                     ui.getChildren().remove(submit);
                     ui.getChildren().remove(close);
+                    canvas.requestFocus();
                 }
             });
         }
@@ -643,7 +606,11 @@ public class Main extends Application {
         saveBtn.setOnAction(e -> {
             PlayerModel playerModel = new PlayerModel(map.getPlayer());
             playerModel.setId(0);
-            GameState gameState = new GameState(map.toString(), new Date(System.currentTimeMillis()), playerModel);
+//            List<String> discoveredMaps = new ArrayList<>();
+//            for(GameMap map : earlierMaps) {
+//                discoveredMaps.add(map.toString());
+//            }
+            GameState gameState = new GameState(map.toString(),nameField.getText(), new Date(System.currentTimeMillis()), playerModel);
             for(GameMap map : earlierMaps) {
                 gameState.addDiscoveredMap(map.toString());
             }
