@@ -10,6 +10,8 @@ import org.postgresql.ds.PGSimpleDataSource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class GameDatabaseManager {
@@ -39,8 +41,11 @@ public class GameDatabaseManager {
     }
     public void savePlayer(Player player) {
         PlayerModel model = new PlayerModel(player);
+
         playerDao.add(model);
         saveInventory(player.getInventory(), model);
+//        List<String> maps = new ArrayList<>(Arrays.asList("dsada", "dasdasd", "sfsdfds"));
+//        gameStateDao.add(new GameState("map1", "new save",  new java.sql.Date(new Date().getTime()),model, maps));
     }
 
     public void saveInventory(List<Item> inventory, PlayerModel player){
