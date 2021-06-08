@@ -11,11 +11,12 @@ public class GameState extends BaseModel {
     private List<String> discoveredMaps = new ArrayList<>();
     private PlayerModel player;
 
-    public GameState(String currentMap, String name, Date savedAt, PlayerModel player) {
+    public GameState(String currentMap, String name, Date savedAt, PlayerModel player, List<String> discovered_maps) {
         this.currentMap = currentMap;
         this.name = name;
         this.savedAt = savedAt;
         this.player = player;
+        this.discoveredMaps = discovered_maps;
     }
 
     public Date getSavedAt() {

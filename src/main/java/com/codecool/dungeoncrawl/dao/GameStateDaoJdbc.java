@@ -6,6 +6,7 @@ import com.codecool.dungeoncrawl.model.PlayerModel;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -21,11 +22,15 @@ public class GameStateDaoJdbc implements GameStateDao {
     @Override
     public void add(GameState state) {
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "INSERT INTO game_state (name, current_map, discoverd_maps, save_at, player_id) VALUES (?, ?, ?, ?, ?)";
+            String[] maps = new String[state.getDiscoveredMaps().size()];
+            for (int i = 0; i < state.getDiscoveredMaps().size(); i++) {
+                maps[i] = state.getDiscoveredMaps().get(i);
+            }
+            String sql = "INSERT INTO game_state (name, current_map, discovered_maps, saved_at, player_id) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, state.getName());
             statement.setString(2, state.getCurrentMap());
-            statement.setArray(3, (Array) state.getDiscoveredMaps());
+            statement.setArray(3, connection.createArrayOf("VARCHAR", maps));
             statement.setDate(4, new java.sql.Date(new Date().getTime()));
             statement.setInt(5, state.getPlayer().getId());
             statement.executeUpdate();
@@ -49,20 +54,24 @@ public class GameStateDaoJdbc implements GameStateDao {
     }
 
     @Override
-    public List<GameState> getAll() throws SQLException {
+    public List<GameState> getAll() {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT name, current_map, saved_at, player_id FROM game_state";
+            String sql = "SELECT name, current_map, discovered_maps, saved_at, player_id FROM game_state";
             ResultSet rs = conn.createStatement().executeQuery(sql);
 
             List<GameState> result = new ArrayList<>();
             while (rs.next()) {
                 String name = rs.getString(1);
                 String currentMap = rs.getString(2);
-                java.sql.Date savedAt = rs.getDate(3);
-                int playerId = rs.getInt(4);
+                Array z = rs.getArray(3);
+                String[]maps = (String[])z.getArray();
+                List<String> discovered_maps = new ArrayList<>();
+                discovered_maps.addAll(Arrays.asList(maps));
+                java.sql.Date savedAt = rs.getDate(4);
+                int playerId = rs.getInt(5);
 
                 PlayerModel player = playerDao.get(playerId);
-                GameState gameState = new GameState(currentMap, name, savedAt, player);
+                GameState gameState = new GameState(currentMap, name, savedAt, player, discovered_maps);
                 result.add(gameState);
             }
             return result;
