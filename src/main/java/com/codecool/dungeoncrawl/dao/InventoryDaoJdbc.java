@@ -46,16 +46,11 @@ public class InventoryDaoJdbc implements InventoryDao{
     @Override
     public void update(InventoryState inventory) {
         try (Connection conn = dataSource.getConnection()){
-            for(Item item : inventory.getInventory()) {
-                String sql = "UPDATE inventory SET item_name = ?, strength_mod = ?, health_mod = ?, dodge_mod = ? WHERE inventory.player_id = ?";
+                String sql = "DELETE FROM inventory WHERE inventory.player_id = ?";
                 PreparedStatement st = conn.prepareStatement(sql);
-                st.setString(1, item.getTileName());
-                st.setInt(2, item.getStrength());
-                st.setInt(3, item.getHealth());
-                st.setFloat(4, item.getDodgeChance());
-                st.setInt(5, inventory.getPlayerId());
+                st.setInt(1, inventory.getPlayerId());
                 st.executeUpdate();
-            }
+                add(inventory);
         }catch(SQLException e){throw new RuntimeException(e);}
 
     }

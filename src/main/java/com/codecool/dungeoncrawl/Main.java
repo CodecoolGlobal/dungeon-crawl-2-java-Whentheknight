@@ -11,12 +11,12 @@ import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
-
 import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.model.InventoryState;
+import com.codecool.dungeoncrawl.model.PlayerModel;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -37,11 +37,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.postgresql.ds.PGSimpleDataSource;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
@@ -49,7 +49,9 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.sql.DataSource;
 import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -138,7 +140,6 @@ public class Main extends Application {
 
         ui.add(new Label(""), 0, 15);
         ui.add(exportBtn, 0, 16);
-        ui.add(importBtn, 1, 16);
 
         exportBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -147,14 +148,8 @@ public class Main extends Application {
             }
         });
 
-        importBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                importGame();
-            }
-        });
         openLoadPopUp();
-
+        importFromMenu();
         if (!isLoad) {
             ui.add(new Label(""), 0, 12);
             ui.add(nameLabel, 0, 13);
@@ -279,15 +274,30 @@ public class Main extends Application {
 
                 Optional<ButtonType> choice = confirmation.showAndWait();
                 if (choice.get() == ButtonType.OK){
-                    // TODO overwrite
+                    List<String> discoveredMaps = new ArrayList<>();
+                    for (GameMap map : earlierMaps) {
+                        discoveredMaps.add(map.toString());
+                    }
+                    GameState state = databaseM.getGameState(saveName);
+                    int playerId = databaseM.getPlayerIdBySaveName(saveName);
+                    PlayerModel player = new PlayerModel(map.getPlayer());
+                    player.setId(playerId);
+                    GameState gameState = new GameState(map.toString(), saveName, new Date(System.currentTimeMillis()), player, discoveredMaps);
+                    databaseM.updatePlayer(player);
+                    databaseM.updateGameState(gameState);
+
                 } else {
                     openSaveWindow(saveName);
                 }
 
             }
             else {
-                // TODO save with name
-                databaseM.savePlayer(map.getPlayer());
+                List<String> discoveredMaps = new ArrayList<>();
+                for (GameMap map : earlierMaps) {
+                    discoveredMaps.add(map.toString());
+                }
+                GameState gameState = new GameState(map.toString(), saveName, new Date(System.currentTimeMillis()), new PlayerModel(map.getPlayer()), discoveredMaps);
+                databaseM.savePlayer(map.getPlayer(), gameState);
             }
 
         }
@@ -491,6 +501,7 @@ public class Main extends Application {
         gameOverPopUp.showAndWait();
     }
 
+
     private void openLoadPopUp() throws SQLException {
         Stage loadPopUp = new Stage();
 
@@ -654,7 +665,43 @@ public class Main extends Application {
     }
 
 
-    private void importGame() {
+    private void importFromMenu(){
+        Stage stage = new Stage();
+
+
+
+        Button importButton = new Button("Import");
+        ui.add(importButton,1,16);
+
+        final FileChooser fileChooser = new FileChooser();
+
+        importButton.setOnAction(
+                new EventHandler<>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                        File file = fileChooser.showOpenDialog(stage);
+                        try{
+                        if (file != null && file.getName().endsWith(".json")) {
+//                            importFile(file);
+                            System.out.println("true");
+                        }
+                        else if(!file.getName().endsWith(".json")){
+
+                            ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                            Alert alert = new Alert(Alert.AlertType.ERROR,"",ButtonType.OK,cancel);
+                            alert.setTitle("IMPORT ERROR!");
+                            alert.setHeaderText("IMPORT ERROR!");
+                            alert.setContentText("Unfortunately the given file is in wrong format.\nPlease try another one!");
+
+                            alert.showAndWait()
+                                    .filter(response -> response == ButtonType.OK)
+                                    .ifPresent(response -> importButton.fire());
+
+                        }}catch(NullPointerException ignored){}
+                    }
+                });
+
 
     }
 
