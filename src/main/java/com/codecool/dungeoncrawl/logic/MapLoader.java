@@ -99,7 +99,7 @@ public class MapLoader {
                             break;
 
 
-                        case '0':
+                        case 'j':
                             cell.setType(CellType.FLOOR);
                             map.setBoss(new Boss(cell));
                             map.getBoss().addCells(cell);
@@ -110,7 +110,7 @@ public class MapLoader {
                             new BossPart(cell, map.getBoss(), 2);
                             map.getBoss().addCells(cell);
                             break;
-                        case 'j':
+                        case '0':
                             cell.setType(CellType.FLOOR);
                             new BossPart(cell, map.getBoss(), 11);
                             map.getBoss().addCells(cell);
@@ -170,6 +170,18 @@ public class MapLoader {
                         case 'P':
                             cell.setType(CellType.FLOOR);
                             new StrengthPotion(cell);
+                            break;
+                        case 'u':
+                            cell.setType(CellType.FLOOR);
+                            new BatSoup(cell);
+                            break;
+                        case 'E':
+                            cell.setType(CellType.FLOOR);
+                            new BearSteak(cell);
+                            break;
+                        case 'O':
+                            cell.setType(CellType.FLOOR);
+                            new Bone(cell);
                             break;
 
                         default:

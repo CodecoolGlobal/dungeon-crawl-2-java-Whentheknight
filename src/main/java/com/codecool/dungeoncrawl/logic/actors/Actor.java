@@ -148,4 +148,6 @@ public abstract class Actor implements Drawable {
     public void setDropChance(double dropChance) {
         this.dropChance = dropChance;
     }
+
+    public abstract char toChar();
 }

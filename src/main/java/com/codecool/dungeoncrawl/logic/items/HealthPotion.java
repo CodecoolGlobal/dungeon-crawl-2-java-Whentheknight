@@ -17,4 +17,9 @@ public class HealthPotion extends Item{
     public String getTileName() {
         return "health potion";
     }
+
+    @Override
+    public char toChar() {
+        return 'h';
+    }
 }

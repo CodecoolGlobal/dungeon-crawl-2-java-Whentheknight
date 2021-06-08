@@ -17,4 +17,9 @@ public class StrengthPotion extends Item{
     public String getTileName() {
         return "strength potion";
     }
+
+    @Override
+    public char toChar() {
+        return 'P';
+    }
 }

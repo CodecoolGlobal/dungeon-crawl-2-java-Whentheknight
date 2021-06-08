@@ -56,4 +56,6 @@ public abstract class Item implements Drawable {
         return strength != 0 || health != 0 || dodgeChance != 0;
     }
 
+    public abstract char toChar();
+
 }

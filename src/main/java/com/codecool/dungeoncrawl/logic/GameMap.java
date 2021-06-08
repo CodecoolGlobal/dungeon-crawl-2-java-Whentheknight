@@ -64,4 +64,22 @@ public class GameMap {
     public int getHeight() {
         return height;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder(cells[0].length + " " + cells[1].length + "\n");
+        for(int i = 0; i < cells.length; i++) {
+            for(Cell cell : cells[i]) {
+                if(cell.getActor() != null) {
+                    result.append(cell.getActor().toChar());
+                } else if (cell.getItem() != null) {
+                    result.append(cell.getItem().toChar());
+                } else {
+                    result.append(cell.getType().toChar());
+                }
+            }
+            result.append("\n");
+            }
+        return result.toString();
+    }
 }

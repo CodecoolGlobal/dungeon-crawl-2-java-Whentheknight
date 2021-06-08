@@ -82,4 +82,9 @@ public class Bat extends Actor {
         setDrop(batSoup);
         setDropChance(0.5);
     }
+
+    @Override
+    public char toChar() {
+        return 'b';
+    }
 }
