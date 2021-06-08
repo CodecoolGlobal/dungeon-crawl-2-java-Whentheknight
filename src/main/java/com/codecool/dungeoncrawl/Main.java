@@ -40,7 +40,7 @@ public class Main extends Application {
     private final int mapHeight = 20;
     private boolean s1 = false;
     GameDatabaseManager databaseM = new GameDatabaseManager();
-    GameStateDao gameStateDao = new GameStateDaoJdbc();
+//    GameStateDao gameStateDao = new GameStateDaoJdbc();
 
 
     String[] mapList = {"/map.txt", "/map2.txt", "/bossmap.txt"};
