@@ -20,7 +20,7 @@ public class GameStateDaoJdbc implements GameStateDao {
     }
 
     @Override
-    public void add(GameState state, String saveName) {
+    public void add(GameState state) {
         try (Connection connection = dataSource.getConnection()) {
             String[] maps = new String[state.getDiscoveredMaps().size()];
             for (int i = 0; i < state.getDiscoveredMaps().size(); i++) {
@@ -31,7 +31,7 @@ public class GameStateDaoJdbc implements GameStateDao {
             statement.setString(1, state.getName());
             statement.setString(2, state.getCurrentMap());
             statement.setArray(3, connection.createArrayOf("VARCHAR", maps));
-            statement.setDate(4, new java.sql.Date(new Date().getTime()));
+            statement.setDate(4, state.getSavedAt());
             statement.setInt(5, state.getPlayer().getId());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -44,20 +44,20 @@ public class GameStateDaoJdbc implements GameStateDao {
     }
 
     @Override
-    public void update(GameState state, String saveName) {
+    public void update(GameState state) {
         try (Connection connection = dataSource.getConnection()) {
             String[] maps = new String[state.getDiscoveredMaps().size()];
             for (int i = 0; i < state.getDiscoveredMaps().size(); i++) {
                 maps[i] = state.getDiscoveredMaps().get(i);
             }
             String sql = "UPDATE game_state SET name = ?, current_map = ?, discovered_maps = ?, saved_at = ?, player_id = ? WHERE name = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, state.getName());
             statement.setString(2, state.getCurrentMap());
             statement.setArray(3, connection.createArrayOf("VARCHAR", maps));
-            statement.setDate(4, new java.sql.Date(new Date().getTime()));
+            statement.setDate(4, state.getSavedAt());
             statement.setInt(5, state.getPlayer().getId());
-            statement.setString(6, saveName);
+            statement.setString(6, state.getName());
             statement.executeUpdate();
         }
         catch (SQLException e) {
@@ -69,7 +69,7 @@ public class GameStateDaoJdbc implements GameStateDao {
     public GameState get(String saveName) {
         try (Connection connection = dataSource.getConnection()) {
 
-            String sql = "name, current_map, discovered_maps, saved_at, player_id FROM game_state WHERE name = ? ";
+            String sql = "SELECT name, current_map, discovered_maps, saved_at, player_id FROM game_state WHERE name = ? ";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, saveName);
             ResultSet resultSet = statement.executeQuery();
@@ -133,5 +133,17 @@ public class GameStateDaoJdbc implements GameStateDao {
        catch (SQLException e) {
            throw new RuntimeException("Error while reading all save name");
        }
+    }
+
+    public int getPlayerId(String saveName) {
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = " SELECT player_id FROM game_state WHERE name = ?";
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, saveName);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) return -1;
+            return resultSet.getInt(1);
+        }
+        catch (SQLException e) {throw new RuntimeException();}
     }
 }
