@@ -13,8 +13,11 @@ public class PlayerModel extends BaseModel {
     private int y;
     private List<Item> inventory;
 
+    public PlayerModel() {
+        super();
+    }
 
-    public PlayerModel(String playerName,int hp, int strength, int x, int y) {
+    public PlayerModel(String playerName, int hp, int strength, int x, int y) {
         this.playerName = playerName;
         this.x = x;
         this.y = y;

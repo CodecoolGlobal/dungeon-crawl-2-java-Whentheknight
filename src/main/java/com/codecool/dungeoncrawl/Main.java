@@ -13,6 +13,8 @@ import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.PlayerModel;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.model.InventoryState;
@@ -44,6 +46,9 @@ import javafx.stage.Stage;
 import org.postgresql.ds.PGSimpleDataSource;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -682,8 +687,14 @@ public class Main extends Application {
                         File file = fileChooser.showOpenDialog(stage);
                         try{
                         if (file != null && file.getName().endsWith(".json")) {
-//                            importFile(file);
-                            System.out.println("true");
+                            GameState gameState = new ObjectMapper().readValue(file, GameState.class);
+                            System.out.println(gameState);
+//                            databaseM.updateGameState(gameState);
+//                            databaseM.updatePlayer(gameState.getPlayer());
+//                            databaseM.updateInventory(gameState.getPlayer().getInventory(),gameState.getId());
+
+//                            loadGame(gameState);
+                            canvas.requestFocus();
                         }
                         else if(!file.getName().endsWith(".json")){
 
@@ -698,7 +709,9 @@ public class Main extends Application {
                                     .filter(response -> response == ButtonType.OK)
                                     .ifPresent(response -> importButton.fire());
 
-                        }}catch(NullPointerException ignored){}
+                        }}catch(NullPointerException ignored){} catch (IOException jsonMappingException) {
+                            jsonMappingException.printStackTrace();
+                        }
                     }
                 });
 

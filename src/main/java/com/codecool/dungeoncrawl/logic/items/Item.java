@@ -3,7 +3,9 @@ package com.codecool.dungeoncrawl.logic.items;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.Drawable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 public abstract class Item implements Drawable {
     @JsonIgnore
     private Cell cell;
@@ -16,7 +18,9 @@ public abstract class Item implements Drawable {
         this.cell.setItem(this);
     }
 
-    public Item() {}
+    public Item() {
+        super();
+    }
 
     public Cell getCell() {
         return cell;
