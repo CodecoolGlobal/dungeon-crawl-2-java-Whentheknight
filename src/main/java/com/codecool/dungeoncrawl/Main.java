@@ -441,9 +441,8 @@ public class Main extends Application {
 
         ListView listView = new ListView();
 
-        DataSource dataSource = connect();
-        gameStateDao = new GameStateDaoJdbc(dataSource, playerDao);
-        List<GameState> saveList = gameStateDao.getAll();
+
+        List<GameState> saveList =  databaseM.getGameStates();
         for (GameState save : saveList) {
             listView.getItems().add(save.getName());
         }
@@ -471,7 +470,7 @@ public class Main extends Application {
         });
 
         VBox layout= new VBox(10);
-        layout.getChildren().addAll(label1, listView, newGameButton);
+        layout.getChildren().addAll(label1, listView, loadGameButton, newGameButton);
         layout.setAlignment(Pos.CENTER);
         Scene scene1= new Scene(layout, 250, 150);
         loadPopUp.setScene(scene1);
@@ -479,7 +478,7 @@ public class Main extends Application {
     }
 
     private void loadGame(GameState gameStateToLoad) {
-
+        Player player =
     }
 
     private void openWinPopup() {
@@ -517,19 +516,6 @@ public class Main extends Application {
         player.setCell(map.getCell(positionX, positionY));
         map.setPlayer(player);
         refresh();
-    }
-
-    private DataSource connect() throws SQLException {
-        PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource.setDatabaseName("books");
-        dataSource.setUser("popesz");
-        dataSource.setPassword("qweewq");
-
-        System.out.println("Trying to connect...");
-        dataSource.getConnection().close();
-        System.out.println("Connection OK");
-
-        return dataSource;
     }
 
 }

@@ -40,10 +40,10 @@ public class GameStateDaoJdbc implements GameStateDao {
 
             List<GameState> result = new ArrayList<>();
             while (rs.next()) {
-                String name = rs.getString(2);
-                String currentMap = rs.getString(3);
-                Date savedAt = rs.getDate(4);
-                int playerId = rs.getInt(5);
+                String name = rs.getString(1);
+                String currentMap = rs.getString(2);
+                Date savedAt = rs.getDate(3);
+                int playerId = rs.getInt(4);
 
                 PlayerModel player = playerDao.get(playerId);
                 GameState gameState = new GameState(currentMap, name, savedAt, player);
