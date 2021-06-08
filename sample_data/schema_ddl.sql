@@ -7,11 +7,12 @@ CREATE TABLE public.game_state (
     player_id integer NOT NULL
 );
 
-DROP TABLE IF EXISTS public.player;
+DROP TABLE IF EXISTS public.player CASCADE;
 CREATE TABLE public.player (
     id serial NOT NULL PRIMARY KEY,
     player_name text NOT NULL,
     hp integer NOT NULL,
+    strength integer NOT NULL,
     x integer NOT NULL,
     y integer NOT NULL
 );

@@ -17,7 +17,6 @@ public class GameStateDaoJdbc implements GameStateDao {
         this.playerDao = playerDao;
     }
 
-
     @Override
     public void add(GameState state) {
 

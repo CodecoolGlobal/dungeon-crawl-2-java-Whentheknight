@@ -54,9 +54,8 @@ public class Main extends Application {
     private boolean isLoad = false;
     private GameState loadGameState;
     GameDatabaseManager databaseM = new GameDatabaseManager();
-    PlayerDao playerDao;
-
-
+    
+  
     String[] mapList = {"/map.txt", "/map2.txt", "/bossmap.txt"};
     List<GameMap> earlierMaps = new ArrayList<>();
 
