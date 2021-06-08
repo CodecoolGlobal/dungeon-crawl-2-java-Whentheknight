@@ -123,6 +123,11 @@ public class Main extends Application {
         ui.add(nameInput, 1, 13);
         ui.add(submit, 1, 14);
         ui.add(close, 2, 14);
+        Button exportBtn = new Button("Export game");
+        Button importBtn = new Button("Import game");
+        ui.add(new Label(""), 0, 15);
+        ui.add(exportBtn, 0, 16);
+        ui.add(importBtn, 1, 16);
 
         submit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
