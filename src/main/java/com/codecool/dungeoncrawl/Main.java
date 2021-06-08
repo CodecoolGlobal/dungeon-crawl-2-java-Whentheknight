@@ -11,7 +11,6 @@ import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
-
 import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,11 +36,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.postgresql.ds.PGSimpleDataSource;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
@@ -49,6 +48,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.sql.DataSource;
 import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -138,7 +138,6 @@ public class Main extends Application {
 
         ui.add(new Label(""), 0, 15);
         ui.add(exportBtn, 0, 16);
-        ui.add(importBtn, 1, 16);
 
         exportBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -147,14 +146,8 @@ public class Main extends Application {
             }
         });
 
-        importBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                importGame();
-            }
-        });
         openLoadPopUp();
-
+        importFromMenu();
         if (!isLoad) {
             ui.add(new Label(""), 0, 12);
             ui.add(nameLabel, 0, 13);
@@ -489,6 +482,39 @@ public class Main extends Application {
         Scene scene1= new Scene(layout, 250, 150);
         gameOverPopUp.setScene(scene1);
         gameOverPopUp.showAndWait();
+    }
+
+    private void importFromMenu(){
+        Stage stage = new Stage();
+        Stage errorPopup = new Stage();
+        errorPopup.setTitle("IMPORT ERROR!");
+
+        Button importButton = new Button("Import");
+        ui.add(importButton,1,16);
+
+        final FileChooser fileChooser = new FileChooser();
+
+        importButton.setOnAction(
+                new EventHandler<>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                        File file = fileChooser.showOpenDialog(stage);
+                        if (file != null && file.getName().endsWith(".json")) {
+//                            importFile(file);
+                            System.out.println("true");
+                        }
+                        else{
+                            VBox layout= new VBox(10);
+                            layout.getChildren().addAll();
+                            layout.setAlignment(Pos.CENTER);
+                            Scene scene1= new Scene(layout, 250, 150);
+                            errorPopup.setScene(scene1);
+                            errorPopup.showAndWait();
+                        }
+                    }
+                });
+
+
     }
 
     private void openLoadPopUp() throws SQLException {
