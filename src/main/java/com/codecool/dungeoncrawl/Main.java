@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.model.InventoryState;
 import com.codecool.dungeoncrawl.model.PlayerModel;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -549,10 +550,34 @@ public class Main extends Application {
     }
 
     private void loadGame(GameState gameStateToLoad) {
+
+        if(gameStateToLoad.getDiscoveredMaps().size() == 0) {
+            mapList[0] = gameStateToLoad.getCurrentMap();
+            map.getPlayer().setCurrentMap(0);
+        }
+        else if (gameStateToLoad.getDiscoveredMaps().size() == 1) {
+            earlierMaps.add(MapLoader.loadMap(gameStateToLoad.getDiscoveredMaps().get(0)));
+            earlierMaps.get(0).setCell(21, 19, CellType.ODOOR);
+            mapList[0] = gameStateToLoad.getDiscoveredMaps().get(0);
+            mapList[1] = gameStateToLoad.getCurrentMap();
+            map.getPlayer().setCurrentMap(1);
+        }
+        else {
+            earlierMaps.add(MapLoader.loadMap(gameStateToLoad.getDiscoveredMaps().get(0)));
+            earlierMaps.add(MapLoader.loadMap(gameStateToLoad.getDiscoveredMaps().get(1)));
+            earlierMaps.get(0).setCell(21, 19, CellType.ODOOR);
+            earlierMaps.get(1).setCell(93, 10, CellType.ODOOR);
+            mapList[0] = gameStateToLoad.getDiscoveredMaps().get(0);
+            mapList[1] = gameStateToLoad.getDiscoveredMaps().get(1);
+            mapList[2] = gameStateToLoad.getCurrentMap();
+            map.getPlayer().setCurrentMap(2);
+        }
+        map = MapLoader.loadMap(gameStateToLoad.getCurrentMap());
+
         InventoryState inventory = databaseM.getInventoryByPLayerId(gameStateToLoad.getPlayer().getId());
         map.getPlayer().setHealth(gameStateToLoad.getPlayer().getHp());
         map.getPlayer().setStrength(gameStateToLoad.getPlayer().getStrength());
-        map.getPlayer().move(gameStateToLoad.getPlayer().getX(), gameStateToLoad.getPlayer().getY());
+//        map.getPlayer().move(gameStateToLoad.getPlayer().getX(), gameStateToLoad.getPlayer().getY());
         map.getPlayer().setName(gameStateToLoad.getPlayer().getPlayerName());
         playerLabel.setText(map.getPlayer().getName());
         for (Item item : inventory.getInventory()) {

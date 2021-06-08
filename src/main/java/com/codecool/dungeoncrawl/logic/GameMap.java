@@ -36,6 +36,14 @@ public class GameMap {
         }
     }
 
+    public Cell[][] getCells() {
+        return cells;
+    }
+
+    public void setCell(int x, int y, CellType cellType) {
+        cells[x][y] = new Cell(this, x, y, cellType);
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
     }
