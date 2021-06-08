@@ -20,7 +20,7 @@ public class GameDatabaseManager {
         DataSource dataSource = connect();
         playerDao = new PlayerDaoJdbc(dataSource);
         inventoryDao = new InventoryDaoJdbc(dataSource);
-        gameStateDao = new GameStateDaoJdbc(dataSource, playerDao);
+        gameStateDao = new GameStateDaoJdbc(dataSource);
     }
 
     public List<GameState> getGameStates() throws SQLException {

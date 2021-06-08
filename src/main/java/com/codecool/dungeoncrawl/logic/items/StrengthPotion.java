@@ -9,6 +9,10 @@ public class StrengthPotion extends Item{
         setStrength(10);
     }
 
+    public StrengthPotion() {
+        setStrength(10);
+    }
+
     @Override
     public String getTileName() {
         return "strength potion";

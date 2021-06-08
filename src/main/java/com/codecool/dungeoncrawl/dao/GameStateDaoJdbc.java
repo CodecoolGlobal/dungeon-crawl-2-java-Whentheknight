@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameStateDaoJdbc implements GameStateDao {
-    private final DataSource dataSource;
-    private final PlayerDao playerDao;
+    private PlayerDao playerDao;
+    private DataSource dataSource;
 
-    public GameStateDaoJdbc(DataSource dataSource, PlayerDao playerDao) {
+    public GameStateDaoJdbc(DataSource dataSource) {
         this.dataSource = dataSource;
-        this.playerDao = playerDao;
     }
+
 
     @Override
     public void add(GameState state) {
@@ -53,5 +53,22 @@ public class GameStateDaoJdbc implements GameStateDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    public List<String> getAllSaveName() {
+       try (Connection connection = dataSource.getConnection()) {
+           String sql = "SELECT name FROM game_state";
+           ResultSet resultSet = connection.createStatement().executeQuery(sql);
+           List<String> saveNames = new ArrayList<>();
+           while (resultSet.next()) {
+               String saveName = resultSet.getString(1);
+               saveNames.add(saveName);
+           }
+           return saveNames;
+       }
+       catch (SQLException e) {
+           throw new RuntimeException("Error while reading all save name");
+       }
     }
 }

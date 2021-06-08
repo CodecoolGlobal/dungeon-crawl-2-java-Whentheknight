@@ -20,4 +20,8 @@ public class InventoryState extends BaseModel {
     public List<Item> getInventory() {
         return inventory;
     }
+
+    public void setInventory(List<Item> inventory) {
+        this.inventory = inventory;
+    }
 }

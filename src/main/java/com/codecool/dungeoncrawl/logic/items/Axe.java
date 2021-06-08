@@ -12,6 +12,10 @@ public class Axe extends Item {
         setStrength(10);
     }
 
+    public Axe() {
+        setStrength(10);
+    }
+
     public String getTileName() {
         return "axe";
     }

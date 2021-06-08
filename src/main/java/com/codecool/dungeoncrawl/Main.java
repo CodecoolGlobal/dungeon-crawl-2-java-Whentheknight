@@ -27,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -43,6 +44,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 public class Main extends Application {
     private final int mapWidth = 25;
@@ -51,7 +53,6 @@ public class Main extends Application {
     private boolean isLoad = false;
     private GameState loadGameState;
     GameDatabaseManager databaseM = new GameDatabaseManager();
-    GameStateDao gameStateDao;
     PlayerDao playerDao;
 
 
@@ -214,7 +215,7 @@ public class Main extends Application {
 
             case S:
                 if(s1){
-                    openSaveWindow();
+                    openSaveWindow("New Save");
                 }
                 break;
 
@@ -228,9 +229,38 @@ public class Main extends Application {
             changeMap(map.getPlayer().getCurrentMap()-1, 21, 19, false);
         }
     }
-    public void openSaveWindow(){
 
-        databaseM.savePlayer(map.getPlayer());
+    public void openSaveWindow(String saveName){
+
+        TextInputDialog saveDialog = new TextInputDialog(saveName);
+        saveDialog.setHeaderText("");
+        saveDialog.setTitle("Save Game");
+        saveDialog.setContentText("Name:");
+
+        Optional<String> result = saveDialog.showAndWait();
+        if (result.isPresent()){
+            List<String> saveNames = gameStateDao.getAllSaveName();
+            saveName = result.get();
+            if (saveNames.contains(saveName)) {
+                Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmation.setTitle("Confirmation");
+                confirmation.setHeaderText("");
+                confirmation.setContentText("Would you like to overwrite the already existing state?");
+
+                Optional<ButtonType> choice = confirmation.showAndWait();
+                if (choice.get() == ButtonType.OK){
+                    // TODO overwrite
+                } else {
+                    openSaveWindow(saveName);
+                }
+
+            }
+            else {
+                // TODO save with name
+                databaseM.savePlayer(map.getPlayer());
+            }
+
+        }
 
     }
     public void keyReleased(KeyEvent e) {

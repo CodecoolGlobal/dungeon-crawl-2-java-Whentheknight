@@ -8,6 +8,7 @@ public class BatSoup extends Item{
         setStrength(-3);
     }
 
+
     @Override
     public String getTileName() {
         return "bat soup";
