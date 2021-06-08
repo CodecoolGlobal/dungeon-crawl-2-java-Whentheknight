@@ -20,13 +20,21 @@ public class GameDatabaseManager {
         DataSource dataSource = connect();
         playerDao = new PlayerDaoJdbc(dataSource);
         inventoryDao = new InventoryDaoJdbc(dataSource);
-        gameStateDao = new GameStateDaoJdbc(dataSource);
+        gameStateDao = new GameStateDaoJdbc(dataSource, playerDao);
     }
 
     public List<GameState> getGameStates() throws SQLException {
         return gameStateDao.getAll();
     }
 
+    public InventoryState getInventoryByPLayerId(int id) {
+        return inventoryDao.get(id);
+    }
+
+
+    public List<String> getAllSaveName() {
+        return gameStateDao.getAllSaveName();
+    }
     public void savePlayer(Player player) {
         PlayerModel model = new PlayerModel(player);
         playerDao.add(model);

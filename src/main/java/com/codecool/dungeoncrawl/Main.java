@@ -14,6 +14,7 @@ import com.codecool.dungeoncrawl.logic.actors.Actor;
 
 import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.model.GameState;
+import com.codecool.dungeoncrawl.model.InventoryState;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -239,7 +240,7 @@ public class Main extends Application {
 
         Optional<String> result = saveDialog.showAndWait();
         if (result.isPresent()){
-            List<String> saveNames = gameStateDao.getAllSaveName();
+            List<String> saveNames = databaseM.getAllSaveName();
             saveName = result.get();
             if (saveNames.contains(saveName)) {
                 Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -508,7 +509,13 @@ public class Main extends Application {
     }
 
     private void loadGame(GameState gameStateToLoad) {
-        Player player =
+        InventoryState inventory = databaseM.getInventoryByPLayerId(gameStateToLoad.getPlayer().getId());
+        map.getPlayer().setHealth(gameStateToLoad.getPlayer().getHp());
+        map.getPlayer().move(gameStateToLoad.getPlayer().getX(), gameStateToLoad.getPlayer().getY());
+        map.getPlayer().setName(gameStateToLoad.getPlayer().getPlayerName());
+        for (Item item : inventory.getInventory()) {
+            map.getPlayer().addToInventory(item);
+        }
     }
 
     private void openWinPopup() {

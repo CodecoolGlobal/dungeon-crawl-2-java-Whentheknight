@@ -12,8 +12,9 @@ public class GameStateDaoJdbc implements GameStateDao {
     private PlayerDao playerDao;
     private DataSource dataSource;
 
-    public GameStateDaoJdbc(DataSource dataSource) {
+    public GameStateDaoJdbc(DataSource dataSource, PlayerDao playerDao) {
         this.dataSource = dataSource;
+        this.playerDao = playerDao;
     }
 
 
