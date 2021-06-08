@@ -10,6 +10,8 @@ import org.postgresql.ds.PGSimpleDataSource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class GameDatabaseManager {
@@ -29,6 +31,15 @@ public class GameDatabaseManager {
         return gameStateDao.getAll();
     }
 
+    public int getPlayerIdBySaveName(String saveName) {
+        return gameStateDao.getPlayerId(saveName);
+    }
+
+
+    public GameState getGameState(String saveName) {
+        return gameStateDao.get(saveName);
+    }
+
     public InventoryState getInventoryByPLayerId(int id) {
         return inventoryDao.get(id);
     }
@@ -37,10 +48,31 @@ public class GameDatabaseManager {
     public List<String> getAllSaveName() {
         return gameStateDao.getAllSaveName();
     }
-    public void savePlayer(Player player) {
+
+    public void saveGameState(GameState gameState) {
+        gameStateDao.add(gameState);
+    }
+
+    public void updateGameState(GameState gameState) {
+        gameStateDao.update(gameState);
+    }
+
+    public void updatePlayer(PlayerModel player) {
+        playerDao.update(player);
+        updateInventory(player.getInventory(), player.getId());
+    }
+
+    public void savePlayer(Player player, GameState gameState) {
         PlayerModel model = new PlayerModel(player);
         playerDao.add(model);
         saveInventory(player.getInventory(), model);
+        gameState.setPlayer(model);
+        saveGameState(gameState);
+    }
+
+
+    public void updateInventory(List<Item> inventory, int playerId) {
+        inventoryDao.update(new InventoryState(inventory, playerId));
     }
 
     public void saveInventory(List<Item> inventory, PlayerModel player){
