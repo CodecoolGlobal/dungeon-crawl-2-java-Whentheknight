@@ -27,4 +27,10 @@ public class Bear extends Actor{
         return "bear";
     }
 
+
+    @Override
+    public char toChar() {
+        return 'B';
+    }
+
 }

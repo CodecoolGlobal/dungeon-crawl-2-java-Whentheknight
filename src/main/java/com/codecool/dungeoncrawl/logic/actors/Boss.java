@@ -27,4 +27,9 @@ public class Boss extends Actor{
     public List<Cell> getBossParts() {
         return bossParts;
     }
+
+    @Override
+    public char toChar() {
+        return '0';
+    }
 }

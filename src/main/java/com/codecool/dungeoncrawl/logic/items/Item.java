@@ -2,8 +2,10 @@ package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.Drawable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public abstract class Item implements Drawable {
+    @JsonIgnore
     private Cell cell;
     private int strength;
     private int health;
@@ -20,10 +22,12 @@ public abstract class Item implements Drawable {
         return cell;
     }
 
+    @JsonIgnore
     public int getX() {
         return cell.getX();
     }
 
+    @JsonIgnore
     public int getY() {
         return cell.getY();
     }
@@ -55,5 +59,7 @@ public abstract class Item implements Drawable {
     public boolean hasStats() {
         return strength != 0 || health != 0 || dodgeChance != 0;
     }
+
+    public abstract char toChar();
 
 }

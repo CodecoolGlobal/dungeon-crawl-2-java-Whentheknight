@@ -11,9 +11,10 @@ import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
-
-import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.model.GameState;
+import com.codecool.dungeoncrawl.model.PlayerModel;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.model.InventoryState;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -32,13 +33,19 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.postgresql.ds.PGSimpleDataSource;
-
+import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import javax.sql.DataSource;
 import javax.swing.*;
 import java.io.File;
@@ -56,8 +63,6 @@ public class Main extends Application {
     private boolean isLoad = false;
     private GameState loadGameState;
     GameDatabaseManager databaseM = new GameDatabaseManager();
-    
-  
     String[] mapList = {"/map.txt", "/map2.txt", "/bossmap.txt"};
     List<GameMap> earlierMaps = new ArrayList<>();
 
@@ -84,6 +89,8 @@ public class Main extends Application {
     Label inventoryLabel = new Label("Inventory: ");
     Label nameLabel = new Label("Name: ");
     TextField nameInput = new TextField();
+    Button exportBtn = new Button("Export game");
+    Button importBtn = new Button("Import game");
 
 
     public static void main(String[] args) {
@@ -129,7 +136,16 @@ public class Main extends Application {
         ui.add(new Label("-----------"), 1, 10);
         ui.add(inventory, 1, 11);
 
-        ui.add(new Label(""),1,15);
+        ui.add(new Label(""), 0, 15);
+        ui.add(exportBtn, 0, 16);
+
+        exportBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                exportGame();
+            }
+        });
+
         openLoadPopUp();
         importFromMenu();
         if (!isLoad) {
@@ -156,6 +172,7 @@ public class Main extends Application {
                         map.getPlayer().setHealth(9000);
                         map.getPlayer().setStrength(1000);
                     }
+                    canvas.requestFocus();
                 }
             });
 
@@ -166,9 +183,11 @@ public class Main extends Application {
                     ui.getChildren().remove(nameInput);
                     ui.getChildren().remove(submit);
                     ui.getChildren().remove(close);
+                    canvas.requestFocus();
                 }
             });
         }
+
 
         BorderPane borderPane = new BorderPane();
 
@@ -211,6 +230,7 @@ public class Main extends Application {
                 map.getPlayer().move(1,0);
                 enemyMove();
                 refresh();
+                keyEvent.consume();
                 break;
             case CONTROL:
                 s1 = true;
@@ -470,7 +490,7 @@ public class Main extends Application {
         errorPopup.setTitle("IMPORT ERROR!");
 
         Button importButton = new Button("Import");
-        ui.add(importButton,1,25);
+        ui.add(importButton,1,16);
 
         final FileChooser fileChooser = new FileChooser();
 
@@ -590,6 +610,78 @@ public class Main extends Application {
         player.setCell(map.getCell(positionX, positionY));
         map.setPlayer(player);
         refresh();
+    }
+
+    private void exportGame() {
+        Stage exportPopup = new Stage();
+
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        AtomicReference<File> selectedDirectory = new AtomicReference<>();
+
+        exportPopup.setTitle("Export Game");
+        Label nameLabel = new Label("File Name: ");
+        TextField nameField = new TextField();
+
+        Label chooseLabel = new Label("Directory: ");
+        Button chooseBtn = new Button("Choose");
+        chooseBtn.setOnAction(e -> {
+            selectedDirectory.set(directoryChooser.showDialog(exportPopup));
+        });
+
+        Button saveBtn = new Button("Save");
+        saveBtn.setOnAction(e -> {
+            PlayerModel playerModel = new PlayerModel(map.getPlayer());
+            playerModel.setId(0);
+//            List<String> discoveredMaps = new ArrayList<>();
+//            for(GameMap map : earlierMaps) {
+//                discoveredMaps.add(map.toString());
+//            }
+            GameState gameState = new GameState(map.toString(),nameField.getText(), new Date(System.currentTimeMillis()), playerModel);
+            for(GameMap map : earlierMaps) {
+                gameState.addDiscoveredMap(map.toString());
+            }
+            gameState.setId(0);
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                objectMapper.writeValue(new File(selectedDirectory.get().getAbsolutePath() + "/" + nameField.getText() + ".json"), gameState);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            exportPopup.close();
+            canvas.requestFocus();
+        });
+        Button closeBtn = new Button("Close");
+        closeBtn.setOnAction(e -> {
+            exportPopup.close();
+            canvas.requestFocus();
+        });
+
+        GridPane gridPane = new GridPane();
+
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
+
+        gridPane.add(nameLabel, 0, 0);
+        gridPane.add(nameField, 1, 0);
+        gridPane.add(chooseLabel, 0, 1);
+        gridPane.add(chooseBtn, 1, 1);
+
+        HBox hbBtn = new HBox(10);
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn.getChildren().addAll(saveBtn, closeBtn);
+        gridPane.add(hbBtn, 1, 2);
+
+        Scene scene1= new Scene(gridPane, 300, 200);
+        exportPopup.setScene(scene1);
+        exportPopup.showAndWait();
+
+    }
+
+
+    private void importGame() {
+
     }
 
 }

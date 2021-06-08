@@ -17,4 +17,9 @@ public class DodgePotion extends Item{
     public String getTileName() {
         return "dodge potion";
     }
+
+    @Override
+    public char toChar() {
+        return 'D';
+    }
 }
