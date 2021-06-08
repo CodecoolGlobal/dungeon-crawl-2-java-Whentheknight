@@ -8,5 +8,4 @@ public interface InventoryDao {
     void add(InventoryState inventory);
     void update(InventoryState inventory);
     InventoryState get(int id);
-    List<InventoryState> getAll();
 }
