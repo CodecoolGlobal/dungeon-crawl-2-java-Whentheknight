@@ -1,6 +1,8 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
+import com.codecool.dungeoncrawl.dao.GameStateDao;
+import com.codecool.dungeoncrawl.dao.GameStateDaoJdbc;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
@@ -38,6 +40,7 @@ public class Main extends Application {
     private final int mapHeight = 20;
     private boolean s1 = false;
     GameDatabaseManager databaseM = new GameDatabaseManager();
+    GameStateDao gameStateDao = new GameStateDaoJdbc();
 
 
     String[] mapList = {"/map.txt", "/map2.txt", "/bossmap.txt"};
@@ -219,8 +222,9 @@ public class Main extends Application {
 
         Optional<String> result = saveDialog.showAndWait();
         if (result.isPresent()){
+            List<String> saveNames = gameStateDao.getAllSaveName();
             saveName = result.get();
-            if (saveName.equals("test")) {
+            if (saveNames.contains(saveName)) {
                 Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
                 confirmation.setTitle("Confirmation");
                 confirmation.setHeaderText("");

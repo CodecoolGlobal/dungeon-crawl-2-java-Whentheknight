@@ -35,7 +35,7 @@ public class GameStateDaoJdbc implements GameStateDao {
 
     public List<String> getAllSaveName() {
        try (Connection connection = dataSource.getConnection()) {
-           String sql = "SELECT save_name FROM game_state";
+           String sql = "SELECT name FROM game_state";
            ResultSet resultSet = connection.createStatement().executeQuery(sql);
            List<String> saveNames = new ArrayList<>();
            while (resultSet.next()) {

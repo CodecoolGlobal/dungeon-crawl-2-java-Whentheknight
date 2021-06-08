@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS public.game_state;
 CREATE TABLE public.game_state (
     id serial NOT NULL PRIMARY KEY,
+    name text NOT NULL,
     current_map text NOT NULL,
     saved_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     player_id integer NOT NULL
@@ -32,6 +33,3 @@ ALTER TABLE ONLY public.game_state
 
 ALTER TABLE ONLY public.inventory
 ADD CONSTRAINT fk_player_id FOREIGN KEY (player_id) REFERENCES public.player(id);
-
-ALTER TABLE ONLY public.game_state
-ADD COLUMN save_name VARCHAR;
