@@ -15,6 +15,7 @@ import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.InventoryState;
+import com.codecool.dungeoncrawl.model.PlayerModel;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -41,6 +42,7 @@ import org.postgresql.ds.PGSimpleDataSource;
 import javax.sql.DataSource;
 import javax.swing.*;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -249,15 +251,30 @@ public class Main extends Application {
 
                 Optional<ButtonType> choice = confirmation.showAndWait();
                 if (choice.get() == ButtonType.OK){
-                    // TODO overwrite
+                    List<String> discoveredMaps = new ArrayList<>();
+                    for (GameMap map : earlierMaps) {
+                        discoveredMaps.add(map.toString());
+                    }
+                    GameState state = databaseM.getGameState(saveName);
+                    int playerId = databaseM.getPlayerIdBySaveName(saveName);
+                    PlayerModel player = new PlayerModel(map.getPlayer());
+                    player.setId(playerId);
+                    GameState gameState = new GameState(map.toString(), saveName, new Date(System.currentTimeMillis()), player, discoveredMaps);
+                    databaseM.updatePlayer(player);
+                    databaseM.updateGameState(gameState);
+
                 } else {
                     openSaveWindow(saveName);
                 }
 
             }
             else {
-                // TODO save with name
-                databaseM.savePlayer(map.getPlayer());
+                List<String> discoveredMaps = new ArrayList<>();
+                for (GameMap map : earlierMaps) {
+                    discoveredMaps.add(map.toString());
+                }
+                GameState gameState = new GameState(map.toString(), saveName, new Date(System.currentTimeMillis()), new PlayerModel(map.getPlayer()), discoveredMaps);
+                databaseM.savePlayer(map.getPlayer(), gameState);
             }
 
         }

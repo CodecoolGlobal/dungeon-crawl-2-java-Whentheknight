@@ -31,6 +31,15 @@ public class GameDatabaseManager {
         return gameStateDao.getAll();
     }
 
+    public int getPlayerIdBySaveName(String saveName) {
+        return gameStateDao.getPlayerId(saveName);
+    }
+
+
+    public GameState getGameState(String saveName) {
+        return gameStateDao.get(saveName);
+    }
+
     public InventoryState getInventoryByPLayerId(int id) {
         return inventoryDao.get(id);
     }
@@ -39,16 +48,32 @@ public class GameDatabaseManager {
     public List<String> getAllSaveName() {
         return gameStateDao.getAllSaveName();
     }
-    public void savePlayer(Player player) {
-        PlayerModel model = new PlayerModel(player);
 
+    public void saveGameState(GameState gameState) {
+        gameStateDao.add(gameState);
+    }
+
+    public void updateGameState(GameState gameState) {
+        gameStateDao.update(gameState);
+    }
+
+    public void updatePlayer(PlayerModel player) {
+        playerDao.update(player);
+        updateInventory(player.getInventory(), player.getId());
+    }
+
+    public void savePlayer(Player player, GameState gameState) {
+        PlayerModel model = new PlayerModel(player);
         playerDao.add(model);
         saveInventory(player.getInventory(), model);
-//        List<String> maps = new ArrayList<>(Arrays.asList("dsada", "dasdasd", "sfsdfds"));
-//        gameStateDao.add(new GameState("map1", "new save",  new java.sql.Date(new Date().getTime()),model, maps));
+        gameState.setPlayer(model);
+        saveGameState(gameState);
     }
 
 
+    public void updateInventory(List<Item> inventory, int playerId) {
+        inventoryDao.update(new InventoryState(inventory, playerId));
+    }
 
     public void saveInventory(List<Item> inventory, PlayerModel player){
         InventoryState inventoryS = new InventoryState(inventory, player.getId());
