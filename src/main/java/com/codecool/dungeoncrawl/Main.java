@@ -501,38 +501,6 @@ public class Main extends Application {
         gameOverPopUp.showAndWait();
     }
 
-    private void importFromMenu(){
-        Stage stage = new Stage();
-        Stage errorPopup = new Stage();
-        errorPopup.setTitle("IMPORT ERROR!");
-
-        Button importButton = new Button("Import");
-        ui.add(importButton,1,16);
-
-        final FileChooser fileChooser = new FileChooser();
-
-        importButton.setOnAction(
-                new EventHandler<>() {
-                    @Override
-                    public void handle(final ActionEvent e) {
-                        File file = fileChooser.showOpenDialog(stage);
-                        if (file != null && file.getName().endsWith(".json")) {
-//                            importFile(file);
-                            System.out.println("true");
-                        }
-                        else{
-                            VBox layout= new VBox(10);
-                            layout.getChildren().addAll();
-                            layout.setAlignment(Pos.CENTER);
-                            Scene scene1= new Scene(layout, 250, 150);
-                            errorPopup.setScene(scene1);
-                            errorPopup.showAndWait();
-                        }
-                    }
-                });
-
-
-    }
 
     private void openLoadPopUp() throws SQLException {
         Stage loadPopUp = new Stage();
@@ -697,7 +665,43 @@ public class Main extends Application {
     }
 
 
-    private void importGame() {
+    private void importFromMenu(){
+        Stage stage = new Stage();
+
+
+
+        Button importButton = new Button("Import");
+        ui.add(importButton,1,16);
+
+        final FileChooser fileChooser = new FileChooser();
+
+        importButton.setOnAction(
+                new EventHandler<>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                        File file = fileChooser.showOpenDialog(stage);
+                        try{
+                        if (file != null && file.getName().endsWith(".json")) {
+//                            importFile(file);
+                            System.out.println("true");
+                        }
+                        else if(!file.getName().endsWith(".json")){
+
+                            ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                            Alert alert = new Alert(Alert.AlertType.ERROR,"",ButtonType.OK,cancel);
+                            alert.setTitle("IMPORT ERROR!");
+                            alert.setHeaderText("IMPORT ERROR!");
+                            alert.setContentText("Unfortunately the given file is in wrong format.\nPlease try another one!");
+
+                            alert.showAndWait()
+                                    .filter(response -> response == ButtonType.OK)
+                                    .ifPresent(response -> importButton.fire());
+
+                        }}catch(NullPointerException ignored){}
+                    }
+                });
+
 
     }
 
