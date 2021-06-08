@@ -510,6 +510,7 @@ public class Main extends Application {
     private void loadGame(GameState gameStateToLoad) {
         InventoryState inventory = databaseM.getInventoryByPLayerId(gameStateToLoad.getPlayer().getId());
         map.getPlayer().setHealth(gameStateToLoad.getPlayer().getHp());
+        map.getPlayer().setStrength(gameStateToLoad.getPlayer().getStrength());
         map.getPlayer().move(gameStateToLoad.getPlayer().getX(), gameStateToLoad.getPlayer().getY());
         map.getPlayer().setName(gameStateToLoad.getPlayer().getPlayerName());
         playerLabel.setText(map.getPlayer().getName());
