@@ -203,4 +203,9 @@ public class Player extends Actor {
         return this.name;
     }
 
+    @Override
+    public char toChar() {
+        return '@';
+    }
+
 }

@@ -4,12 +4,14 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
 import com.codecool.dungeoncrawl.logic.items.Item;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public abstract class Actor implements Drawable {
+    @JsonIgnore
     protected Cell cell;
     private int health = 10;
     private int strength;
@@ -71,11 +73,12 @@ public abstract class Actor implements Drawable {
         this.cell = cell;
     }
 
-
+    @JsonIgnore
     public int getX() {
         return cell.getX();
     }
 
+    @JsonIgnore
     public int getY() {
         return cell.getY();
     }
@@ -148,4 +151,6 @@ public abstract class Actor implements Drawable {
     public void setDropChance(double dropChance) {
         this.dropChance = dropChance;
     }
+
+    public abstract char toChar();
 }

@@ -24,4 +24,9 @@ public class Skeleton extends Actor {
     public String getTileName() {
         return "skeleton";
     }
+
+    @Override
+    public char toChar() {
+        return 's';
+    }
 }

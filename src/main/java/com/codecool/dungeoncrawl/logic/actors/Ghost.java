@@ -114,4 +114,9 @@ public class Ghost extends Actor{
             cell = nextCell;
         }
     }
+
+    @Override
+    public char toChar() {
+        return 'g';
+    }
 }

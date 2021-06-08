@@ -17,4 +17,9 @@ public class LeatherBoots extends Item{
     public String getTileName() {
         return "leather boots";
     }
+
+    @Override
+    public char toChar() {
+        return 'l';
+    }
 }

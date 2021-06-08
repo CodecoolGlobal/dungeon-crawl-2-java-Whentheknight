@@ -19,4 +19,9 @@ public class Sword extends Item {
     public String getTileName() {
         return "sword";
     }
+
+    @Override
+    public char toChar() {
+        return 'W';
+    }
 }

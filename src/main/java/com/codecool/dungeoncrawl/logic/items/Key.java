@@ -16,4 +16,9 @@ public class Key extends Item {
     public String getTileName() {
         return "key";
     }
+
+    @Override
+    public char toChar() {
+        return 'k';
+    }
 }

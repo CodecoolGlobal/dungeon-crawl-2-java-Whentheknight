@@ -19,4 +19,9 @@ public class Axe extends Item {
     public String getTileName() {
         return "axe";
     }
+
+    @Override
+    public char toChar() {
+        return 'A';
+    }
 }
