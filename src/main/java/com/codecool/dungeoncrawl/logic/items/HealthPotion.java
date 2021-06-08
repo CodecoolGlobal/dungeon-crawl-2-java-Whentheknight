@@ -9,6 +9,10 @@ public class HealthPotion extends Item{
         setHealth(10);
     }
 
+    public HealthPotion() {
+        setHealth(10);
+    }
+
     @Override
     public String getTileName() {
         return "health potion";

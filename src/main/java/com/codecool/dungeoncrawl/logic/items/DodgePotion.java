@@ -9,6 +9,10 @@ public class DodgePotion extends Item{
         setDodgeChance(0.1f);
     }
 
+    public DodgePotion() {
+        setDodgeChance(0.1f);
+    }
+
     @Override
     public String getTileName() {
         return "dodge potion";

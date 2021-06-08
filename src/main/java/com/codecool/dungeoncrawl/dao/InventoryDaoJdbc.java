@@ -4,8 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.logic.items.Item;
-import com.codecool.dungeoncrawl.logic.items.Key;
+import com.codecool.dungeoncrawl.logic.items.*;
 import com.codecool.dungeoncrawl.model.InventoryState;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 
@@ -29,7 +28,7 @@ public class InventoryDaoJdbc implements InventoryDao{
 
         try (Connection conn = dataSource.getConnection()) {
             for(Item item: inventory.getInventory()){
-            String sql = "INSERT INTO inventory (player_id, item_name, strength_mod, health_mod, dodge_mod) VALUES (?, ?, ?, ?,?)";
+            String sql = "INSERT INTO inventory (player_id, item_name, strength_mod, health_mod, dodge_mod) VALUES (?, ?, ?, ?,?);";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, inventory.getPlayerId());
             statement.setString(2, item.getTileName());
@@ -54,20 +53,62 @@ public class InventoryDaoJdbc implements InventoryDao{
     @Override
     public InventoryState get(int id) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT player_id, item_name, strength_mod, health_mod, dodge_mod FROM inventory WHERE inventory.player_id = ?";
+            ResultSet rs;
+            String sql = "SELECT player_id, item_name, strength_mod, health_mod, dodge_mod FROM inventory WHERE inventory.player_id = ?;";
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setInt(1, id);
-            ResultSet rs = st.executeQuery();
+            st.setInt(1,id);
+            rs = st.executeQuery();
+            List<Item> items = new ArrayList<>();
 
-            if (!rs.next()) {
-                return null;
-            }
+            while(rs.next()){
+            String itemName = rs.getString(2);
+            switch (itemName){
+                case "axe":
+                    Axe axe = new Axe();
+                    items.add(axe);
+                    break;
+                case "bone":
+                    Bone bone = new Bone();
+                    items.add(bone);
+                    break;
+                case "bat soup":
+                    BatSoup batSoup = new BatSoup();
+                    items.add(batSoup);
+                    break;
+                case "bear steak":
+                    BearSteak bearSteak = new BearSteak();
+                    items.add(bearSteak);
+                    break;
+                case "health potion":
+                    HealthPotion healthPotion = new HealthPotion();
+                    items.add(healthPotion);
+                    break;
+                case "key":
+                    Key key = new Key();
+                    items.add(key);
+                    break;
+                case "leather boots":
+                    LeatherBoots leatherBoots = new LeatherBoots();
+                    items.add(leatherBoots);
+                    break;
+                case "strength potion":
+                    StrengthPotion strengthPotion = new StrengthPotion();
+                    items.add(strengthPotion);
+                    break;
+                case "dodge potion":
+                    DodgePotion dodgePotion = new DodgePotion();
+                    items.add(dodgePotion);
+                    break;
+                case "sword":
+                    Sword sword = new Sword();
+                    items.add(sword);
+                    break;
+            }}
 
-            int playerId = rs.getInt(1);
-            PlayerModel player = playerDao.get(playerId);
-            InventoryState inventory = new InventoryState(player.getInventory(),playerId);
+            InventoryState inventory = new InventoryState(items,id);
             inventory.setId(id);
             return inventory;
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
