@@ -10,12 +10,14 @@ public class PlayerModel extends BaseModel {
     private int hp;
     private int x;
     private int y;
+    private List<Item> inventory;
 
 
-    public PlayerModel(String playerName, int x, int y) {
+    public PlayerModel(String playerName,int hp, int x, int y) {
         this.playerName = playerName;
         this.x = x;
         this.y = y;
+        this.hp = hp;
     }
 
     public PlayerModel(Player player) {
@@ -23,6 +25,7 @@ public class PlayerModel extends BaseModel {
         this.x = player.getX();
         this.y = player.getY();
         this.hp = player.getHealth();
+        this.inventory = player.getInventory();
 
     }
 
@@ -56,5 +59,9 @@ public class PlayerModel extends BaseModel {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public List<Item> getInventory() {
+        return inventory;
     }
 }

@@ -12,6 +12,10 @@ public class Sword extends Item {
         setStrength(5);
     }
 
+    public Sword() {
+        setStrength(5);
+    }
+
     public String getTileName() {
         return "sword";
     }

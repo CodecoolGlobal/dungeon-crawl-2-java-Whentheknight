@@ -9,6 +9,11 @@ public class LeatherBoots extends Item{
         setHealth(3);
     }
 
+    public LeatherBoots() {
+        setDodgeChance(0.1f);
+        setHealth(3);
+    }
+
     public String getTileName() {
         return "leather boots";
     }
