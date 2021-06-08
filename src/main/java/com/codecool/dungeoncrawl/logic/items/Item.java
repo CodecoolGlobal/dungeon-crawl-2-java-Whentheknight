@@ -22,10 +22,12 @@ public abstract class Item implements Drawable {
         return cell;
     }
 
+    @JsonIgnore
     public int getX() {
         return cell.getX();
     }
 
+    @JsonIgnore
     public int getY() {
         return cell.getY();
     }

@@ -73,11 +73,12 @@ public abstract class Actor implements Drawable {
         this.cell = cell;
     }
 
-
+    @JsonIgnore
     public int getX() {
         return cell.getX();
     }
 
+    @JsonIgnore
     public int getY() {
         return cell.getY();
     }
