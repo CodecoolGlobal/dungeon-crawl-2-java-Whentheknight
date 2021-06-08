@@ -16,11 +16,9 @@ import java.util.List;
 
 public class InventoryDaoJdbc implements InventoryDao{
     private DataSource dataSource;
-    private PlayerDao playerDao;
 
-    public InventoryDaoJdbc(DataSource dataSource,PlayerDao playerDao) {
+    public InventoryDaoJdbc(DataSource dataSource) {
         this.dataSource = dataSource;
-        this.playerDao = playerDao;
     }
 
     @Override
@@ -47,6 +45,18 @@ public class InventoryDaoJdbc implements InventoryDao{
 
     @Override
     public void update(InventoryState inventory) {
+        try (Connection conn = dataSource.getConnection()){
+            for(Item item : inventory.getInventory()) {
+                String sql = "UPDATE inventory SET item_name = ?, strength_mod = ?, health_mod = ?, dodge_mod = ? WHERE inventory.player_id = ?";
+                PreparedStatement st = conn.prepareStatement(sql);
+                st.setString(1, item.getTileName());
+                st.setInt(2, item.getStrength());
+                st.setInt(3, item.getHealth());
+                st.setFloat(4, item.getDodgeChance());
+                st.setInt(5, inventory.getPlayerId());
+                st.executeUpdate();
+            }
+        }catch(SQLException e){throw new RuntimeException(e);}
 
     }
 
@@ -108,15 +118,8 @@ public class InventoryDaoJdbc implements InventoryDao{
             InventoryState inventory = new InventoryState(items,id);
             inventory.setId(id);
             return inventory;
-
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public List<InventoryState> getAll() {
-        return null;
     }
 }
