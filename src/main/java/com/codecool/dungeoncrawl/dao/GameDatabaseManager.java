@@ -48,6 +48,8 @@ public class GameDatabaseManager {
 //        gameStateDao.add(new GameState("map1", "new save",  new java.sql.Date(new Date().getTime()),model, maps));
     }
 
+
+
     public void saveInventory(List<Item> inventory, PlayerModel player){
         InventoryState inventoryS = new InventoryState(inventory, player.getId());
         inventoryDao.add(inventoryS);
