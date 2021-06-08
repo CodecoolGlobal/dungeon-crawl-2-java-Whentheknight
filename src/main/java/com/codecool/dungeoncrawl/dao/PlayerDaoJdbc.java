@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerDaoJdbc implements PlayerDao {
@@ -17,12 +18,13 @@ public class PlayerDaoJdbc implements PlayerDao {
     @Override
     public void add(PlayerModel player) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "INSERT INTO player (player_name, hp, x, y) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO player (player_name, hp, strength, x, y) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, player.getPlayerName());
             statement.setInt(2, player.getHp());
-            statement.setInt(3, player.getX());
-            statement.setInt(4, player.getY());
+            statement.setInt(3, player.getStrength());
+            statement.setInt(4, player.getX());
+            statement.setInt(5, player.getY());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
@@ -34,30 +36,55 @@ public class PlayerDaoJdbc implements PlayerDao {
 
     @Override
     public void update(PlayerModel player) {
-
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "UPDATE player SET player_name = ?, hp = ?, strength = ?, x = ?, y = ? WHERE id = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, player.getPlayerName());
+            st.setInt(2, player.getHp());
+            st.setInt(3, player.getStrength());
+            st.setInt(4, player.getX());
+            st.setInt(5, player.getY());
+            st.setInt(6, player.getId());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
     @Override
     public PlayerModel get(int id) {
-        try(Connection conn = dataSource.getConnection()){
-            String sql = "SELECT player_name, hp, x, y FROM player WHERE id = ?";
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT player_name, hp, strength, x, y FROM player WHERE id = ?";
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setInt(1,id);
+            st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
                 return null;
             }
-            PlayerModel player = new PlayerModel(rs.getString(1), rs.getInt(2), rs.getInt(3),rs.getInt(4));
+            PlayerModel player = new PlayerModel(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
             player.setId(id);
             return player;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
     public List<PlayerModel> getAll() {
-        return null;
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT id, player_name, hp, strength, x, y FROM player";
+            ResultSet rs = conn.createStatement().executeQuery(sql);
+            List<PlayerModel> result = new ArrayList<>();
+            while (rs.next()) {
+                PlayerModel player = new PlayerModel(rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6));
+                player.setId(rs.getInt(1));
+                result.add(player);
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading all authors", e);
+        }
     }
 }
+
