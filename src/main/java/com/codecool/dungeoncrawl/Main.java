@@ -1,6 +1,8 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
+import com.codecool.dungeoncrawl.dao.GameStateDao;
+import com.codecool.dungeoncrawl.dao.GameStateDaoJdbc;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
@@ -18,9 +20,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -29,17 +29,18 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 public class Main extends Application {
     private final int mapWidth = 25;
     private final int mapHeight = 20;
     private boolean s1 = false;
     GameDatabaseManager databaseM = new GameDatabaseManager();
+    GameStateDao gameStateDao = new GameStateDaoJdbc();
 
 
     String[] mapList = {"/map.txt", "/map2.txt", "/bossmap.txt"};
@@ -197,7 +198,7 @@ public class Main extends Application {
 
             case S:
                 if(s1){
-                    openSaveWindow();
+                    openSaveWindow("New Save");
                 }
                 break;
 
@@ -211,9 +212,38 @@ public class Main extends Application {
             changeMap(map.getPlayer().getCurrentMap()-1, 21, 19, false);
         }
     }
-    public void openSaveWindow(){
 
-        databaseM.savePlayer(map.getPlayer());
+    public void openSaveWindow(String saveName){
+
+        TextInputDialog saveDialog = new TextInputDialog(saveName);
+        saveDialog.setHeaderText("");
+        saveDialog.setTitle("Save Game");
+        saveDialog.setContentText("Name:");
+
+        Optional<String> result = saveDialog.showAndWait();
+        if (result.isPresent()){
+            List<String> saveNames = gameStateDao.getAllSaveName();
+            saveName = result.get();
+            if (saveNames.contains(saveName)) {
+                Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmation.setTitle("Confirmation");
+                confirmation.setHeaderText("");
+                confirmation.setContentText("Would you like to overwrite the already existing state?");
+
+                Optional<ButtonType> choice = confirmation.showAndWait();
+                if (choice.get() == ButtonType.OK){
+                    // TODO overwrite
+                } else {
+                    openSaveWindow(saveName);
+                }
+
+            }
+            else {
+                // TODO save with name
+                databaseM.savePlayer(map.getPlayer());
+            }
+
+        }
 
     }
     public void keyReleased(KeyEvent e) {

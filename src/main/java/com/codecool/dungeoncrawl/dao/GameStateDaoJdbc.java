@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameStateDaoJdbc implements GameStateDao {
+
+    private DataSource dataSource;
+
     @Override
     public void add(GameState state) {
 
@@ -27,5 +30,22 @@ public class GameStateDaoJdbc implements GameStateDao {
     @Override
     public List<GameState> getAll() {
         return null;
+    }
+
+
+    public List<String> getAllSaveName() {
+       try (Connection connection = dataSource.getConnection()) {
+           String sql = "SELECT name FROM game_state";
+           ResultSet resultSet = connection.createStatement().executeQuery(sql);
+           List<String> saveNames = new ArrayList<>();
+           while (resultSet.next()) {
+               String saveName = resultSet.getString(1);
+               saveNames.add(saveName);
+           }
+           return saveNames;
+       }
+       catch (SQLException e) {
+           throw new RuntimeException("Error while reading all save name");
+       }
     }
 }
