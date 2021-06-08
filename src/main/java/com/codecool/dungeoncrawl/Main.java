@@ -513,6 +513,7 @@ public class Main extends Application {
         map.getPlayer().setHealth(gameStateToLoad.getPlayer().getHp());
         map.getPlayer().move(gameStateToLoad.getPlayer().getX(), gameStateToLoad.getPlayer().getY());
         map.getPlayer().setName(gameStateToLoad.getPlayer().getPlayerName());
+        playerLabel.setText(map.getPlayer().getName());
         for (Item item : inventory.getInventory()) {
             map.getPlayer().addToInventory(item);
         }
