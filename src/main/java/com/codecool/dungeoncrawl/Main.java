@@ -647,10 +647,11 @@ public class Main extends Application {
 
     }
 
+
     private void importFromMenu(){
         Stage stage = new Stage();
-        Stage errorPopup = new Stage();
-        errorPopup.setTitle("IMPORT ERROR!");
+
+
 
         Button importButton = new Button("Import");
         ui.add(importButton,1,16);
@@ -668,12 +669,18 @@ public class Main extends Application {
                             System.out.println("true");
                         }
                         else if(!file.getName().endsWith(".json")){
-                            VBox layout= new VBox(10);
-                            layout.getChildren().addAll();
-                            layout.setAlignment(Pos.CENTER);
-                            Scene scene1= new Scene(layout, 250, 150);
-                            errorPopup.setScene(scene1);
-                            errorPopup.showAndWait();
+
+                            ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                            Alert alert = new Alert(Alert.AlertType.ERROR,"",ButtonType.OK,cancel);
+                            alert.setTitle("IMPORT ERROR!");
+                            alert.setHeaderText("IMPORT ERROR!");
+                            alert.setContentText("Unfortunately the given file is in wrong format.\nPlease try another one!");
+
+                            alert.showAndWait()
+                                    .filter(response -> response == ButtonType.OK)
+                                    .ifPresent(response -> importButton.fire());
+
                         }}catch(NullPointerException ignored){}
                     }
                 });
