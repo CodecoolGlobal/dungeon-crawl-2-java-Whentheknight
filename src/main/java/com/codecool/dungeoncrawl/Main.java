@@ -617,14 +617,14 @@ public class Main extends Application {
         saveBtn.setOnAction(e -> {
             PlayerModel playerModel = new PlayerModel(map.getPlayer());
             playerModel.setId(0);
-//            List<String> discoveredMaps = new ArrayList<>();
-//            for(GameMap map : earlierMaps) {
-//                discoveredMaps.add(map.toString());
-//            }
-            GameState gameState = new GameState(map.toString(),nameField.getText(), new Date(System.currentTimeMillis()), playerModel);
+            List<String> discoveredMaps = new ArrayList<>();
             for(GameMap map : earlierMaps) {
-                gameState.addDiscoveredMap(map.toString());
+                discoveredMaps.add(map.toString());
             }
+            GameState gameState = new GameState(map.toString(),nameField.getText(), new Date(System.currentTimeMillis()), playerModel, discoveredMaps);
+//            for(GameMap map : earlierMaps) {
+//                gameState.addDiscoveredMap(map.toString());
+//            }
             gameState.setId(0);
             ObjectMapper objectMapper = new ObjectMapper();
             try {
