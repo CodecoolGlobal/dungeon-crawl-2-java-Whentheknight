@@ -67,9 +67,10 @@ public class GameMap {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder(cells[0].length + " " + cells[1].length + "\n");
-        for(int i = 0; i < cells.length; i++) {
-            for(Cell cell : cells[i]) {
+        StringBuilder result = new StringBuilder(cells.length + " " + cells[0].length + "\n");
+        for(int i = 0; i < cells[0].length; i++) {
+            for(int j = 0; j < cells.length; j++) {
+                Cell cell = cells[j][i];
                 if(cell.getActor() != null) {
                     result.append(cell.getActor().toChar());
                 } else if (cell.getItem() != null) {
