@@ -8,4 +8,9 @@ public class MapLoaderTest {
     public void testUnrecognizedCharacterThrowsException() {
         assertThrows(RuntimeException.class, () -> MapLoader.loadMap("vnaflkjdbvas"));
     }
+
+    @Test
+    public void testWidth() {
+        assertEquals(MapLoader.loadMap("10 0\n.").getWidth(), 10);
+    }
 }
