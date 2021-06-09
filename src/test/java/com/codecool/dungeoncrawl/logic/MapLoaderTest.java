@@ -4,10 +4,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MapLoaderTest {
-    @Test
-    public void testUnrecognizedCharacterThrowsException() {
-        assertThrows(RuntimeException.class, () -> MapLoader.loadMap("10 10\nvnaflkjdbvas"));
-    }
 
     @Test
     public void testWidthEquals() {
@@ -27,5 +23,10 @@ public class MapLoaderTest {
     @Test
     public void testHeightUnrecognizedCharacterThrowsException() {
         assertThrows(RuntimeException.class, () -> MapLoader.loadMap("0 a\n.")) ;
+    }
+
+    @Test
+    public void testLoadMapUnrecognizedCharacterThrowsException() {
+        assertThrows(RuntimeException.class, () -> MapLoader.loadMap("10 10\nvnaflkjdbvas"));
     }
 }
