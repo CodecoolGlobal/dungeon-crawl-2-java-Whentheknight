@@ -59,4 +59,20 @@ public class MapLoaderTest {
         String testCellsToString = sb.substring(0, sb.length() - 2);
         assertEquals(expectedString, testCellsToString);
     }
+
+    @Test
+    public void testLoadMapItems() {
+        String expectedString = "W, k, l, h, D, P, u, E, O, A";
+        StringBuilder sb = new StringBuilder();
+        for (Cell[] row : MapLoader.loadMap("/testtext.txt").getCells()) {
+            for (Cell cell : row) {
+                if (cell.getItem() != null) {
+                    sb.append(cell.getItem().toChar())
+                            .append(", ");
+                }
+            }
+        }
+        String testCellsToString = sb.substring(0, sb.length() - 2);
+        assertEquals(expectedString, testCellsToString);
+    }
 }
