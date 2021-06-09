@@ -25,7 +25,7 @@ public class HealthPotionTest {
 
     @Test
     @Order(2)
-    public void getStrength_true() {
+    public void getHealth_true() {
         assertEquals(10, healthPotion.getHealth());
     }
 

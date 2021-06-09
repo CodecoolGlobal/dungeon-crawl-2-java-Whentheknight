@@ -25,7 +25,7 @@ public class DodgePotionTest {
 
     @Test
     @Order(2)
-    public void getStrength_true() {
+    public void getDodge_true() {
         assertEquals(0.1f, dodgePotion.getDodgeChance());
     }
 
