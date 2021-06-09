@@ -16,6 +16,6 @@ public class MapLoaderTest {
 
     @Test
     public void testHeightEquals() {
-        assertEquals(MapLoader.loadMap("10 0\n.").getWidth(), 10);
+        assertEquals(MapLoader.loadMap("0 10\n.").getHeight(), 10);
     }
 }
