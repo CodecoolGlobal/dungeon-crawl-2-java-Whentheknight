@@ -25,7 +25,7 @@ public class SwordTest {
 
     @Test
     @Order(2)
-    public void getHealth_true() {
+    public void getStrength_true() {
         assertEquals(5, sword.getStrength());
     }
 
