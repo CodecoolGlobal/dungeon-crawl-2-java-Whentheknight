@@ -728,6 +728,7 @@ public class Main extends Application {
                             ui.getChildren().remove(submit);
                             ui.getChildren().remove(close);
                             canvas.requestFocus();
+                            refresh();
                         }
                         else if(!file.getName().endsWith(".json")){
 
