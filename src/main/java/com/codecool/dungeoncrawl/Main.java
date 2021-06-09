@@ -507,6 +507,10 @@ public class Main extends Application {
         gameOverPopUp.showAndWait();
     }
 
+    public static String centerString (int width, String s) {
+        return String.format("%-" + width  + "s", String.format("%" + (s.length() + (width - s.length()) / 2) + "s", s));
+    }
+
 
     private void openLoadPopUp() throws SQLException {
         Stage loadPopUp = new Stage();
@@ -514,14 +518,20 @@ public class Main extends Application {
         loadPopUp.initModality(Modality.APPLICATION_MODAL);
         loadPopUp.setTitle("Load Game");
 
-        Label label1= new Label("Choose a saved game or start a new one");
+        Label label1 = new Label("Choose a saved game or start a new one");
+        label1.setStyle("-fx-font-weight: bold;");
+        Label emptyLabel = new Label("");
+        Label emptyLabel2 = new Label("");
+        Label label2 = new Label("         Name of save          |    Name of player     |                 Date                    ");
 
         ListView listView = new ListView();
 
 
         List<GameState> saveList =  databaseM.getGameStates();
         for (GameState save : saveList) {
-            listView.getItems().add(save.getName());
+//            listView.getItems().add(String.format("%20s", save.getName() + "|") + String.format("%15s", save.getPlayer().getPlayerName() + "|") + String.format("%15s", save.getSavedAt() + "|"));
+            listView.getItems().add(centerString(30, save.getName()) + "|" + centerString(30, save.getPlayer().getPlayerName()) + "|   " + centerString(28, save.getSavedAt().toString()));
+
         }
 
         Button loadGameButton = new Button("Load Game");
@@ -546,11 +556,10 @@ public class Main extends Application {
         newGameButton.setOnAction((EventHandler<ActionEvent>) actionEvent -> {
             loadPopUp.close();
         });
-
         VBox layout= new VBox(10);
-        layout.getChildren().addAll(label1, listView, loadGameButton, newGameButton);
+        layout.getChildren().addAll(label1, emptyLabel, label2, listView, loadGameButton, newGameButton, emptyLabel2);
         layout.setAlignment(Pos.CENTER);
-        Scene scene1= new Scene(layout, 250, 150);
+        Scene scene1= new Scene(layout, 500, 350);
         loadPopUp.setScene(scene1);
         loadPopUp.showAndWait();
     }
