@@ -534,6 +534,7 @@ public class Main extends Application {
             for (GameState save : saveList) {
                 if (stateIndex == selectedIndex) {
                     loadGame(save);
+                    stateIndex++;
                     loadPopUp.close();
                 }
                 else {
