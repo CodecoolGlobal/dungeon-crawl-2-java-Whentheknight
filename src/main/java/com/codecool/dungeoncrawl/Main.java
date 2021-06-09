@@ -673,8 +673,6 @@ public class Main extends Application {
     private void importFromMenu(){
         Stage stage = new Stage();
 
-
-
         Button importButton = new Button("Import");
         ui.add(importButton,1,16);
 
@@ -688,12 +686,7 @@ public class Main extends Application {
                         try{
                         if (file != null && file.getName().endsWith(".json")) {
                             GameState gameState = new ObjectMapper().readValue(file, GameState.class);
-                            System.out.println(gameState);
-//                            databaseM.updateGameState(gameState);
-//                            databaseM.updatePlayer(gameState.getPlayer());
-//                            databaseM.updateInventory(gameState.getPlayer().getInventory(),gameState.getId());
-
-//                            loadGame(gameState);
+                            loadGame(gameState);
                             canvas.requestFocus();
                         }
                         else if(!file.getName().endsWith(".json")){
