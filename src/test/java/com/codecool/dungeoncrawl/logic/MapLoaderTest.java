@@ -24,4 +24,8 @@ public class MapLoaderTest {
         assertThrows(RuntimeException.class, () -> MapLoader.loadMap("a 0\n.")) ;
     }
 
+    @Test
+    public void testHeightUnrecognizedCharacterThrowsException() {
+        assertThrows(RuntimeException.class, () -> MapLoader.loadMap("0 a\n.")) ;
+    }
 }
