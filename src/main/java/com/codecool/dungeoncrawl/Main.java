@@ -97,7 +97,9 @@ public class Main extends Application {
     Label nameLabel = new Label("Name: ");
     TextField nameInput = new TextField();
     Button exportBtn = new Button("Export game");
-    Button importBtn = new Button("Import game");
+    Button submit = new Button("Enter");
+    Button close = new Button("Close");
+
 
 
     public static void main(String[] args) {
@@ -159,8 +161,6 @@ public class Main extends Application {
             ui.add(new Label(""), 0, 12);
             ui.add(nameLabel, 0, 13);
             nameLabel.setStyle("-fx-font-weight: bold;");
-            Button submit = new Button("Enter");
-            Button close = new Button("Close");
             nameInput.setPrefWidth(100);
             ui.add(nameInput, 1, 13);
             ui.add(submit, 1, 14);
@@ -673,7 +673,7 @@ public class Main extends Application {
     private void importFromMenu(){
         Stage stage = new Stage();
 
-        Button importButton = new Button("Import");
+        Button importButton = new Button("Import game");
         ui.add(importButton,1,16);
 
         final FileChooser fileChooser = new FileChooser();
@@ -687,6 +687,10 @@ public class Main extends Application {
                         if (file != null && file.getName().endsWith(".json")) {
                             GameState gameState = new ObjectMapper().readValue(file, GameState.class);
                             loadGame(gameState);
+                            ui.getChildren().remove(nameLabel);
+                            ui.getChildren().remove(nameInput);
+                            ui.getChildren().remove(submit);
+                            ui.getChildren().remove(close);
                             canvas.requestFocus();
                         }
                         else if(!file.getName().endsWith(".json")){
