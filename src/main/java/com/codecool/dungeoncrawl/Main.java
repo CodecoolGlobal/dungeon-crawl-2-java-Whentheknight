@@ -553,31 +553,38 @@ public class Main extends Application {
 
         if(gameStateToLoad.getDiscoveredMaps().size() == 0) {
             mapList[0] = gameStateToLoad.getCurrentMap();
+            map = MapLoader.loadMap(mapList[1]);
             map.getPlayer().setCurrentMap(0);
         }
         else if (gameStateToLoad.getDiscoveredMaps().size() == 1) {
             earlierMaps.add(MapLoader.loadMap(gameStateToLoad.getDiscoveredMaps().get(0)));
+            Cell playerCell = earlierMaps.get(0).getCell(21, 19);
             earlierMaps.get(0).setCell(21, 19, CellType.ODOOR);
+            playerCell.setActor(map.getPlayer());
             mapList[0] = gameStateToLoad.getDiscoveredMaps().get(0);
             mapList[1] = gameStateToLoad.getCurrentMap();
+            map = MapLoader.loadMap(mapList[1]);
             map.getPlayer().setCurrentMap(1);
+            mapList[1] = mapList[1].replace("@", ".");
         }
         else {
             earlierMaps.add(MapLoader.loadMap(gameStateToLoad.getDiscoveredMaps().get(0)));
             earlierMaps.add(MapLoader.loadMap(gameStateToLoad.getDiscoveredMaps().get(1)));
+            Cell playerCell = earlierMaps.get(0).getCell(93, 10);
             earlierMaps.get(0).setCell(21, 19, CellType.ODOOR);
             earlierMaps.get(1).setCell(93, 10, CellType.ODOOR);
+            playerCell.setActor(map.getPlayer());
             mapList[0] = gameStateToLoad.getDiscoveredMaps().get(0);
             mapList[1] = gameStateToLoad.getDiscoveredMaps().get(1);
             mapList[2] = gameStateToLoad.getCurrentMap();
+            map = MapLoader.loadMap(mapList[2]);
             map.getPlayer().setCurrentMap(2);
+            mapList[2] = mapList[2].replace("@", ".");
         }
-        map = MapLoader.loadMap(gameStateToLoad.getCurrentMap());
 
         InventoryState inventory = databaseM.getInventoryByPLayerId(gameStateToLoad.getPlayer().getId());
         map.getPlayer().setHealth(gameStateToLoad.getPlayer().getHp());
         map.getPlayer().setStrength(gameStateToLoad.getPlayer().getStrength());
-//        map.getPlayer().move(gameStateToLoad.getPlayer().getX(), gameStateToLoad.getPlayer().getY());
         map.getPlayer().setName(gameStateToLoad.getPlayer().getPlayerName());
         playerLabel.setText(map.getPlayer().getName());
         for (Item item : inventory.getInventory()) {
@@ -614,6 +621,8 @@ public class Main extends Application {
             map = MapLoader.loadMap(mapList[mapNumber]);
         }
         else {
+            String mapSave = map.toString().replace("@", "S");
+            mapList[mapNumber + 1] = mapSave;
             map = earlierMaps.get(earlierMaps.size()-1);
             earlierMaps.remove(earlierMaps.size()-1);
         }
