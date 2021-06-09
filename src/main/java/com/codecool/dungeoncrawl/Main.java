@@ -589,12 +589,12 @@ public class Main extends Application {
             mapList[2] = mapList[2].replace("@", ".");
         }
 
-        InventoryState inventory = databaseM.getInventoryByPLayerId(gameStateToLoad.getPlayer().getId());
+        List<Item> inventory = gameStateToLoad.getPlayer().getInventory();
         map.getPlayer().setHealth(gameStateToLoad.getPlayer().getHp());
         map.getPlayer().setStrength(gameStateToLoad.getPlayer().getStrength());
         map.getPlayer().setName(gameStateToLoad.getPlayer().getPlayerName());
         playerLabel.setText(map.getPlayer().getName());
-        for (Item item : inventory.getInventory()) {
+        for (Item item : inventory) {
             map.getPlayer().addToInventory(item);
         }
     }

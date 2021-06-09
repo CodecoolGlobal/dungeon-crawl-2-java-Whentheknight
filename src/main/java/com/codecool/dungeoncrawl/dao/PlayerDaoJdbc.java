@@ -10,9 +10,11 @@ import java.util.List;
 
 public class PlayerDaoJdbc implements PlayerDao {
     private DataSource dataSource;
+    private InventoryDao inventoryDao;
 
-    public PlayerDaoJdbc(DataSource dataSource) {
+    public PlayerDaoJdbc(DataSource dataSource, InventoryDao inventoryDao) {
         this.dataSource = dataSource;
+        this.inventoryDao = inventoryDao;
     }
 
     @Override
@@ -63,6 +65,7 @@ public class PlayerDaoJdbc implements PlayerDao {
                 return null;
             }
             PlayerModel player = new PlayerModel(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
+            player.setInventory(inventoryDao.get(id).getInventory());
             player.setId(id);
             return player;
         } catch (SQLException e) {
