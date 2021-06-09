@@ -69,6 +69,11 @@ public class GameMap {
     public List<Actor> getEnemies(){
         return enemies;
     }
+
+    public void setEnemies(List<Actor> enemies) {
+        this.enemies = enemies;
+    }
+
     public int getWidth() {
         return width;
     }
