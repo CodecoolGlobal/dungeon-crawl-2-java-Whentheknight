@@ -37,4 +37,13 @@ public class AxeTest {
     public void toChar_true() {
         assertEquals('A', axe.toChar());
     }
+
+    @Test
+    @Order(4)
+    public void axe_withoutParameters_true() {
+        Item axe2 = new Axe();
+        assertEquals(10, axe2.getStrength());
+        assertEquals("axe", axe2.getTileName());
+        assertEquals('A', axe2.toChar());
+    }
 }

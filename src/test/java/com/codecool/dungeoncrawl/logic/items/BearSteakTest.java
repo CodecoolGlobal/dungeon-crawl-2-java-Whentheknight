@@ -44,4 +44,14 @@ public class BearSteakTest {
         assertEquals('E', bearSteak.toChar());
     }
 
+    @Test
+    @Order(5)
+    public void bearSteak_withoutParameters_true() {
+        Item bearSteak2 = new BearSteak();
+        assertEquals(2, bearSteak2.getStrength());
+        assertEquals(5, bearSteak2.getHealth());
+        assertEquals("bear steak", bearSteak2.getTileName());
+        assertEquals('E', bearSteak2.toChar());
+    }
+
 }

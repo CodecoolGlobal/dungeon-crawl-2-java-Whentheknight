@@ -29,4 +29,11 @@ public class KeyTest {
         assertEquals('k', key.toChar());
     }
 
+    @Test
+    @Order(3)
+    public void keyWithoutParameters_true() {
+        Item key2 = new Key();
+        assertEquals("key", key2.getTileName());
+        assertEquals('k', key2.toChar());
+    }
 }

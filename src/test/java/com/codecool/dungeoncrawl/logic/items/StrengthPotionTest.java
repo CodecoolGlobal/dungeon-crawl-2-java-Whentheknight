@@ -35,4 +35,12 @@ public class StrengthPotionTest {
         assertEquals('P', strengthPotion.toChar());
     }
 
+    @Test
+    @Order(4)
+    public void strengthPotionWithoutParameters_true() {
+        Item strengthPotion2 = new StrengthPotion();
+        assertEquals(10, strengthPotion2.getStrength());
+        assertEquals("strength potion", strengthPotion2.getTileName());
+        assertEquals('P', strengthPotion2.toChar());
+    }
 }

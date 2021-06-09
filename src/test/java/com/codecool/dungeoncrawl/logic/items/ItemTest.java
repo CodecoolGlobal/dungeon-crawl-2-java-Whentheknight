@@ -32,14 +32,14 @@ public class ItemTest {
     @Order(2)
     public void getX_true() {
         Item axe = new Axe(gameMap.getCell(1,2), "axe");
-        assertEquals(1, axe.getCell().getX());
+        assertEquals(1, axe.getX());
     }
 
     @Test
     @Order(3)
     public void getY_true() {
         Item axe = new Axe(gameMap.getCell(1,2), "axe");
-        assertEquals(2, axe.getCell().getY());
+        assertEquals(2, axe.getY());
     }
 
     @Test
@@ -106,5 +106,14 @@ public class ItemTest {
     public void hasStats_itemWithNoStats_false() {
         Item key = new Key(gameMap.getCell(1,2), 1);
         assertFalse(key.hasStats());
+    }
+
+    @Test
+    @Order(13)
+    public void itemWithoutParameters_true() {
+        Item axe = new Axe();
+        assertEquals(10, axe.getStrength());
+        assertEquals("axe", axe.getTileName());
+        assertEquals('A', axe.toChar());
     }
 }

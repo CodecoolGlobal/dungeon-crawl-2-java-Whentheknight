@@ -37,4 +37,13 @@ public class BoneTest {
         assertEquals('O', bone.toChar());
     }
 
+    @Test
+    @Order(4)
+    public void bone_withoutParameters_true() {
+        Item bone2 = new Bone();
+        assertEquals(1, bone2.getStrength());
+        assertEquals("bone", bone2.getTileName());
+        assertEquals('O', bone2.toChar());
+    }
+
 }

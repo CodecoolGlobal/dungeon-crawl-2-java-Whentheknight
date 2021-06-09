@@ -35,4 +35,12 @@ public class DodgePotionTest {
         assertEquals('D', dodgePotion.toChar());
     }
 
+    @Test
+    @Order(4)
+    public void dodgePotionWithoutParameters_true() {
+        Item dodgePotion2 = new DodgePotion();
+        assertEquals(0.1f, dodgePotion2.getDodgeChance());
+        assertEquals("dodge potion", dodgePotion2.getTileName());
+        assertEquals('D', dodgePotion2.toChar());
+    }
 }

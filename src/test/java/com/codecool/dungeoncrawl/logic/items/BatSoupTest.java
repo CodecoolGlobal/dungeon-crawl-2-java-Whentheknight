@@ -41,4 +41,14 @@ public class BatSoupTest {
     public void toChar_true() {
         assertEquals('u', batSoup.toChar());
     }
+
+    @Test
+    @Order(5)
+    public void batSoup_withoutParameters_true() {
+        Item batSoup2 = new BatSoup();
+        assertEquals(-3, batSoup2.getStrength());
+        assertEquals(-3, batSoup2.getHealth());
+        assertEquals("bat soup", batSoup2.getTileName());
+        assertEquals('u', batSoup2.toChar());
+    }
 }

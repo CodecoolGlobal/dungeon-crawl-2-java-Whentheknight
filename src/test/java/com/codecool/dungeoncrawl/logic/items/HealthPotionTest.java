@@ -35,4 +35,12 @@ public class HealthPotionTest {
         assertEquals('h', healthPotion.toChar());
     }
 
+    @Test
+    @Order(4)
+    public void healthPotionWithoutParameters_true() {
+        Item healthPotion2 = new HealthPotion();
+        assertEquals(10, healthPotion2.getHealth());
+        assertEquals("health potion", healthPotion2.getTileName());
+        assertEquals('h', healthPotion2.toChar());
+    }
 }
