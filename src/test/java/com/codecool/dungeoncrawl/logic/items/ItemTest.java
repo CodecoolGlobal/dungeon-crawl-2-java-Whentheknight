@@ -3,7 +3,6 @@ package com.codecool.dungeoncrawl.logic.items;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
-import com.codecool.dungeoncrawl.logic.actors.Player;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,12 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ItemTest {
     GameMap gameMap;
-    Player player;
 
     @BeforeEach
     public void init() {
         gameMap = new GameMap(3, 3, CellType.FLOOR);
-        player = new Player(gameMap.getCell(1, 1));
     }
 
     @Test

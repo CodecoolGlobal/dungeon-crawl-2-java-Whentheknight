@@ -3,7 +3,6 @@ package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
-import com.codecool.dungeoncrawl.logic.actors.Player;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
