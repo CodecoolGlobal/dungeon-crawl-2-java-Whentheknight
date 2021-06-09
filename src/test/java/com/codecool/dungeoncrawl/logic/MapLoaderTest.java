@@ -43,4 +43,20 @@ public class MapLoaderTest {
         String testCellsToString = sb.substring(0, sb.length() - 2);
         assertEquals(expectedString, testCellsToString);
     }
+
+    @Test
+    public void testLoadMapActors() {
+        String expectedString = "j, 1, 2, 3, s, 4, b, 5, g, 6, B, 7, @, 8, 9, 0";
+        StringBuilder sb = new StringBuilder();
+        for (Cell[] row : MapLoader.loadMap("/testtext.txt").getCells()) {
+            for (Cell cell : row) {
+                if (cell.getActor() != null) {
+                    sb.append(cell.getActor().toChar())
+                            .append(", ");
+                }
+            }
+        }
+        String testCellsToString = sb.substring(0, sb.length() - 2);
+        assertEquals(expectedString, testCellsToString);
+    }
 }
