@@ -30,6 +30,6 @@ public class Boss extends Actor{
 
     @Override
     public char toChar() {
-        return '0';
+        return 'j';
     }
 }

@@ -22,8 +22,8 @@ public class GameDatabaseManager {
 
     public void setup() throws SQLException {
         DataSource dataSource = connect();
-        playerDao = new PlayerDaoJdbc(dataSource);
         inventoryDao = new InventoryDaoJdbc(dataSource);
+        playerDao = new PlayerDaoJdbc(dataSource, inventoryDao);
         gameStateDao = new GameStateDaoJdbc(dataSource, playerDao);
     }
 

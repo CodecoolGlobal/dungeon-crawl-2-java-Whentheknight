@@ -8,8 +8,13 @@ import java.util.Scanner;
 public class MapLoader {
 
     public static GameMap loadMap(String currentMap) {
-        InputStream is = MapLoader.class.getResourceAsStream(currentMap);
-        Scanner scanner = new Scanner(is);
+        Scanner scanner;
+        if (currentMap.length() > 20) {
+             scanner = new Scanner(currentMap);
+        }
+        else {
+            scanner = new Scanner(MapLoader.class.getResourceAsStream(currentMap));
+        }
         int width = scanner.nextInt();
         int height = scanner.nextInt();
 
@@ -192,5 +197,4 @@ public class MapLoader {
         }
         return map;
     }
-
 }
