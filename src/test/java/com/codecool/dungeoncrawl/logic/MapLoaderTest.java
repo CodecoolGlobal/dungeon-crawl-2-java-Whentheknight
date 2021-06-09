@@ -29,4 +29,18 @@ public class MapLoaderTest {
     public void testLoadMapUnrecognizedCharacterThrowsException() {
         assertThrows(RuntimeException.class, () -> MapLoader.loadMap("10 10\nvnaflkjdbvas"));
     }
+
+    @Test
+    public void testLoadMapTypes() {
+        String expectedString = "EMPTY, FLOOR, WALL, FLOOR, WALL2, FLOOR, FLOOR, FLOOR, FLOOR, FLOOR, FLOOR, FLOOR, FLOOR, FLOOR, FLOOR, FLOOR, FLOOR, FLOOR, FLOOR, FLOOR, FLOOR, FLOOR, FLOOR, RIVER, FLOOR, BRIDGE, CDOOR, FLOOR, ODOOR, FLOOR, TREE, FLOOR, LAVA, FLOOR, TOXIC, FLOOR, STAIRS, FLOOR, FLOOR, FLOOR";
+        StringBuilder sb = new StringBuilder();
+        for (Cell[] row : MapLoader.loadMap("/testtext.txt").getCells()) {
+            for (Cell cell : row) {
+                sb.append(cell.getType().toString())
+                        .append(", ");
+            }
+        }
+        String testCellsToString = sb.substring(0, sb.length() - 2);
+        assertEquals(expectedString, testCellsToString);
+    }
 }
