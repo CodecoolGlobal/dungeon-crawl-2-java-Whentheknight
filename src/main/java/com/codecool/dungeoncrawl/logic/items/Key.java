@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Key extends Item {
     private int keyNum;
@@ -11,8 +12,9 @@ public class Key extends Item {
     }
 
     public Key() {
+        super();
     }
-
+    @JsonIgnore
     public String getTileName() {
         return "key";
     }

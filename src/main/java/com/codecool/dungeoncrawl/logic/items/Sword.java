@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Sword extends Item {
 
@@ -13,9 +14,10 @@ public class Sword extends Item {
     }
 
     public Sword() {
+        super();
         setStrength(5);
     }
-
+    @JsonIgnore
     public String getTileName() {
         return "sword";
     }
