@@ -24,7 +24,7 @@ public class BossPart extends Actor{
     @Override
     public char toChar() {
         int toReturn = currentPart;
-        currentPart = currentPart++ % 10;
-        return (char) toReturn;
+        currentPart = (currentPart+1) % 10;
+        return Character.forDigit(toReturn, 10);
     }
 }
