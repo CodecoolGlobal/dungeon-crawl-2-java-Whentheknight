@@ -10,7 +10,12 @@ public class MapLoaderTest {
     }
 
     @Test
-    public void testWidth() {
+    public void testWidthEquals() {
+        assertEquals(MapLoader.loadMap("10 0\n.").getWidth(), 10);
+    }
+
+    @Test
+    public void testHeightEquals() {
         assertEquals(MapLoader.loadMap("10 0\n.").getWidth(), 10);
     }
 }
