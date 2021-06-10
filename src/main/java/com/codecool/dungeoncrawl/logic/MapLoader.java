@@ -9,7 +9,7 @@ public class MapLoader {
 
     public static GameMap loadMap(String currentMap) {
         Scanner scanner;
-        if (currentMap.length() > 20) {
+        if (!(currentMap.contains(".txt"))) {
              scanner = new Scanner(currentMap);
         }
         else {
