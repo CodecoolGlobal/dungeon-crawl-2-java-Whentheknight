@@ -32,6 +32,7 @@ public class PlayerModel extends BaseModel {
         this.hp = player.getHealth();
         this.strength = player.getStrength();
         this.inventory = player.getInventory();
+        this.id = 0;
 
     }
 

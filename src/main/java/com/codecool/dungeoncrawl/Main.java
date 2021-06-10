@@ -63,6 +63,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Main extends Application {
     private final int mapWidth = 25;
@@ -329,7 +330,7 @@ public class Main extends Application {
         context.setFill(Color.BLACK);
         int shiftX = 0;
         int shiftY = 0;
-        
+
         if(map.getWidth() >28){
             if(map.getPlayer().getX() >= 14){
                 shiftX = map.getPlayer().getX()-14;
@@ -667,20 +668,21 @@ public class Main extends Application {
 
         Button saveBtn = new Button("Save");
         saveBtn.setOnAction(e -> {
+            // Export game to file
             PlayerModel playerModel = new PlayerModel(map.getPlayer());
-            playerModel.setId(0);
-            List<String> discoveredMaps = new ArrayList<>();
-            for(GameMap map : earlierMaps) {
-                discoveredMaps.add(map.toString());
-            }
-            GameState gameState = new GameState(map.toString(),nameField.getText(), new Date(System.currentTimeMillis()), playerModel, discoveredMaps);
-//            for(GameMap map : earlierMaps) {
-//                gameState.addDiscoveredMap(map.toString());
-//            }
-            gameState.setId(0);
+            List<String> discoveredMaps = earlierMaps.stream()
+                                                     .map(GameMap::toString)
+                                                     .collect(Collectors.toList());
+            GameState gameState = new GameState(map.toString(),
+                                                nameField.getText(),
+                                                new Date(System.currentTimeMillis()),
+                                                playerModel,
+                                                discoveredMaps);
             ObjectMapper objectMapper = new ObjectMapper();
             try {
-                objectMapper.writeValue(new File(selectedDirectory.get().getAbsolutePath() + "/" + nameField.getText() + ".json"), gameState);
+                objectMapper.writeValue(new File(selectedDirectory.get().getAbsolutePath() +
+                                                "/" + nameField.getText() +
+                                                ".json"), gameState);
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }

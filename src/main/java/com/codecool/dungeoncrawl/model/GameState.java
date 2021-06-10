@@ -21,6 +21,7 @@ public class GameState extends BaseModel {
         this.savedAt = savedAt;
         this.player = player;
         this.discoveredMaps = discovered_maps;
+        this.id = 0;
     }
 
     public Date getSavedAt() {
