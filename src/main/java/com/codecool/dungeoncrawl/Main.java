@@ -544,15 +544,10 @@ public class Main extends Application {
         loadGameButton.setOnAction(event -> {
             this.isLoad = true;
             int selectedIndex = listView.getSelectionModel().getSelectedIndex();
-            int stateIndex = 0;
-            for (GameState save : saveList) {
-                if (stateIndex == selectedIndex) {
-                    loadGame(save);
-                    stateIndex++;
+            for (int i = 0; i < saveList.size(); i++) {
+                if (i == selectedIndex) {
+                    loadGame(saveList.get(i));
                     loadPopUp.close();
-                }
-                else {
-                    stateIndex++;
                 }
             }
         });
