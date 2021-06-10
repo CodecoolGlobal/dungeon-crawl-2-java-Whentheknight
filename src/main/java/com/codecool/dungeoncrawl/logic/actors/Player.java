@@ -208,4 +208,19 @@ public class Player extends Actor {
         return '@';
     }
 
+    public void setBurningFor(int burningFor) {
+        this.burningFor = burningFor;
+    }
+
+    public void setPoisonedFor(int poisonedFor) {
+        this.poisonedFor = poisonedFor;
+    }
+
+    public int getBurningFor() {
+        return burningFor;
+    }
+
+    public int getPoisonedFor() {
+        return poisonedFor;
+    }
 }
