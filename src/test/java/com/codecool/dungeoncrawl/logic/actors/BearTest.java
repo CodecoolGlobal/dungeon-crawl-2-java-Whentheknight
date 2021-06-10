@@ -1,8 +1,7 @@
-package com.codecool.dungeoncrawl.logic.actortest;
+package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
-import com.codecool.dungeoncrawl.logic.actors.Bear;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
