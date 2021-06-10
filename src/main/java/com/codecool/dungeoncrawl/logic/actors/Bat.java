@@ -32,24 +32,24 @@ public class Bat extends Actor {
             if (teleport > 0) {
                 if (x == 0) {
                     if (randomNum == 0) {
-                        nextCell = cell.getNeighbor(x, -1);
+                        move(x, -1);
                     } else {
-                        nextCell = cell.getNeighbor(x, 1);
+                        move(x, 1);
                     }
                 } else {
-                    nextCell = cell.getNeighbor(x, 0);
+                    move(x, 0);
 
                 }
 
-                if (!nextCell.getType().equals(CellType.WALL) && nextCell.getActor() == null &&
-                        !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE)
-                        && !nextCell.getType().equals(CellType.EMPTY) && !nextCell.getType().equals(CellType.WALL2)) {
-                    cell.setActor(null);
-                    nextCell.setActor(this);
-                    cell = nextCell;
-                } else {
-                    cell.setActor(this);
-                }
+//                if (!nextCell.getType().equals(CellType.WALL) && nextCell.getActor() == null &&
+//                    !nextCell.getType().equals(CellType.CDOOR) && !nextCell.getType().equals(CellType.TREE)
+//                    && !nextCell.getType().equals(CellType.EMPTY) && !nextCell.getType().equals(CellType.WALL2)) {
+//                    cell.setActor(null);
+//                    nextCell.setActor(this);
+//                    cell = nextCell;
+//                } else {
+//                    cell.setActor(this);
+//                }
 
                 teleport--;
             } else {
@@ -82,6 +82,14 @@ public class Bat extends Actor {
         Item batSoup = new BatSoup();
         setDrop(batSoup);
         setDropChance(0.5);
+    }
+//
+//    public int getTeleport() {
+//        return teleport;
+//    }
+
+    public void setTeleport(int t) {
+        teleport = t;
     }
 
     @Override
