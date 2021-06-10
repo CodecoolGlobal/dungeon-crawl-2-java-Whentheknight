@@ -529,7 +529,6 @@ public class Main extends Application {
 
         List<GameState> saveList =  databaseM.getGameStates();
         for (GameState save : saveList) {
-//            listView.getItems().add(String.format("%20s", save.getName() + "|") + String.format("%15s", save.getPlayer().getPlayerName() + "|") + String.format("%15s", save.getSavedAt() + "|"));
             listView.getItems().add(centerString(30, save.getName()) + "|" + centerString(30, save.getPlayer().getPlayerName()) + "|   " + centerString(28, save.getSavedAt().toString()));
 
         }
