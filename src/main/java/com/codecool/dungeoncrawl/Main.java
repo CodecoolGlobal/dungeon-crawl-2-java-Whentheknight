@@ -187,10 +187,7 @@ public class Main extends Application {
             close.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    ui.getChildren().remove(nameLabel);
-                    ui.getChildren().remove(nameInput);
-                    ui.getChildren().remove(submit);
-                    ui.getChildren().remove(close);
+                    removeNameLabel();
                     canvas.requestFocus();
                 }
             });
@@ -315,6 +312,13 @@ public class Main extends Application {
                 s1 = false;
                 break;
         }
+    }
+
+    private void removeNameLabel() {
+        ui.getChildren().remove(nameLabel);
+        ui.getChildren().remove(nameInput);
+        ui.getChildren().remove(submit);
+        ui.getChildren().remove(close);
     }
 
     private void refresh() {
@@ -719,31 +723,29 @@ public class Main extends Application {
                     @Override
                     public void handle(final ActionEvent e) {
                         File file = fileChooser.showOpenDialog(stage);
-                        try{
-                        if (file != null && file.getName().endsWith(".json")) {
-                            GameState gameState = new ObjectMapper().readValue(file, GameState.class);
-                            loadGame(gameState);
-                            ui.getChildren().remove(nameLabel);
-                            ui.getChildren().remove(nameInput);
-                            ui.getChildren().remove(submit);
-                            ui.getChildren().remove(close);
-                            canvas.requestFocus();
-                            refresh();
-                        }
-                        else if(!file.getName().endsWith(".json")){
+                        try {
+                            if (file != null && file.getName().endsWith(".json")) {
+                                GameState gameState = new ObjectMapper().readValue(file, GameState.class);
+                                loadGame(gameState);
+                                removeNameLabel();
+                                canvas.requestFocus();
+                                refresh();
+                            } else if (!file.getName().endsWith(".json")) {
+                                ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-                            ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                                Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.OK, cancel);
+                                alert.setTitle("IMPORT ERROR!");
+                                alert.setHeaderText("IMPORT ERROR!");
+                                alert.setContentText("Unfortunately the given file is in wrong format." +
+                                        "\nPlease try another one!");
 
-                            Alert alert = new Alert(Alert.AlertType.ERROR,"",ButtonType.OK,cancel);
-                            alert.setTitle("IMPORT ERROR!");
-                            alert.setHeaderText("IMPORT ERROR!");
-                            alert.setContentText("Unfortunately the given file is in wrong format.\nPlease try another one!");
+                                alert.showAndWait()
+                                        .filter(response -> response == ButtonType.OK)
+                                        .ifPresent(response -> importButton.fire());
 
-                            alert.showAndWait()
-                                    .filter(response -> response == ButtonType.OK)
-                                    .ifPresent(response -> importButton.fire());
-
-                        }}catch(NullPointerException ignored){} catch (IOException jsonMappingException) {
+                            }
+                        } catch (NullPointerException ignored) {
+                        } catch (IOException jsonMappingException) {
                             jsonMappingException.printStackTrace();
                         }
                     }
@@ -751,5 +753,7 @@ public class Main extends Application {
 
 
     }
+
+
 
 }
