@@ -69,7 +69,7 @@ public class Main extends Application {
     private final int mapHeight = 20;
     private boolean s1 = false;
     private boolean isLoad = false;
-    private GameState loadGameState;
+
     GameDatabaseManager databaseM = new GameDatabaseManager();
     String[] mapList = {"/map.txt", "/map2.txt", "/bossmap.txt"};
     List<GameMap> earlierMaps = new ArrayList<>();
@@ -158,6 +158,7 @@ public class Main extends Application {
 
         openLoadPopUp();
         importFromMenu();
+
         if (!isLoad) {
             ui.add(new Label(""), 0, 12);
             ui.add(nameLabel, 0, 13);
@@ -206,6 +207,7 @@ public class Main extends Application {
         scene.setOnKeyReleased(this::keyReleased);
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
+        canvas.requestFocus();
     }
 
     private void enemyMove(){
@@ -610,6 +612,7 @@ public class Main extends Application {
         for (Item item : inventory) {
             map.getPlayer().addToInventory(item);
         }
+
     }
 
     private void openWinPopup() {
@@ -739,7 +742,7 @@ public class Main extends Application {
                                 removeNameLabel();
                                 canvas.requestFocus();
                                 refresh();
-                            } else if (!file.getName().endsWith(".json")) {
+                            } else if (file != null && !file.getName().endsWith(".json")) {
                                 ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
                                 Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.OK, cancel);
