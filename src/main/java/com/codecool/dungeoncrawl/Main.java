@@ -188,10 +188,7 @@ public class Main extends Application {
             close.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    ui.getChildren().remove(nameLabel);
-                    ui.getChildren().remove(nameInput);
-                    ui.getChildren().remove(submit);
-                    ui.getChildren().remove(close);
+                    removeNameLabel();
                     canvas.requestFocus();
                 }
             });
@@ -316,6 +313,13 @@ public class Main extends Application {
                 s1 = false;
                 break;
         }
+    }
+
+    private void removeNameLabel() {
+        ui.getChildren().remove(nameLabel);
+        ui.getChildren().remove(nameInput);
+        ui.getChildren().remove(submit);
+        ui.getChildren().remove(close);
     }
 
     private void refresh() {
@@ -508,6 +512,10 @@ public class Main extends Application {
         gameOverPopUp.showAndWait();
     }
 
+    public static String centerString (int width, String s) {
+        return String.format("%-" + width  + "s", String.format("%" + (s.length() + (width - s.length()) / 2) + "s", s));
+    }
+
 
     private void openLoadPopUp() throws SQLException {
         Stage loadPopUp = new Stage();
@@ -515,14 +523,20 @@ public class Main extends Application {
         loadPopUp.initModality(Modality.APPLICATION_MODAL);
         loadPopUp.setTitle("Load Game");
 
-        Label label1= new Label("Choose a saved game or start a new one");
+        Label label1 = new Label("Choose a saved game or start a new one");
+        label1.setStyle("-fx-font-weight: bold;");
+        Label emptyLabel = new Label("");
+        Label emptyLabel2 = new Label("");
+        Label label2 = new Label("         Name of save          |    Name of player     |                 Date                    ");
 
         ListView listView = new ListView();
 
 
         List<GameState> saveList =  databaseM.getGameStates();
         for (GameState save : saveList) {
-            listView.getItems().add(save.getName());
+//            listView.getItems().add(String.format("%20s", save.getName() + "|") + String.format("%15s", save.getPlayer().getPlayerName() + "|") + String.format("%15s", save.getSavedAt() + "|"));
+            listView.getItems().add(centerString(30, save.getName()) + "|" + centerString(30, save.getPlayer().getPlayerName()) + "|   " + centerString(28, save.getSavedAt().toString()));
+
         }
 
         Button loadGameButton = new Button("Load Game");
@@ -547,11 +561,10 @@ public class Main extends Application {
         newGameButton.setOnAction((EventHandler<ActionEvent>) actionEvent -> {
             loadPopUp.close();
         });
-
         VBox layout= new VBox(10);
-        layout.getChildren().addAll(label1, listView, loadGameButton, newGameButton);
+        layout.getChildren().addAll(label1, emptyLabel, label2, listView, loadGameButton, newGameButton, emptyLabel2);
         layout.setAlignment(Pos.CENTER);
-        Scene scene1= new Scene(layout, 250, 150);
+        Scene scene1= new Scene(layout, 500, 350);
         loadPopUp.setScene(scene1);
         loadPopUp.showAndWait();
     }
@@ -721,31 +734,29 @@ public class Main extends Application {
                     @Override
                     public void handle(final ActionEvent e) {
                         File file = fileChooser.showOpenDialog(stage);
-                        try{
-                        if (file != null && file.getName().endsWith(".json")) {
-                            GameState gameState = new ObjectMapper().readValue(file, GameState.class);
-                            loadGame(gameState);
-                            ui.getChildren().remove(nameLabel);
-                            ui.getChildren().remove(nameInput);
-                            ui.getChildren().remove(submit);
-                            ui.getChildren().remove(close);
-                            canvas.requestFocus();
-                            refresh();
-                        }
-                        else if(!file.getName().endsWith(".json")){
+                        try {
+                            if (file != null && file.getName().endsWith(".json")) {
+                                GameState gameState = new ObjectMapper().readValue(file, GameState.class);
+                                loadGame(gameState);
+                                removeNameLabel();
+                                canvas.requestFocus();
+                                refresh();
+                            } else if (!file.getName().endsWith(".json")) {
+                                ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-                            ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                                Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.OK, cancel);
+                                alert.setTitle("IMPORT ERROR!");
+                                alert.setHeaderText("IMPORT ERROR!");
+                                alert.setContentText("Unfortunately the given file is in wrong format." +
+                                        "\nPlease try another one!");
 
-                            Alert alert = new Alert(Alert.AlertType.ERROR,"",ButtonType.OK,cancel);
-                            alert.setTitle("IMPORT ERROR!");
-                            alert.setHeaderText("IMPORT ERROR!");
-                            alert.setContentText("Unfortunately the given file is in wrong format.\nPlease try another one!");
+                                alert.showAndWait()
+                                        .filter(response -> response == ButtonType.OK)
+                                        .ifPresent(response -> importButton.fire());
 
-                            alert.showAndWait()
-                                    .filter(response -> response == ButtonType.OK)
-                                    .ifPresent(response -> importButton.fire());
-
-                        }}catch(NullPointerException ignored){} catch (IOException jsonMappingException) {
+                            }
+                        } catch (NullPointerException ignored) {
+                        } catch (IOException jsonMappingException) {
                             jsonMappingException.printStackTrace();
                         }
                     }
@@ -753,5 +764,7 @@ public class Main extends Application {
 
 
     }
+
+
 
 }
