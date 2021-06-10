@@ -1,6 +1,11 @@
 package com.codecool.dungeoncrawl.logic;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MapLoaderTest {
@@ -46,9 +51,10 @@ public class MapLoaderTest {
 
     @Test
     public void LoadMapActorsEquals() {
-        String expectedString = "j, 1, 2, 3, s, 4, b, 5, g, 6, B, 7, @, 8, 9, 0";
+        String expectedString = "j, 1, 0, 2, 3, s, 4, b, 5, g, 6, B, 7, @, 8, 9";
         StringBuilder sb = new StringBuilder();
         for (Cell[] row : MapLoader.loadMap("/testtext.txt").getCells()) {
+            Collections.reverse(Arrays.asList(row));
             for (Cell cell : row) {
                 if (cell.getActor() != null) {
                     sb.append(cell.getActor().toChar())

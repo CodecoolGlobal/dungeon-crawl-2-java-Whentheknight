@@ -112,52 +112,52 @@ public class MapLoader {
 
                         case '1':
                             cell.setType(CellType.FLOOR);
-                            new BossPart(cell, map.getBoss(), 2);
+                            new BossPart(cell, map.getBoss(), 1);
                             map.getBoss().addCells(cell);
                             break;
                         case '0':
                             cell.setType(CellType.FLOOR);
-                            new BossPart(cell, map.getBoss(), 11);
+                            new BossPart(cell, map.getBoss(), 10);
                             map.getBoss().addCells(cell);
                             break;
                         case '2':
                             cell.setType(CellType.FLOOR);
-                            new BossPart(cell, map.getBoss(), 3);
+                            new BossPart(cell, map.getBoss(), 2);
                             map.getBoss().addCells(cell);
                             break;
                         case '3':
                             cell.setType(CellType.FLOOR);
-                            new BossPart(cell, map.getBoss(), 4);
+                            new BossPart(cell, map.getBoss(), 3);
                             map.getBoss().addCells(cell);
                             break;
                         case '4':
                             cell.setType(CellType.FLOOR);
-                            new BossPart(cell, map.getBoss(), 5);
+                            new BossPart(cell, map.getBoss(), 4);
                             map.getBoss().addCells(cell);
                             break;
                         case '5':
                             cell.setType(CellType.FLOOR);
-                            new BossPart(cell, map.getBoss(), 6);
+                            new BossPart(cell, map.getBoss(), 5);
                             map.getBoss().addCells(cell);
                             break;
                         case '6':
                             cell.setType(CellType.FLOOR);
-                            new BossPart(cell, map.getBoss(), 7);
+                            new BossPart(cell, map.getBoss(), 6);
                             map.getBoss().addCells(cell);
                             break;
                         case '7':
                             cell.setType(CellType.FLOOR);
-                            new BossPart(cell, map.getBoss(), 8);
+                            new BossPart(cell, map.getBoss(), 7);
                             map.getBoss().addCells(cell);
                             break;
                         case '8':
                             cell.setType(CellType.FLOOR);
-                            new BossPart(cell, map.getBoss(), 9);
+                            new BossPart(cell, map.getBoss(), 8);
                             map.getBoss().addCells(cell);
                             break;
                         case '9':
                             cell.setType(CellType.FLOOR);
-                            new BossPart(cell, map.getBoss(), 10);
+                            new BossPart(cell, map.getBoss(), 9);
                             map.getBoss().addCells(cell);
                             break;
 
